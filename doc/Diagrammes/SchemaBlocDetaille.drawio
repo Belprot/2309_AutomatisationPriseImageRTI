@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-08-08T22:10:39.733Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/116.0" etag="UmQq51oNiaN85zML3fFZ" version="21.6.7" type="device">
+<mxfile host="app.diagrams.net" modified="2023-08-09T15:37:13.661Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0" etag="-eTJNLsR5I5P2MfZrKiM" version="21.6.6" type="device">
   <diagram name="Page-1" id="sAueeR_DeyDTOokNU9W1">
-    <mxGraphModel dx="1781" dy="594" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2261" dy="822" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -45,7 +45,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="fqn3BlmnmB48ulFy7r9I-8" value="&lt;div&gt;Boutons de &lt;br&gt;&lt;/div&gt;&lt;div&gt;contrôle&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="fqn3BlmnmB48ulFy7r9I-8" value="&lt;div&gt;Interface de &lt;br&gt;&lt;/div&gt;&lt;div&gt;contrôle&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="360" y="460" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="52rDspOR7L93NlqgASMx-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="52rDspOR7L93NlqgASMx-2" target="52rDspOR7L93NlqgASMx-8" edge="1">
@@ -88,11 +88,14 @@
         <mxCell id="52rDspOR7L93NlqgASMx-37" value="Optocoupleur??" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="560" y="320" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="52rDspOR7L93NlqgASMx-42" value="Index (contact reed)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="52rDspOR7L93NlqgASMx-42" value="Système d&#39;indexage" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="740" y="430" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="52rDspOR7L93NlqgASMx-43" value="Buzzer" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="520" y="480" width="120" height="60" as="geometry" />
+          <mxGeometry x="500" y="460" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="220DTqXSZQvsgX-sUDnP-1" value="LED de vie" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="460" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
