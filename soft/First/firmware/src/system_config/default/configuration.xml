@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Configuration>
+  <DisplayManager>
+    <SystemInitScript dnOrder="0"/>
+    <SystemStartScript dnOrder="1"/>
+  </DisplayManager>
+  <General>
+    <HarmonyPath dnOrder="0" path="../../../.."/>
+    <Processor dnOrder="1" name="PIC32MK0512MCF064"/>
+    <Board dnOrder="2" name=" "/>
+    <ForceOptimization dnOrder="3" flag="true"/>
+    <MergeStrategy dnOrder="4" flag="USER_ALL"/>
+  </General>
+  <MHGC>
+    <GAC dnOrder="0">
+      <Locations dnOrder="0">
+        <Location dnOrder="0" fileName="gfx_assets" index="0" maxSize="512000"/>
+      </Locations>
+      <Assets dnOrder="1">
+        <StringTable dnOrder="0" encoding="ASCII" location="0" name="stringTable">
+          <Languages default="0" dnOrder="0">
+            <Language dnOrder="0" enabled="true" name="default"/>
+          </Languages>
+        </StringTable>
+        <GlobalPalette dnOrder="1" generate="false" location="0" name="">
+          <Color dnOrder="0">255</Color>
+          <Color dnOrder="1">-2147483393</Color>
+          <Color dnOrder="2">8388863</Color>
+          <Color dnOrder="3">-2139094785</Color>
+          <Color dnOrder="4">33023</Color>
+          <Color dnOrder="5">-2147450625</Color>
+          <Color dnOrder="6">8421631</Color>
+          <Color dnOrder="7">-1061109505</Color>
+          <Color dnOrder="8">-2139062017</Color>
+          <Color dnOrder="9">-16776961</Color>
+          <Color dnOrder="10">16711935</Color>
+          <Color dnOrder="11">-65281</Color>
+          <Color dnOrder="12">65535</Color>
+          <Color dnOrder="13">-16711681</Color>
+          <Color dnOrder="14">16777215</Color>
+          <Color dnOrder="15">-1</Color>
+          <Color dnOrder="16">24575</Color>
+          <Color dnOrder="17">34815</Color>
+          <Color dnOrder="18">45055</Color>
+          <Color dnOrder="19">55295</Color>
+          <Color dnOrder="20">65535</Color>
+          <Color dnOrder="21">6226175</Color>
+          <Color dnOrder="22">6250495</Color>
+          <Color dnOrder="23">6260735</Color>
+          <Color dnOrder="24">6270975</Color>
+          <Color dnOrder="25">6281215</Color>
+          <Color dnOrder="26">6291455</Color>
+          <Color dnOrder="27">8847615</Color>
+          <Color dnOrder="28">8871935</Color>
+          <Color dnOrder="29">8882175</Color>
+          <Color dnOrder="30">8892415</Color>
+          <Color dnOrder="31">8902655</Color>
+          <Color dnOrder="32">8912895</Color>
+          <Color dnOrder="33">11469055</Color>
+          <Color dnOrder="34">11493375</Color>
+          <Color dnOrder="35">11503615</Color>
+          <Color dnOrder="36">11513855</Color>
+          <Color dnOrder="37">11524095</Color>
+          <Color dnOrder="38">11534335</Color>
+          <Color dnOrder="39">14090495</Color>
+          <Color dnOrder="40">14114815</Color>
+          <Color dnOrder="41">14125055</Color>
+          <Color dnOrder="42">14135295</Color>
+          <Color dnOrder="43">14145535</Color>
+          <Color dnOrder="44">14155775</Color>
+          <Color dnOrder="45">16711935</Color>
+          <Color dnOrder="46">16736255</Color>
+          <Color dnOrder="47">16746495</Color>
+          <Color dnOrder="48">16756735</Color>
+          <Color dnOrder="49">16766975</Color>
+          <Color dnOrder="50">16777215</Color>
+          <Color dnOrder="51">1593835775</Color>
+          <Color dnOrder="52">1593860095</Color>
+          <Color dnOrder="53">1593870335</Color>
+          <Color dnOrder="54">1593880575</Color>
+          <Color dnOrder="55">1593890815</Color>
+          <Color dnOrder="56">1593901055</Color>
+          <Color dnOrder="57">1600061695</Color>
+          <Color dnOrder="58">1600086015</Color>
+          <Color dnOrder="59">1600096255</Color>
+          <Color dnOrder="60">1600106495</Color>
+          <Color dnOrder="61">1600116735</Color>
+          <Color dnOrder="62">1600126975</Color>
+          <Color dnOrder="63">1602683135</Color>
+          <Color dnOrder="64">1602707455</Color>
+          <Color dnOrder="65">1602717695</Color>
+          <Color dnOrder="66">1602727935</Color>
+          <Color dnOrder="67">1602738175</Color>
+          <Color dnOrder="68">1602748415</Color>
+          <Color dnOrder="69">1605304575</Color>
+          <Color dnOrder="70">1605328895</Color>
+          <Color dnOrder="71">1605339135</Color>
+          <Color dnOrder="72">1605349375</Color>
+          <Color dnOrder="73">1605359615</Color>
+          <Color dnOrder="74">1605369855</Color>
+          <Color dnOrder="75">1607926015</Color>
+          <Color dnOrder="76">1607950335</Color>
+          <Color dnOrder="77">1607960575</Color>
+          <Color dnOrder="78">1607970815</Color>
+          <Color dnOrder="79">1607981055</Color>
+          <Color dnOrder="80">1607991295</Color>
+          <Color dnOrder="81">1610547455</Color>
+          <Color dnOrder="82">1610571775</Color>
+          <Color dnOrder="83">1610582015</Color>
+          <Color dnOrder="84">1610592255</Color>
+          <Color dnOrder="85">1610602495</Color>
+          <Color dnOrder="86">1610612735</Color>
+          <Color dnOrder="87">-2030042881</Color>
+          <Color dnOrder="88">-2030018561</Color>
+          <Color dnOrder="89">-2030008321</Color>
+          <Color dnOrder="90">-2029998081</Color>
+          <Color dnOrder="91">-2029987841</Color>
+          <Color dnOrder="92">-2029977601</Color>
+          <Color dnOrder="93">-2023816961</Color>
+          <Color dnOrder="94">-2023792641</Color>
+          <Color dnOrder="95">-2023782401</Color>
+          <Color dnOrder="96">-2023772161</Color>
+          <Color dnOrder="97">-2023761921</Color>
+          <Color dnOrder="98">-2023751681</Color>
+          <Color dnOrder="99">-2021195521</Color>
+          <Color dnOrder="100">-2021171201</Color>
+          <Color dnOrder="101">-2021160961</Color>
+          <Color dnOrder="102">-2021150721</Color>
+          <Color dnOrder="103">-2021140481</Color>
+          <Color dnOrder="104">-2021130241</Color>
+          <Color dnOrder="105">-2018574081</Color>
+          <Color dnOrder="106">-2018549761</Color>
+          <Color dnOrder="107">-2018539521</Color>
+          <Color dnOrder="108">-2018529281</Color>
+          <Color dnOrder="109">-2018519041</Color>
+          <Color dnOrder="110">-2018508801</Color>
+          <Color dnOrder="111">-2015952641</Color>
+          <Color dnOrder="112">-2015928321</Color>
+          <Color dnOrder="113">-2015918081</Color>
+          <Color dnOrder="114">-2015907841</Color>
+          <Color dnOrder="115">-2015897601</Color>
+          <Color dnOrder="116">-2015887361</Color>
+          <Color dnOrder="117">-2013331201</Color>
+          <Color dnOrder="118">-2013306881</Color>
+          <Color dnOrder="119">-2013296641</Color>
+          <Color dnOrder="120">-2013286401</Color>
+          <Color dnOrder="121">-2013276161</Color>
+          <Color dnOrder="122">-2013265921</Color>
+          <Color dnOrder="123">-1358954241</Color>
+          <Color dnOrder="124">-1358929921</Color>
+          <Color dnOrder="125">-1358919681</Color>
+          <Color dnOrder="126">-1358909441</Color>
+          <Color dnOrder="127">-1358899201</Color>
+          <Color dnOrder="128">-1358888961</Color>
+          <Color dnOrder="129">-1352728321</Color>
+          <Color dnOrder="130">-1352704001</Color>
+          <Color dnOrder="131">-1352693761</Color>
+          <Color dnOrder="132">-1352683521</Color>
+          <Color dnOrder="133">-1352673281</Color>
+          <Color dnOrder="134">-1352663041</Color>
+          <Color dnOrder="135">-1350106881</Color>
+          <Color dnOrder="136">-1350082561</Color>
+          <Color dnOrder="137">-1350072321</Color>
+          <Color dnOrder="138">-1350062081</Color>
+          <Color dnOrder="139">-1350051841</Color>
+          <Color dnOrder="140">-1350041601</Color>
+          <Color dnOrder="141">-1347485441</Color>
+          <Color dnOrder="142">-1347461121</Color>
+          <Color dnOrder="143">-1347450881</Color>
+          <Color dnOrder="144">-1347440641</Color>
+          <Color dnOrder="145">-1347430401</Color>
+          <Color dnOrder="146">-1347420161</Color>
+          <Color dnOrder="147">-1344864001</Color>
+          <Color dnOrder="148">-1344839681</Color>
+          <Color dnOrder="149">-1344829441</Color>
+          <Color dnOrder="150">-1344819201</Color>
+          <Color dnOrder="151">-1344808961</Color>
+          <Color dnOrder="152">-1344798721</Color>
+          <Color dnOrder="153">-1342242561</Color>
+          <Color dnOrder="154">-1342218241</Color>
+          <Color dnOrder="155">-1342208001</Color>
+          <Color dnOrder="156">-1342197761</Color>
+          <Color dnOrder="157">-1342187521</Color>
+          <Color dnOrder="158">-1342177281</Color>
+          <Color dnOrder="159">-687865601</Color>
+          <Color dnOrder="160">-687841281</Color>
+          <Color dnOrder="161">-687831041</Color>
+          <Color dnOrder="162">-687820801</Color>
+          <Color dnOrder="163">-687810561</Color>
+          <Color dnOrder="164">-687800321</Color>
+          <Color dnOrder="165">-681639681</Color>
+          <Color dnOrder="166">-681615361</Color>
+          <Color dnOrder="167">-681605121</Color>
+          <Color dnOrder="168">-681594881</Color>
+          <Color dnOrder="169">-681584641</Color>
+          <Color dnOrder="170">-681574401</Color>
+          <Color dnOrder="171">-679018241</Color>
+          <Color dnOrder="172">-678993921</Color>
+          <Color dnOrder="173">-678983681</Color>
+          <Color dnOrder="174">-678973441</Color>
+          <Color dnOrder="175">-678963201</Color>
+          <Color dnOrder="176">-678952961</Color>
+          <Color dnOrder="177">-676396801</Color>
+          <Color dnOrder="178">-676372481</Color>
+          <Color dnOrder="179">-676362241</Color>
+          <Color dnOrder="180">-676352001</Color>
+          <Color dnOrder="181">-676341761</Color>
+          <Color dnOrder="182">-676331521</Color>
+          <Color dnOrder="183">-673775361</Color>
+          <Color dnOrder="184">-673751041</Color>
+          <Color dnOrder="185">-673740801</Color>
+          <Color dnOrder="186">-673730561</Color>
+          <Color dnOrder="187">-673720321</Color>
+          <Color dnOrder="188">-673710081</Color>
+          <Color dnOrder="189">-671153921</Color>
+          <Color dnOrder="190">-671129601</Color>
+          <Color dnOrder="191">-671119361</Color>
+          <Color dnOrder="192">-671109121</Color>
+          <Color dnOrder="193">-671098881</Color>
+          <Color dnOrder="194">-671088641</Color>
+          <Color dnOrder="195">-16776961</Color>
+          <Color dnOrder="196">-16752641</Color>
+          <Color dnOrder="197">-16742401</Color>
+          <Color dnOrder="198">-16732161</Color>
+          <Color dnOrder="199">-16721921</Color>
+          <Color dnOrder="200">-16711681</Color>
+          <Color dnOrder="201">-10551041</Color>
+          <Color dnOrder="202">-10526721</Color>
+          <Color dnOrder="203">-10516481</Color>
+          <Color dnOrder="204">-10506241</Color>
+          <Color dnOrder="205">-10496001</Color>
+          <Color dnOrder="206">-10485761</Color>
+          <Color dnOrder="207">-7929601</Color>
+          <Color dnOrder="208">-7905281</Color>
+          <Color dnOrder="209">-7895041</Color>
+          <Color dnOrder="210">-7884801</Color>
+          <Color dnOrder="211">-7874561</Color>
+          <Color dnOrder="212">-7864321</Color>
+          <Color dnOrder="213">-5308161</Color>
+          <Color dnOrder="214">-5283841</Color>
+          <Color dnOrder="215">-5273601</Color>
+          <Color dnOrder="216">-5263361</Color>
+          <Color dnOrder="217">-5253121</Color>
+          <Color dnOrder="218">-5242881</Color>
+          <Color dnOrder="219">-2686721</Color>
+          <Color dnOrder="220">-2662401</Color>
+          <Color dnOrder="221">-2652161</Color>
+          <Color dnOrder="222">-2641921</Color>
+          <Color dnOrder="223">-2631681</Color>
+          <Color dnOrder="224">-2621441</Color>
+          <Color dnOrder="225">-65281</Color>
+          <Color dnOrder="226">-40961</Color>
+          <Color dnOrder="227">-30721</Color>
+          <Color dnOrder="228">-20481</Color>
+          <Color dnOrder="229">-10241</Color>
+          <Color dnOrder="230">-1</Color>
+          <Color dnOrder="231">134744319</Color>
+          <Color dnOrder="232">303174399</Color>
+          <Color dnOrder="233">471604479</Color>
+          <Color dnOrder="234">640034559</Color>
+          <Color dnOrder="235">808464639</Color>
+          <Color dnOrder="236">976894719</Color>
+          <Color dnOrder="237">1145324799</Color>
+          <Color dnOrder="238">1313754879</Color>
+          <Color dnOrder="239">1482184959</Color>
+          <Color dnOrder="240">1650615039</Color>
+          <Color dnOrder="241">1616929023</Color>
+          <Color dnOrder="242">1650615039</Color>
+          <Color dnOrder="243">1987475199</Color>
+          <Color dnOrder="244">-2139062017</Color>
+          <Color dnOrder="245">-1970631937</Color>
+          <Color dnOrder="246">-1802201857</Color>
+          <Color dnOrder="247">-1633771777</Color>
+          <Color dnOrder="248">-1465341697</Color>
+          <Color dnOrder="249">-1296911617</Color>
+          <Color dnOrder="250">-1128481537</Color>
+          <Color dnOrder="251">-960051457</Color>
+          <Color dnOrder="252">-791621377</Color>
+          <Color dnOrder="253">-623191297</Color>
+          <Color dnOrder="254">-454761217</Color>
+          <Color dnOrder="255">-286331137</Color>
+        </GlobalPalette>
+      </Assets>
+      <FolderTree dnOrder="2">
+        <ImageTree dnOrder="0"/>
+        <StringTree dnOrder="1"/>
+      </FolderTree>
+    </GAC>
+    <State dnOrder="1">
+      <Properties dnOrder="0">
+        <SNAP_TOGGLED dnOrder="0">false</SNAP_TOGGLED>
+        <GRID_TOGGLED dnOrder="1">true</GRID_TOGGLED>
+        <GRID_X dnOrder="2">10</GRID_X>
+        <GRID_Y dnOrder="3">10</GRID_Y>
+        <GRID_COLOR dnOrder="4">2138552974</GRID_COLOR>
+        <CLIP_TOGGLED dnOrder="5">false</CLIP_TOGGLED>
+        <INFO_TOGGLED dnOrder="6">true</INFO_TOGGLED>
+        <PREVIEW_LANGUAGE dnOrder="7">0</PREVIEW_LANGUAGE>
+        <PROJECT_COLOR_MODE dnOrder="8">RGB_565</PROJECT_COLOR_MODE>
+        <GENERATE_GLOBAL_PALETTE dnOrder="9">false</GENERATE_GLOBAL_PALETTE>
+        <EXTERNAL_MEDIA_OPEN dnOrder="10">app_externalMediaOpen</EXTERNAL_MEDIA_OPEN>
+        <EXTERNAL_MEDIA_READ dnOrder="11">app_externalMediaRead</EXTERNAL_MEDIA_READ>
+        <EXTERNAL_MEDIA_CLOSE dnOrder="12">app_externalMediaClose</EXTERNAL_MEDIA_CLOSE>
+        <PREEMPTION_LEVEL dnOrder="13">0</PREEMPTION_LEVEL>
+        <HARDWARE_ACCELERATION dnOrder="14">true</HARDWARE_ACCELERATION>
+        <CANVAS_WIDTH dnOrder="15">400</CANVAS_WIDTH>
+        <CANVAS_HEIGHT dnOrder="16">400</CANVAS_HEIGHT>
+      </Properties>
+    </State>
+    <Screens dnOrder="2" height="200" width="320">
+      <Screen dnOrder="0">
+        <Properties dnOrder="0">
+          <Name dnOrder="0">default</Name>
+          <Size dnOrder="1">
+            <Width dnOrder="0">320</Width>
+            <Height dnOrder="1">200</Height>
+          </Size>
+          <Orientation dnOrder="2">DEGREES_0</Orientation>
+          <Mirror dnOrder="3">false</Mirror>
+          <Persistent dnOrder="4">false</Persistent>
+          <CreateAtStartup dnOrder="5">false</CreateAtStartup>
+          <ShowEvent dnOrder="6">false</ShowEvent>
+          <HideEvent dnOrder="7">false</HideEvent>
+          <Export dnOrder="8">true</Export>
+          <Primary dnOrder="9">true</Primary>
+          <Active dnOrder="10">true</Active>
+          <Visible dnOrder="11">true</Visible>
+        </Properties>
+        <Events dnOrder="1">
+          <Event dnOrder="0" enabled="false" name="ShowEvent" pretty_name="On Show"/>
+          <Event dnOrder="1" enabled="false" name="HideEvent" pretty_name="On Hide"/>
+        </Events>
+        <Layers dnOrder="2">
+          <Layer dnOrder="0">
+            <Properties dnOrder="0">
+              <Locked dnOrder="0">false</Locked>
+              <Hidden dnOrder="1">false</Hidden>
+              <Active dnOrder="2">true</Active>
+              <LockedToScreen dnOrder="3">true</LockedToScreen>
+              <Name dnOrder="4">Layer0</Name>
+              <Position dnOrder="5">
+                <X dnOrder="0">0</X>
+                <Y dnOrder="1">0</Y>
+              </Position>
+              <Size dnOrder="6">
+                <Width dnOrder="0">320</Width>
+                <Height dnOrder="1">200</Height>
+              </Size>
+              <Visible dnOrder="7">true</Visible>
+              <BorderType dnOrder="8">Bevel</BorderType>
+              <MarginLeft dnOrder="9">4</MarginLeft>
+              <MarginTop dnOrder="10">4</MarginTop>
+              <MarginRight dnOrder="11">4</MarginRight>
+              <MarginBottom dnOrder="12">4</MarginBottom>
+              <Scheme dnOrder="13" meta="scheme"/>
+              <LocalRedraw dnOrder="14">false</LocalRedraw>
+              <DrawOnce dnOrder="15">false</DrawOnce>
+              <ForceOpaque dnOrder="16">false</ForceOpaque>
+              <Enabled dnOrder="17">true</Enabled>
+              <AlphaEnable dnOrder="18">false</AlphaEnable>
+              <AlphaAmount dnOrder="19">255</AlphaAmount>
+              <BackgroundType dnOrder="20">Fill</BackgroundType>
+              <ColorMask dnOrder="21">false</ColorMask>
+              <MaskColor dnOrder="22">
+                <Palette dnOrder="0">0</Palette>
+                <Gray dnOrder="1">0.0</Gray>
+                <Red dnOrder="2">0.0</Red>
+                <Green dnOrder="3">0.0</Green>
+                <Blue dnOrder="4">0.0</Blue>
+                <Alpha dnOrder="5">255.0</Alpha>
+              </MaskColor>
+              <InputRectLocked dnOrder="23">true</InputRectLocked>
+              <InputRectX dnOrder="24">0</InputRectX>
+              <InputRectY dnOrder="25">0</InputRectY>
+              <InputRectWidth dnOrder="26">100</InputRectWidth>
+              <InputRectHeight dnOrder="27">100</InputRectHeight>
+              <InputPassthrough dnOrder="28">true</InputPassthrough>
+              <BufferCount dnOrder="29">1</BufferCount>
+              <Buffer0CreateMethod dnOrder="30">Auto</Buffer0CreateMethod>
+              <Buffer0Address dnOrder="31">0</Buffer0Address>
+              <Buffer0VariableName dnOrder="32"/>
+              <Buffer1CreateMethod dnOrder="33">Auto</Buffer1CreateMethod>
+              <Buffer1Address dnOrder="34">0</Buffer1Address>
+              <Buffer1VariableName dnOrder="35"/>
+              <VSync dnOrder="36">true</VSync>
+            </Properties>
+          </Layer>
+        </Layers>
+        <Macros dnOrder="3"/>
+      </Screen>
+    </Screens>
+    <Schemes dnOrder="3">
+      <Scheme dnOrder="0">
+        <Properties dnOrder="0">
+          <Name dnOrder="0">defaultScheme</Name>
+          <Base dnOrder="1">
+            <Palette dnOrder="0">252</Palette>
+            <Gray dnOrder="1">0.8101491</Gray>
+            <Red dnOrder="2">0.78431374</Red>
+            <Green dnOrder="3">0.8156863</Green>
+            <Blue dnOrder="4">0.83137256</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </Base>
+          <Highlight dnOrder="2">
+            <Palette dnOrder="0">252</Palette>
+            <Gray dnOrder="1">0.8101491</Gray>
+            <Red dnOrder="2">0.78431374</Red>
+            <Green dnOrder="3">0.8156863</Green>
+            <Blue dnOrder="4">0.83137256</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </Highlight>
+          <HighlightLight dnOrder="3">
+            <Palette dnOrder="0">15</Palette>
+            <Gray dnOrder="1">1.0</Gray>
+            <Red dnOrder="2">1.0</Red>
+            <Green dnOrder="3">1.0</Green>
+            <Blue dnOrder="4">1.0</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </HighlightLight>
+          <Shadow dnOrder="4">
+            <Palette dnOrder="0">8</Palette>
+            <Gray dnOrder="1">0.5019608</Gray>
+            <Red dnOrder="2">0.5019608</Red>
+            <Green dnOrder="3">0.5019608</Green>
+            <Blue dnOrder="4">0.5019608</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </Shadow>
+          <ShadowDark dnOrder="5">
+            <Palette dnOrder="0">237</Palette>
+            <Gray dnOrder="1">0.2509804</Gray>
+            <Red dnOrder="2">0.2509804</Red>
+            <Green dnOrder="3">0.2509804</Green>
+            <Blue dnOrder="4">0.2509804</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </ShadowDark>
+          <Foreground dnOrder="6">
+            <Palette dnOrder="0">0</Palette>
+            <Gray dnOrder="1">0.0</Gray>
+            <Red dnOrder="2">0.0</Red>
+            <Green dnOrder="3">0.0</Green>
+            <Blue dnOrder="4">0.0</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </Foreground>
+          <ForegroundInactive dnOrder="7">
+            <Palette dnOrder="0">254</Palette>
+            <Gray dnOrder="1">0.88049024</Gray>
+            <Red dnOrder="2">0.8392157</Red>
+            <Green dnOrder="3">0.8901961</Green>
+            <Blue dnOrder="4">0.90588236</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </ForegroundInactive>
+          <ForegroundDisabled dnOrder="8">
+            <Palette dnOrder="0">8</Palette>
+            <Gray dnOrder="1">0.5019608</Gray>
+            <Red dnOrder="2">0.5019608</Red>
+            <Green dnOrder="3">0.5019608</Green>
+            <Blue dnOrder="4">0.5019608</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </ForegroundDisabled>
+          <Background dnOrder="9">
+            <Palette dnOrder="0">15</Palette>
+            <Gray dnOrder="1">1.0</Gray>
+            <Red dnOrder="2">1.0</Red>
+            <Green dnOrder="3">1.0</Green>
+            <Blue dnOrder="4">1.0</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </Background>
+          <BackgroundInactive dnOrder="10">
+            <Palette dnOrder="0">254</Palette>
+            <Gray dnOrder="1">0.88049024</Gray>
+            <Red dnOrder="2">0.8392157</Red>
+            <Green dnOrder="3">0.8901961</Green>
+            <Blue dnOrder="4">0.90588236</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </BackgroundInactive>
+          <BackgroundDisabled dnOrder="11">
+            <Palette dnOrder="0">252</Palette>
+            <Gray dnOrder="1">0.8101491</Gray>
+            <Red dnOrder="2">0.78431374</Red>
+            <Green dnOrder="3">0.8156863</Green>
+            <Blue dnOrder="4">0.83137256</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </BackgroundDisabled>
+          <Text dnOrder="12">
+            <Palette dnOrder="0">0</Palette>
+            <Gray dnOrder="1">0.0</Gray>
+            <Red dnOrder="2">0.0</Red>
+            <Green dnOrder="3">0.0</Green>
+            <Blue dnOrder="4">0.0</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </Text>
+          <TextHighlight dnOrder="13">
+            <Palette dnOrder="0">12</Palette>
+            <Gray dnOrder="1">0.0722</Gray>
+            <Red dnOrder="2">0.0</Red>
+            <Green dnOrder="3">0.0</Green>
+            <Blue dnOrder="4">1.0</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </TextHighlight>
+          <TextHighlightText dnOrder="14">
+            <Palette dnOrder="0">15</Palette>
+            <Gray dnOrder="1">1.0</Gray>
+            <Red dnOrder="2">1.0</Red>
+            <Green dnOrder="3">1.0</Green>
+            <Blue dnOrder="4">1.0</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </TextHighlightText>
+          <TextInactive dnOrder="15">
+            <Palette dnOrder="0">254</Palette>
+            <Gray dnOrder="1">0.88049024</Gray>
+            <Red dnOrder="2">0.8392157</Red>
+            <Green dnOrder="3">0.8901961</Green>
+            <Blue dnOrder="4">0.90588236</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </TextInactive>
+          <TextDisabled dnOrder="16">
+            <Palette dnOrder="0">244</Palette>
+            <Gray dnOrder="1">0.56811297</Gray>
+            <Red dnOrder="2">0.54901963</Red>
+            <Green dnOrder="3">0.57254905</Green>
+            <Blue dnOrder="4">0.5803922</Blue>
+            <Alpha dnOrder="5">1.0</Alpha>
+          </TextDisabled>
+        </Properties>
+      </Scheme>
+    </Schemes>
+  </MHGC>
+</Configuration>
