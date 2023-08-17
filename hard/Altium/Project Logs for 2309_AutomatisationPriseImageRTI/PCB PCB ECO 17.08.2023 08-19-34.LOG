@@ -1,0 +1,14 @@
+Added Component: Designator=SB1(Solder bridge)
+Added Component: Designator=SB2(Solder bridge)
+Added Component: Designator=SB3(Solder bridge)
+Added Pin To Net: NetName=PVDD Pin=SB1-1
+Added Pin To Net: NetName=+24V Pin=SB1-2
+Added Pin To Net: NetName=PVDD Pin=SB2-1
+Added Pin To Net: NetName=+12V Pin=SB2-2
+Added Pin To Net: NetName=NetC8_1 Pin=SB3-1
+Added Pin To Net: NetName=+12V Pin=SB3-2
+Added Member To Class: ClassName=SchemaA-puissance Member=Component SB1 Solder bridge 3mm close
+Added Member To Class: ClassName=SchemaA-puissance Member=Component SB2 Solder bridge 3mm open
+Added Member To Class: ClassName=SchemaA-puissance Member=Component SB3 Solder bridge 3mm close
+Added Room: Name=SchemaA-puissance
+Added Room: Name=SchemaB-interace
