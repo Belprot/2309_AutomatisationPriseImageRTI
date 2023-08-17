@@ -1,3 +1,3 @@
-Record=TopLevelDocument|FileName=SchemaA.SchDoc|SheetNumber=1
-Record=NoMainPathDocument|SourceDocument=SchemaA.SchDoc|FileName=SchemaB.SchDoc|SheetNumber=2
-Record=NoMainPathDocument|SourceDocument=SchemaA.SchDoc|FileName=SchemaC.SchDoc|SheetNumber=3
+Record=TopLevelDocument|FileName=SchemaA-puissance.SchDoc|SheetNumber=1
+Record=NoMainPathDocument|SourceDocument=SchemaA-puissance.SchDoc|FileName=SchemaB-interace.SchDoc|SheetNumber=2
+Record=NoMainPathDocument|SourceDocument=SchemaA-puissance.SchDoc|FileName=SchemaC-mcu.SchDoc|SheetNumber=3

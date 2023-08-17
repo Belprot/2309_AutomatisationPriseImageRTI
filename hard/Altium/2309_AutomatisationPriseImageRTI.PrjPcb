@@ -84,7 +84,7 @@ GenerateClassCluster=0
 DocumentUniqueId=UACBRLVJ
 
 [Document3]
-DocumentPath=SchemaA.SchDoc
+DocumentPath=SchemaA-puissance.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -135,7 +135,7 @@ GenerateClassCluster=0
 DocumentUniqueId=ADVCMUSU
 
 [Document6]
-DocumentPath=SchemaB.SchDoc
+DocumentPath=SchemaB-interace.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -152,7 +152,7 @@ GenerateClassCluster=0
 DocumentUniqueId=DQGMDKZU
 
 [Document7]
-DocumentPath=SchemaC.SchDoc
+DocumentPath=SchemaC-mcu.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0

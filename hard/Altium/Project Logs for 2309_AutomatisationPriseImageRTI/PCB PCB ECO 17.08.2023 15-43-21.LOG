@@ -1,0 +1,6 @@
+Added Pin To Net: NetName=NetR39_1 Pin=C35-1
+Added Pin To Net: NetName=NetR39_1 Pin=R38-1
+Change Net Name : Old Net Name=NetR39_1 New Net Name=NetC35_1
+Added Room: Name=SchemaA-puissance
+Added Room: Name=SchemaB-interace
+Added Room: Name=SchemaC-mcu

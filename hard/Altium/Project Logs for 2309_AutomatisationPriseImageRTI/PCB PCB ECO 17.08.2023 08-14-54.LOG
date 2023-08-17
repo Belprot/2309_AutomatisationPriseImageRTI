@@ -1,0 +1,19 @@
+Change Component Footprint: Designator=P4 Old Footprint=61300411121 New Footprint=61300411121
+Change Component Footprint: Designator=P6 Old Footprint=61300411121 New Footprint=61300411121
+Change Component Footprint: Designator=P7 Old Footprint=61300411121 New Footprint=61300411121
+Change Component Footprint: Designator=P3 Old Footprint=61300511121 New Footprint=61300511121
+Change Component Footprint: Designator=J1 Old Footprint=691214110002 New Footprint=691214110002
+Change Component Footprint: Designator=P1 Old Footprint=691313510007 New Footprint=691313510007
+Change Component Footprint: Designator=P2 Old Footprint=691313510008 New Footprint=691313510008
+Change Component Footprint: Designator=Q7 Old Footprint=FP-646BX-MFG New Footprint=FP-646BX-MFG
+Change Component Footprint: Designator=Q10 Old Footprint=FP-646BX-MFG New Footprint=FP-646BX-MFG
+Change Component Footprint: Designator=C19 Old Footprint=WCAP-ASLI_D16H17 New Footprint=WCAP-ASLI_D16H17
+Change Component Footprint: Designator=L1 Old Footprint=WE-TPC_4828 New Footprint=WE-TPC_4828
+Change Component Footprint: Designator=U2 Old Footprint=WPME-FDSM_SIP-3_L11.6W8.5H10.5 New Footprint=WPME-FDSM_SIP-3_L11.6W8.5H10.5
+Change Class Name : Old Net Name=SchemaA New Net Name=SchemaA-puissance
+Change Class Name : Old Net Name=SchemaB New Net Name=SchemaB-interace
+Change Class Name : Old Net Name=SchemaC New Net Name=SchemaC-mcu
+Change Room Name: Old Name=SchemaC New Name=SchemaC-mcu
+Change Room Scope: Old Scope=InComponentClass('SchemaC') New Scope=InComponentClass('SchemaC-mcu')
+Added Room: Name=SchemaA-puissance
+Added Room: Name=SchemaB-interace

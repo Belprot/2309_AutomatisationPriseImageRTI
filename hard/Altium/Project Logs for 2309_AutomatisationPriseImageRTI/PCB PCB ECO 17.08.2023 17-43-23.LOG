@@ -1,0 +1,28 @@
+Change Component Footprint: Designator=J4 Old Footprint=FP-B2B-XH-A_LF_SN-MFG New Footprint=JST- S2B-PH-SM4-TB(LF)(SN)-2_V
+Change Component Comment : Designator=J4 Old Comment=B2B-XH-A(LF)(SN) New Comment=S2B-PH-SM4-TB(LF)(SN)
+Change Managed Component Library Link : Designator=J4 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=13A198B7-2160-45D9-BA10-5BBC61E7EA9A New ItemGUID=D258FB5A-885F-46B3-A3A6-929336EA0410 Old RevisionGUID=5C98CD09-B4EE-476D-9D67-677D59556FE5 New RevisionGUID=EF259658-B640-41E7-A14C-8A944DD96802
+Change component parameters: Designator = "J4" ("J4"); Footprint = "FP-B2B-XH-A_LF_SN-MFG"; UniqueID = "\FFKMTQIF" ("\FFKMTQIF")
+Change component parameters (AddParameter): Name = "Colour"; Value = "Black"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer URL"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.jst.com/home2.html"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.jst-mfg.com/product/pdf/eng/ePH.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Finish"; Value = "Lead"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Material"; Value = "Bronze"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Plating"; Value = "Tin"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Current Rating"; Value = "3 A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "DatasheetVersion"; Value = "Dec-12"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Height"; Value = "8.13 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Lead Pitch"; Value = "0.1 inch"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Length"; Value = "101.19 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Max Operating Temperature"; Value = "105degC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Min Operating Temperature"; Value = "-65degC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mount"; Value = "Through Hole"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Quantity"; Value = "100"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PackageDescription"; Value = "Male Header, Pitch 2 mm, 1 x 2 Position, Height 5.5 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PackageReference"; Value = "S2B-PH-SM4-TB(LF)(SN)-2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Packaging"; Value = "Bulk"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "40"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Radiation Hardening"; Value = "No"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "RoHSCompliant"; Value = "True"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Width"; Value = "2.34 mm"; VariantName = "[No Variations]"
