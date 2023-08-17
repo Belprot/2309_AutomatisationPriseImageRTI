@@ -1,0 +1,41 @@
+Removed Pin From Net: NetName=QUEII Pin=P2-6
+Removed Pin From Net: NetName=QEIB Pin=P2-7
+Removed Pin From Net: NetName=QEIA Pin=P2-8
+Change Component Footprint: Designator=P1 Old Footprint=691313510007 New Footprint=691313510006
+Change Component Footprint: Designator=P2 Old Footprint=691313510008 New Footprint=691313510007
+Change Component Comment : Designator=P1 Old Comment=691313510007 New Comment=691313510006
+Change Component Comment : Designator=P2 Old Comment=691313510008 New Comment=691313510007
+Change Managed Component Library Link : Designator=P1 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=01E9EDE3-7AA9-4FF6-AFAF-5545D629CAD5 New ItemGUID=3622F036-95FC-451F-948E-6557F291ADF3 Old RevisionGUID=ED344DA4-1A20-47D7-897E-9D018289F280 New RevisionGUID=3E07C900-29C3-4A51-B12D-92AE3A9CA392
+Change Managed Component Library Link : Designator=P2 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=A0BFFF5D-12F0-41A3-A07E-D034B7C07662 New ItemGUID=01E9EDE3-7AA9-4FF6-AFAF-5545D629CAD5 Old RevisionGUID=29801DC8-B6DB-4383-9A74-17DC650FAB13 New RevisionGUID=ED344DA4-1A20-47D7-897E-9D018289F280
+Change component parameters: Designator = "P1" ("P1"); Footprint = "691313510007"; UniqueID = "\XSHXUSDS" ("\XSHXUSDS")
+Change component parameters (AddParameter): Name = "Color"; Value = "Green"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Gender"; Value = "Male"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Material"; Value = "Brass"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Contact Plating"; Value = "Tin"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Current"; Value = "20A"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Gender"; Value = "Male"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Height"; Value = "12mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Lead Pitch"; Value = "5.08mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Length"; Value = "11.5mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mount"; Value = "Through Hole"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "NexarPartId"; Value = "8917763"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Number of Contacts"; Value = "6"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Number of Levels"; Value = "1"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Number of Pins"; Value = "6"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Number of Positions Per Level"; Value = "6"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Number of Rows"; Value = "1"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Packaging"; Value = "Box"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pitch"; Value = "5.08mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "REACH SVHC"; Value = "No SVHC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "RoHS"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Termination"; Value = "Solder"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = "300V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Width"; Value = "32.48mm"; VariantName = "[No Variations]"
+Change component parameters: Designator = "P2" ("P2"); Footprint = "691313510008"; UniqueID = "\BDOYLKVF" ("\BDOYLKVF")
+Change component parameters (AddParameter): Name = "NexarPartId"; Value = "105951014"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=QUEII Pin=P2-5
+Added Pin To Net: NetName=QEIB Pin=P2-6
+Added Pin To Net: NetName=QEIA Pin=P2-7
+Added Room: Name=SchemaA-puissance
+Added Room: Name=SchemaB-interace
+Added Room: Name=SchemaC-mcu

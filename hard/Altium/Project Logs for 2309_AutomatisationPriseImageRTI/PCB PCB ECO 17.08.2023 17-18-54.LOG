@@ -1,0 +1,55 @@
+Removed Pin From Net: NetName=CHANNEL_A Pin=R16-1
+Removed Pin From Net: NetName=+3V3 Pin=R16-2
+Removed Pin From Net: NetName=CHANNEL_B Pin=R17-1
+Removed Pin From Net: NetName=+3V3 Pin=R17-2
+Change Component Footprint: Designator=R16 Old Footprint=RESC2013X60X35NL10T20 New Footprint=RESC2013X60X35ML10T20
+Change Component Footprint: Designator=R17 Old Footprint=RESC2013X60X35NL10T20 New Footprint=RESC2013X60X35ML10T20
+Change Component Comment : Designator=R16 Old Comment=RC0805FR-0747KL New Comment=RC0805JR-0710KL
+Change Component Comment : Designator=R17 Old Comment=RC0805FR-0747KL New Comment=RC0805JR-0710KL
+Change Managed Component Library Link : Designator=R16 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=F60048A3-D561-484D-B156-4DCD9BBF6D49 New ItemGUID=F67337B7-1964-4254-8A8E-397C8FD82CDB Old RevisionGUID=58C2A00D-8321-4E64-814A-C3FF86DDDFC4 New RevisionGUID=B7731758-3B90-48E6-ADF9-74525FFC2A01
+Change Managed Component Library Link : Designator=R17 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=F60048A3-D561-484D-B156-4DCD9BBF6D49 New ItemGUID=F67337B7-1964-4254-8A8E-397C8FD82CDB Old RevisionGUID=58C2A00D-8321-4E64-814A-C3FF86DDDFC4 New RevisionGUID=B7731758-3B90-48E6-ADF9-74525FFC2A01
+Change component parameters: Designator = "R16" ("R16"); Footprint = "RESC2013X60X35NL10T20"; UniqueID = "\KWHZEIBE" ("\KWHZEIBE")
+Change component parameters (AddParameter): Name = "Automotive Qualification Standard"; Value = "-"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet URL"; Value = "http://www.yageo.ru/pdf/RC0805.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet Version"; Value = "REV. 2, 09/2004"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "Yageo"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer URL"; Value = "http://www.yageo.com/"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MSL"; Value = "MSL1-Unlimited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Description"; Value = "2-Pin Surface Mounted Device, Body 2 x 1.25 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Reference"; Value = "805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Packaging"; Value = "CutTape"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power Rating"; Value = "250mW"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Product Range"; Value = "RCSeries"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10k"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance Tolerance"; Value = "±5%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistor Case Style"; Value = "0805[2012Metric]"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistor Element Type"; Value = "ThickFilm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SVHC"; Value = "ToBeAdvised"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Temperature Coefficient"; Value = "±100ppm/degC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage Rating"; Value = "150V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R17" ("R17"); Footprint = "RESC2013X60X35NL10T20"; UniqueID = "\NYUYURKJ" ("\NYUYURKJ")
+Change component parameters (AddParameter): Name = "Automotive Qualification Standard"; Value = "-"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet URL"; Value = "http://www.yageo.ru/pdf/RC0805.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet Version"; Value = "REV. 2, 09/2004"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "Yageo"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer URL"; Value = "http://www.yageo.com/"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MSL"; Value = "MSL1-Unlimited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Description"; Value = "2-Pin Surface Mounted Device, Body 2 x 1.25 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Reference"; Value = "805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Packaging"; Value = "CutTape"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power Rating"; Value = "250mW"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Product Range"; Value = "RCSeries"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10k"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance Tolerance"; Value = "±5%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistor Case Style"; Value = "0805[2012Metric]"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistor Element Type"; Value = "ThickFilm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SVHC"; Value = "ToBeAdvised"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Temperature Coefficient"; Value = "±100ppm/degC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage Rating"; Value = "150V"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=+3V3 Pin=R16-1
+Added Pin To Net: NetName=CHANNEL_A Pin=R16-2
+Added Pin To Net: NetName=+3V3 Pin=R17-1
+Added Pin To Net: NetName=CHANNEL_B Pin=R17-2
+Added Room: Name=SchemaA-puissance
+Added Room: Name=SchemaB-interace
+Added Room: Name=SchemaC-mcu

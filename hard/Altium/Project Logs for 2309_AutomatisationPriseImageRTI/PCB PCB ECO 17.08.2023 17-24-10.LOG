@@ -1,0 +1,10 @@
+Removed Pin From Net: NetName=SWITCH Pin=SW1-1
+Removed Pin From Net: NetName=+3V3 Pin=SW1-2
+Removed Member From Class: ClassName=SchemaB-interace Member=SW1
+Added Component: Designator=S?(Tact-sw 1241.1082)
+Added Pin To Net: NetName=SWITCH Pin=S?-1
+Added Pin To Net: NetName=+3V3 Pin=S?-2
+Added Member To Class: ClassName=SchemaB-interace Member=Component S? Tact-sw 1241.1082
+Added Room: Name=SchemaA-puissance
+Added Room: Name=SchemaB-interace
+Added Room: Name=SchemaC-mcu
