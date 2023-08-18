@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [ES_PCB_6C_2L_2023.PcbDoc]
+   Generated File[ES_PCB_6C_2L_2023-RoundHoles.TXT]
+   Generated File[ES_PCB_6C_2L_2023-SlotHoles.TXT]
+   Generated File[ES_PCB_6C_2L_2023.LDP]
+   Generated File[ES_PCB_6C_2L_2023.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At 21:35:00 On 18/08/2023
