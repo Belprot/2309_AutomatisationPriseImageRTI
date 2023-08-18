@@ -1,7 +1,7 @@
 Protel Design System Design Rule Check
 PCB File : C:\microchip\harmony\v2_06\apps\2309_AutomatisationPriseImageRTI\hard\Altium\PCB.PcbDoc
 Date     : 18.08.2023
-Time     : 18:22:41
+Time     : 19:32:50
 
 Processing Rule : Clearance Constraint (Gap=0.151mm) (All),(All)
 Rule Violations :0
@@ -55,9 +55,9 @@ Processing Rule : Silk To Solder Mask (Clearance=0.2mm) (IsPad),(All)
    Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.2mm) Between Pad P7-4(52mm,68mm) on Multi-Layer And Region (0 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.014mm < 0.2mm) Between Pad P7-4(52mm,68mm) on Multi-Layer And Region (1 hole(s)) Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.014mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.075mm < 0.2mm) Between Pad Q12-3(112mm,65.5mm) on Bottom Layer And Track (112.525mm,65.5mm)(113.125mm,65.5mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.075mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.142mm < 0.2mm) Between Pad R22-2(57.635mm,32mm) on Top Layer And Text "SW2" (58.8mm,32.967mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.142mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.191mm < 0.2mm) Between Pad R25-1(63.7mm,50.1mm) on Top Layer And Track (64.591mm,50.1mm)(64.891mm,50.1mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.191mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.174mm < 0.2mm) Between Pad R37-2(61.2mm,42.4mm) on Top Layer And Text "R37" (57.585mm,41.224mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.174mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.2mm) Between Pad TP13-1(57mm,48.1mm) on Top Layer And Text "C37" (57.594mm,46.066mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.174mm < 0.2mm) Between Pad R37-2(60.425mm,41.126mm) on Top Layer And Text "R37" (56.81mm,39.95mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.174mm]
 Rule Violations :15
 
 Processing Rule : Silk to Silk (Clearance=0.2mm) (All),(All)
