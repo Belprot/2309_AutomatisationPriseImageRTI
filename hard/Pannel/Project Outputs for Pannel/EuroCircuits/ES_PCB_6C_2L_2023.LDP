@@ -1,0 +1,3 @@
+Layer Pairs Export File for PCB: C:\Users\mevricchier\Desktop\Pannel\ES_PCB_6C_2L_2023.PcbDoc
+LayersSetName=Top_Bot_Thru_Holes|DrillFile=es_pcb_6c_2l_2023-roundholes.txt|DrillLayers=gtl,gbl
+LayersSetName=Top_Bot_Slot_Holes|DrillFile=es_pcb_6c_2l_2023-slotholes.txt|DrillLayers=gtl,gbl
