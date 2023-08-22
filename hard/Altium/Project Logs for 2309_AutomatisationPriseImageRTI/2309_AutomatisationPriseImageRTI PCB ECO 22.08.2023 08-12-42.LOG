@@ -1,0 +1,5 @@
+Change Component Footprint: Designator=ENC1 Old Footprint=FP-PEC12R-4220F-S0024-MFG New Footprint=FP-PEC12R-4120F-S0012-MFG
+Change Component Comment : Designator=DS1 Old Comment=EA DOGM204 New Comment=EA DOGM204W-A
+Change Component Comment : Designator=ENC1 Old Comment=PEC12R-4220F-S0024 New Comment=PEC12R-4120F-S0012
+Change Component Comment : Designator=S1 Old Comment=Tact-sw 1241.1082 New Comment=1241.1082.71
+Change Managed Component Library Link : Designator=ENC1 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID= Old ItemGUID=5A7A0325-CC36-4DED-848D-90868F0BE1F4 New ItemGUID= Old RevisionGUID=84B1A5D6-2110-4361-A91D-249BDEDD9550 New RevisionGUID=
