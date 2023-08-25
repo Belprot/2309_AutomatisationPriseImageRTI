@@ -94,7 +94,7 @@ extern "C" {
    
 /*** Ports System Service Configuration ***/
 #define SYS_PORT_A_ANSEL        0xF27C
-#define SYS_PORT_A_TRIS         0xFF7F
+#define SYS_PORT_A_TRIS         0xF67F
 #define SYS_PORT_A_LAT          0x0000
 #define SYS_PORT_A_ODC          0x0000
 #define SYS_PORT_A_CNPU         0x0000
@@ -102,7 +102,7 @@ extern "C" {
 #define SYS_PORT_A_CNEN         0x0000
 
 #define SYS_PORT_B_ANSEL        0x010E
-#define SYS_PORT_B_TRIS         0xFFFF
+#define SYS_PORT_B_TRIS         0xF7FF
 #define SYS_PORT_B_LAT          0x0000
 #define SYS_PORT_B_ODC          0x0000
 #define SYS_PORT_B_CNPU         0x0000
@@ -110,7 +110,7 @@ extern "C" {
 #define SYS_PORT_B_CNEN         0x0000
 
 #define SYS_PORT_C_ANSEL        0x4038
-#define SYS_PORT_C_TRIS         0xFFFF
+#define SYS_PORT_C_TRIS         0xFFF8
 #define SYS_PORT_C_LAT          0x0000
 #define SYS_PORT_C_ODC          0x0000
 #define SYS_PORT_C_CNPU         0xB000
@@ -126,7 +126,7 @@ extern "C" {
 #define SYS_PORT_D_CNEN         0x0000
 
 #define SYS_PORT_E_ANSEL        0x0FFF
-#define SYS_PORT_E_TRIS         0xFFFF
+#define SYS_PORT_E_TRIS         0x0FFF
 #define SYS_PORT_E_LAT          0x0000
 #define SYS_PORT_E_ODC          0x0000
 #define SYS_PORT_E_CNPU         0x0000
@@ -142,7 +142,7 @@ extern "C" {
 #define SYS_PORT_F_CNEN         0x0000
 
 #define SYS_PORT_G_ANSEL        0xFC3F
-#define SYS_PORT_G_TRIS         0xFFFF
+#define SYS_PORT_G_TRIS         0xFF3F
 #define SYS_PORT_G_LAT          0x0000
 #define SYS_PORT_G_ODC          0x0000
 #define SYS_PORT_G_CNPU         0x0000
@@ -183,89 +183,102 @@ extern "C" {
 #define SIGN_LED_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_7, Value)
 
 /*** Functions for RESET_AB_CMD pin ***/
-#define RESET_AB_CMD_PORT PORT_CHANNEL_G
-#define RESET_AB_CMD_PIN PORTS_BIT_POS_6
-#define RESET_AB_CMD_PIN_MASK (0x1 << 6)
+#define RESET_AB_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_6)
+#define RESET_AB_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_6)
+#define RESET_AB_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_6)
+#define RESET_AB_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_6)
+#define RESET_AB_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_6, Value)
 
 /*** Functions for RESET_CD_CMD pin ***/
-#define RESET_CD_CMD_PORT PORT_CHANNEL_G
-#define RESET_CD_CMD_PIN PORTS_BIT_POS_7
-#define RESET_CD_CMD_PIN_MASK (0x1 << 7)
-
-/*** Functions for OTW pin ***/
-#define OTW_PORT PORT_CHANNEL_G
-#define OTW_PIN PORTS_BIT_POS_8
-#define OTW_PIN_MASK (0x1 << 8)
-
-/*** Functions for FAULT pin ***/
-#define FAULT_PORT PORT_CHANNEL_G
-#define FAULT_PIN PORTS_BIT_POS_9
-#define FAULT_PIN_MASK (0x1 << 9)
-
-/*** Functions for SWITCH pin ***/
-#define SWITCH_PORT PORT_CHANNEL_A
-#define SWITCH_PIN PORTS_BIT_POS_11
-#define SWITCH_PIN_MASK (0x1 << 11)
-
-/*** Functions for PEC12R_SW pin ***/
-#define PEC12R_SW_PORT PORT_CHANNEL_A
-#define PEC12R_SW_PIN PORTS_BIT_POS_0
-#define PEC12R_SW_PIN_MASK (0x1 << 0)
-
-/*** Functions for CHANNEL_A pin ***/
-#define CHANNEL_A_PORT PORT_CHANNEL_A
-#define CHANNEL_A_PIN PORTS_BIT_POS_1
-#define CHANNEL_A_PIN_MASK (0x1 << 1)
-
-/*** Functions for CHANNEL_B pin ***/
-#define CHANNEL_B_PORT PORT_CHANNEL_B
-#define CHANNEL_B_PIN PORTS_BIT_POS_0
-#define CHANNEL_B_PIN_MASK (0x1 << 0)
+#define RESET_CD_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_7)
+#define RESET_CD_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_7)
+#define RESET_CD_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_7)
+#define RESET_CD_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_7)
+#define RESET_CD_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_7, Value)
 
 /*** Functions for LED_IR_CMD pin ***/
-#define LED_IR_CMD_PORT PORT_CHANNEL_C
-#define LED_IR_CMD_PIN PORTS_BIT_POS_0
-#define LED_IR_CMD_PIN_MASK (0x1 << 0)
+#define LED_IR_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_0)
+#define LED_IR_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_0)
+#define LED_IR_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_0)
+#define LED_IR_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_0)
+#define LED_IR_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_0, Value)
 
 /*** Functions for TRIGGER_CMD pin ***/
-#define TRIGGER_CMD_PORT PORT_CHANNEL_C
-#define TRIGGER_CMD_PIN PORTS_BIT_POS_1
-#define TRIGGER_CMD_PIN_MASK (0x1 << 1)
+#define TRIGGER_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
+#define TRIGGER_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
+#define TRIGGER_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
+#define TRIGGER_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1)
+#define TRIGGER_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_1, Value)
 
 /*** Functions for FOCUS_CMD pin ***/
-#define FOCUS_CMD_PORT PORT_CHANNEL_C
-#define FOCUS_CMD_PIN PORTS_BIT_POS_2
-#define FOCUS_CMD_PIN_MASK (0x1 << 2)
-
-/*** Functions for INDEX pin ***/
-#define INDEX_PORT PORT_CHANNEL_C
-#define INDEX_PIN PORTS_BIT_POS_11
-#define INDEX_PIN_MASK (0x1 << 11)
+#define FOCUS_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
+#define FOCUS_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
+#define FOCUS_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
+#define FOCUS_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2)
+#define FOCUS_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_2, Value)
 
 /*** Functions for LED1_CMD pin ***/
-#define LED1_CMD_PORT PORT_CHANNEL_E
-#define LED1_CMD_PIN PORTS_BIT_POS_12
-#define LED1_CMD_PIN_MASK (0x1 << 12)
+#define LED1_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_12)
+#define LED1_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_12)
+#define LED1_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_12)
+#define LED1_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_12)
+#define LED1_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_12, Value)
 
 /*** Functions for LED2_CMD pin ***/
-#define LED2_CMD_PORT PORT_CHANNEL_E
-#define LED2_CMD_PIN PORTS_BIT_POS_13
-#define LED2_CMD_PIN_MASK (0x1 << 13)
+#define LED2_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_13)
+#define LED2_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_13)
+#define LED2_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_13)
+#define LED2_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_13)
+#define LED2_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_13, Value)
 
 /*** Functions for LED3_CMD pin ***/
-#define LED3_CMD_PORT PORT_CHANNEL_E
-#define LED3_CMD_PIN PORTS_BIT_POS_14
-#define LED3_CMD_PIN_MASK (0x1 << 14)
+#define LED3_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_14)
+#define LED3_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_14)
+#define LED3_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_14)
+#define LED3_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_14)
+#define LED3_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_14, Value)
 
 /*** Functions for LED4_CMD pin ***/
-#define LED4_CMD_PORT PORT_CHANNEL_E
-#define LED4_CMD_PIN PORTS_BIT_POS_15
-#define LED4_CMD_PIN_MASK (0x1 << 15)
+#define LED4_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_15)
+#define LED4_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_15)
+#define LED4_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_15)
+#define LED4_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_15)
+#define LED4_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_15, Value)
 
 /*** Functions for LED5_CMD pin ***/
-#define LED5_CMD_PORT PORT_CHANNEL_A
-#define LED5_CMD_PIN PORTS_BIT_POS_8
-#define LED5_CMD_PIN_MASK (0x1 << 8)
+#define LED5_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_8)
+#define LED5_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_8)
+#define LED5_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_8)
+#define LED5_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_8)
+#define LED5_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_8, Value)
+
+/*** Functions for RESET_LCD_CMD pin ***/
+#define RESET_LCD_CMDToggle() PLIB_PORTS_PinToggle(PORTS_ID_0, PORT_CHANNEL_B, PORTS_BIT_POS_11)
+#define RESET_LCD_CMDOn() PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_B, PORTS_BIT_POS_11)
+#define RESET_LCD_CMDOff() PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_B, PORTS_BIT_POS_11)
+#define RESET_LCD_CMDStateGet() PLIB_PORTS_PinGetLatched(PORTS_ID_0, PORT_CHANNEL_B, PORTS_BIT_POS_11)
+#define RESET_LCD_CMDStateSet(Value) PLIB_PORTS_PinWrite(PORTS_ID_0, PORT_CHANNEL_B, PORTS_BIT_POS_11, Value)
+
+/*** Functions for OTW pin ***/
+#define OTWStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_8)
+
+/*** Functions for FAULT pin ***/
+#define FAULTStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_9)
+
+/*** Functions for SWITCH pin ***/
+#define SWITCHStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_11)
+
+/*** Functions for PEC12R_SW pin ***/
+#define PEC12R_SWStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_0)
+
+/*** Functions for CHANNEL_A pin ***/
+#define CHANNEL_AStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_1)
+
+/*** Functions for CHANNEL_B pin ***/
+#define CHANNEL_BStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_B, PORTS_BIT_POS_0)
+
+/*** Functions for INDEX pin ***/
+#define INDEXStateGet() PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_C, PORTS_BIT_POS_11)
 
 /*** Functions for QEIA pin ***/
 #define QEIA_PORT PORT_CHANNEL_B
@@ -281,11 +294,6 @@ extern "C" {
 #define QUEII_PORT PORT_CHANNEL_C
 #define QUEII_PIN PORTS_BIT_POS_10
 #define QUEII_PIN_MASK (0x1 << 10)
-
-/*** Functions for RESET_LCD_CMD pin ***/
-#define RESET_LCD_CMD_PORT PORT_CHANNEL_B
-#define RESET_LCD_CMD_PIN PORTS_BIT_POS_11
-#define RESET_LCD_CMD_PIN_MASK (0x1 << 11)
 
 
 /*** Application Instance 0 Configuration ***/

@@ -55,6 +55,20 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #include "app.h"
 
+
+/* utilise pour pointer sur PWMAPINx  1 a 6
+ * (parfois nommé PINMAPINx)
+ * PWMAPINx active MCPWM(x+6)H plutot que MCPWMxL sur la pin concerne
+ * PWMAPIN1 = BIT18, PWMAPIN2 = BIT19, ...
+*/
+
+#define PWMAPIN1 0x40000
+#define PWMAPIN2 0x80000
+#define PWMAPIN3 0x100000
+#define PWMAPIN4 0x200000
+#define PWMAPIN5 0x400000
+#define PWMAPIN6 0x800000
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -117,10 +131,18 @@ void APP_Initialize ( void )
     /* Place the App state machine in its initial state. */
     appData.appState = APP_STATE_INIT;
 
-    
-    /* TODO: Initialize your application's state machine and other
-     * parameters.
-     */
+    /* Disable Global Interrupts */
+    SYS_INT_Disable();
+    // Write Unlock Sequence to allow write access to CFGCON register
+    SYSKEY = 0xAA996655; // Write Key1 to SYSKEY
+    SYSKEY = 0x556699AA; // Write Key2 to SYSKEY
+    // Dans notre cas on veut que les pins PWMxL de 1 soit remplacer,
+    // on peut donc enlever PWMAPINx 2 à 6
+    CFGCON |= (PWMAPIN4 /*+ PWMAPIN2  + PWMAPIN3 + PWMAPIN4 + PWMAPIN5 + PWMAPIN6*/);
+    SYSKEY = 0x0; //Lock Write access to CFGCON register  
+    /* Enable Global Interrupts */
+    SYS_INT_Enable();
+   // CapH_StateGet();
 }
 
 
@@ -134,6 +156,9 @@ void APP_Tasks ( void )
         case APP_STATE_INIT:
             
             SIGN_LED_CMDOff();
+            //DRV_MCPWM_Initialize();
+            //DRV_MCPWM_Enable();
+            
             
             // States machines update
             APP_UpdateAppState(APP_STATE_WAIT);

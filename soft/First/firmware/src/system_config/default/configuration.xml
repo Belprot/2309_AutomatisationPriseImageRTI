@@ -626,7 +626,7 @@
       <Template dnOrder="2">
         <Name dnOrder="0">drv_mcpwm_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/mcpwm/src</Path>
-        <Checksum dnOrder="2">6F67A656C75023C739DC444ADE694B29</Checksum>
+        <Checksum dnOrder="2">D665A533629A4AD2641FBCB0C5F5354A</Checksum>
       </Template>
       <Template dnOrder="3">
         <Name dnOrder="0">main.c</Name>
@@ -674,7 +674,7 @@
       <Template dnOrder="12">
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">5AF73E6BA9A321E58E756C5736D64D84</Checksum>
+        <Checksum dnOrder="2">2C3DDF14CA0F39F4D67029A51266250E</Checksum>
       </Template>
       <Template dnOrder="13">
         <Name dnOrder="0">app.h</Name>
