@@ -12,6 +12,9 @@
                 <logicalFolder name="f1" displayName="mcpwm" projectFiles="true">
                   <itemPath>../src/system_config/default/framework/driver/mcpwm/drv_mcpwm_static.h</itemPath>
                 </logicalFolder>
+                <logicalFolder name="f2" displayName="tmr" projectFiles="true">
+                  <itemPath>../src/system_config/default/framework/driver/tmr/drv_tmr_static.h</itemPath>
+                </logicalFolder>
               </logicalFolder>
               <logicalFolder name="f2" displayName="system" projectFiles="true">
                 <logicalFolder name="f1" displayName="devcon" projectFiles="true">
@@ -32,6 +35,15 @@
         <logicalFolder name="f1" displayName="driver" projectFiles="true">
           <logicalFolder name="f1" displayName="mcpwm" projectFiles="true">
             <itemPath>../../../../../../framework/driver/mcpwm/drv_mcpwm.h</itemPath>
+          </logicalFolder>
+          <logicalFolder name="f2" displayName="tmr" projectFiles="true">
+            <logicalFolder name="f1" displayName="src" projectFiles="true">
+              <itemPath>../../../../../../framework/driver/tmr/src/drv_tmr_variant_mapping.h</itemPath>
+            </logicalFolder>
+            <itemPath>../../../../../../framework/driver/tmr/drv_tmr.h</itemPath>
+            <itemPath>../../../../../../framework/driver/tmr/drv_tmr_mapping.h</itemPath>
+            <itemPath>../../../../../../framework/driver/tmr/drv_tmr_compatibility.h</itemPath>
+            <itemPath>../../../../../../framework/driver/tmr/tmr_definitions_pic32m.h</itemPath>
           </logicalFolder>
           <itemPath>../../../../../../framework/driver/driver.h</itemPath>
           <itemPath>../../../../../../framework/driver/driver_common.h</itemPath>
@@ -88,6 +100,12 @@
                     <itemPath>../src/system_config/default/framework/driver/mcpwm/src/drv_mcpwm_static.c</itemPath>
                   </logicalFolder>
                 </logicalFolder>
+                <logicalFolder name="f2" displayName="tmr" projectFiles="true">
+                  <logicalFolder name="f1" displayName="src" projectFiles="true">
+                    <itemPath>../src/system_config/default/framework/driver/tmr/src/drv_tmr_static.c</itemPath>
+                    <itemPath>../src/system_config/default/framework/driver/tmr/src/drv_tmr_mapping.c</itemPath>
+                  </logicalFolder>
+                </logicalFolder>
               </logicalFolder>
               <logicalFolder name="f2" displayName="system" projectFiles="true">
                 <logicalFolder name="f1" displayName="clk" projectFiles="true">
@@ -131,6 +149,7 @@
                    displayName="Important Files"
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
+      <itemPath>2309_AutomatisationPriseImageRTI-Rapport_v1.0.0.mc3</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -205,6 +224,7 @@
         <property key="preprocessor-macros" value=""/>
         <property key="strict-ansi" value="false"/>
         <property key="support-ansi" value="false"/>
+        <property key="tentative-definitions" value=""/>
         <property key="toplevel-reordering" value=""/>
         <property key="unaligned-access" value=""/>
         <property key="use-cci" value="false"/>
@@ -236,6 +256,7 @@
       </C32-AS>
       <C32-CO>
         <property key="coverage-enable" value=""/>
+        <property key="stack-guidance" value="false"/>
       </C32-CO>
       <C32-LD>
         <property key="additional-options-use-response-files" value="false"/>
@@ -316,6 +337,7 @@
         <property key="omit-pack-options" value="1"/>
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
+        <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
       <ICD3PlatformTool>
@@ -405,9 +427,14 @@
         <property key="UART4" value="true"/>
         <property key="UART5" value="true"/>
         <property key="UART6" value="true"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="event.recorder.enabled" value="false"/>
+        <property key="event.recorder.scvd.files" value=""/>
         <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
+        <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
@@ -438,7 +465,7 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
       </ICD3PlatformTool>
-      <PICkit3PlatformTool>
+      <Tool>
         <property key="ADC" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
         <property key="CAN1" value="true"/>
@@ -525,10 +552,15 @@
         <property key="UART4" value="true"/>
         <property key="UART5" value="true"/>
         <property key="UART6" value="true"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="event.recorder.enabled" value="false"/>
+        <property key="event.recorder.scvd.files" value=""/>
         <property key="hwtoolclock.frcindebug" value="false"/>
+        <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
-        <property key="memories.bootflash" value="true"/>
+        <property key="memories.bootflash" value="false"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.configurationmemory2" value="true"/>
         <property key="memories.dataflash" value="true"/>
@@ -539,15 +571,12 @@
         <property key="memories.instruction.ram.ranges"
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
-        <property key="memories.programmemory.ranges" value="1d000000-1d003fff"/>
-        <property key="poweroptions.powerenable" value="false"/>
-        <property key="programmertogo.imagename" value=""/>
+        <property key="memories.programmemory.ranges" value="1d000000-1d07ffff"/>
+        <property key="poweroptions.powerenable" value="true"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
-        <property key="programoptions.pgmspeed" value="2"/>
         <property key="programoptions.preservedataflash" value="false"/>
-        <property key="programoptions.preservedataflash.ranges"
-                  value="${programoptions.preservedataflash.ranges}"/>
+        <property key="programoptions.preservedataflash.ranges" value=""/>
         <property key="programoptions.preserveeeprom" value="false"/>
         <property key="programoptions.preserveeeprom.ranges" value=""/>
         <property key="programoptions.preserveprogram.ranges" value=""/>
@@ -555,11 +584,11 @@
         <property key="programoptions.preserveuserid" value="false"/>
         <property key="programoptions.programcalmem" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
-        <property key="programoptions.testmodeentrymethod" value="VPPFirst"/>
+        <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="false"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
-      </PICkit3PlatformTool>
+      </Tool>
     </conf>
   </confs>
 </configurationDescriptor>

@@ -81,14 +81,14 @@ extern "C" {
 // *****************************************************************************
 /* Clock System Service Configuration Options
 */
-#define SYS_CLK_FREQ                        60000000ul
-#define SYS_CLK_BUS_PERIPHERAL_1            60000000ul
-#define SYS_CLK_BUS_PERIPHERAL_2            60000000ul
-#define SYS_CLK_BUS_PERIPHERAL_3            60000000ul
-#define SYS_CLK_BUS_PERIPHERAL_4            60000000ul
-#define SYS_CLK_BUS_PERIPHERAL_5            60000000ul
-#define SYS_CLK_BUS_PERIPHERAL_6            15000000ul
-#define SYS_CLK_BUS_PERIPHERAL_7            60000000ul
+#define SYS_CLK_FREQ                        40000000ul
+#define SYS_CLK_BUS_PERIPHERAL_1            40000000ul
+#define SYS_CLK_BUS_PERIPHERAL_2            40000000ul
+#define SYS_CLK_BUS_PERIPHERAL_3            40000000ul
+#define SYS_CLK_BUS_PERIPHERAL_4            40000000ul
+#define SYS_CLK_BUS_PERIPHERAL_5            40000000ul
+#define SYS_CLK_BUS_PERIPHERAL_6            10000000ul
+#define SYS_CLK_BUS_PERIPHERAL_7            40000000ul
 #define SYS_CLK_CONFIG_PRIMARY_XTAL         24000000ul
 #define SYS_CLK_CONFIG_SECONDARY_XTAL       32768ul
    
@@ -159,7 +159,24 @@ extern "C" {
 // *****************************************************************************
 // *****************************************************************************
 #define DRV_MCPWM_DRIVER_MODE_STATIC 
+/*** Timer Driver Configuration ***/
+#define DRV_TMR_INTERRUPT_MODE             true
 
+/*** Timer Driver 0 Configuration ***/
+#define DRV_TMR_PERIPHERAL_ID_IDX0          TMR_ID_1
+#define DRV_TMR_INTERRUPT_SOURCE_IDX0       INT_SOURCE_TIMER_1
+#define DRV_TMR_INTERRUPT_VECTOR_IDX0       INT_VECTOR_T1
+#define DRV_TMR_ISR_VECTOR_IDX0             _TIMER_1_VECTOR
+#define DRV_TMR_INTERRUPT_PRIORITY_IDX0     INT_PRIORITY_LEVEL1
+#define DRV_TMR_INTERRUPT_SUB_PRIORITY_IDX0 INT_SUBPRIORITY_LEVEL0
+#define DRV_TMR_CLOCK_SOURCE_IDX0           DRV_TMR_CLKSOURCE_INTERNAL
+#define DRV_TMR_PRESCALE_IDX0               TMR_PRESCALE_VALUE_1
+#define DRV_TMR_OPERATION_MODE_IDX0         DRV_TMR_OPERATION_MODE_16_BIT
+#define DRV_TMR_ASYNC_WRITE_ENABLE_IDX0     false
+#define DRV_TMR_POWER_STATE_IDX0            
+
+
+ 
 // *****************************************************************************
 // *****************************************************************************
 // Section: Middleware & Other Library Configuration

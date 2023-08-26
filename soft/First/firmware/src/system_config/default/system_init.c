@@ -92,11 +92,11 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #pragma config FDMTEN =     OFF
 /*** DEVCFG2 ***/
 
-#pragma config FPLLIDIV =   DIV_1
+#pragma config FPLLIDIV =   DIV_2
 #pragma config FPLLRNG =    RANGE_5_10_MHZ
 #pragma config FPLLICLK =   PLL_FRC
-#pragma config FPLLMULT =   MUL_60
-#pragma config FPLLODIV =   DIV_8
+#pragma config FPLLMULT =   MUL_40
+#pragma config FPLLODIV =   DIV_4
 #pragma config VBATBOREN =  ON
 #pragma config DSBOREN =    ON
 #pragma config DSWDTPS =    DSPS32
@@ -177,7 +177,10 @@ void SYS_Initialize ( void* data )
     /* Initialize Drivers */
     /*Initialize MCPWM */
     DRV_MCPWM_Initialize();
-
+    /*Initialize TMR0 */
+    DRV_TMR0_Initialize();
+ 
+ 
     /* Initialize System Services */
     SYS_PORTS_Initialize();
 

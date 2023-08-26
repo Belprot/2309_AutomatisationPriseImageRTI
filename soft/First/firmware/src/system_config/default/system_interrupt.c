@@ -71,6 +71,20 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
  
 
+void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
+{
+    PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
+    
+    static int counter = 0;
+    
+    counter++;
+    if(counter >= 1000){
+        
+        counter = 0;
+        SIGN_LED_CMDToggle();
+    }
+}
+ 
 
 
 
