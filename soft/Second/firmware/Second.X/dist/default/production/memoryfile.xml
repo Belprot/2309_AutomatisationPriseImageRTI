@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/default/debug/2309_AutomatisationPriseImageRTI-Rapport_v1.0.0.X.debug.elf">                 
+  <executable name="dist/default/production/Second.X.production.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>525440</length>                 
-      <used>11608</used>                     
-      <free>513832</free>                     
+      <used>4056</used>                     
+      <free>521384</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 
-      <length>131952</length>                 
-      <used>1872</used>                     
-      <free>130080</free>                     
+      <length>131072</length>                 
+      <used>12</used>                     
+      <free>131060</free>                     
     </memory>                              
   </executable>                            
 </project>                                 

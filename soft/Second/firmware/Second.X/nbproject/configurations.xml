@@ -4,160 +4,86 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <logicalFolder name="f2" displayName="app" projectFiles="true">
-        <logicalFolder name="f1" displayName="system_config" projectFiles="true">
-          <logicalFolder name="f1" displayName="default" projectFiles="true">
-            <logicalFolder name="f1" displayName="framework" projectFiles="true">
-              <logicalFolder name="f1" displayName="driver" projectFiles="true">
-                <logicalFolder name="f1" displayName="mcpwm" projectFiles="true">
-                  <itemPath>../src/system_config/default/framework/driver/mcpwm/drv_mcpwm_static.h</itemPath>
-                </logicalFolder>
-                <logicalFolder name="f2" displayName="tmr" projectFiles="true">
-                  <itemPath>../src/system_config/default/framework/driver/tmr/drv_tmr_static.h</itemPath>
-                </logicalFolder>
-              </logicalFolder>
-              <logicalFolder name="f2" displayName="system" projectFiles="true">
-                <logicalFolder name="f1" displayName="devcon" projectFiles="true">
-                  <logicalFolder name="f1" displayName="src" projectFiles="true">
-                    <itemPath>../src/system_config/default/framework/system/devcon/src/sys_devcon_local.h</itemPath>
-                  </logicalFolder>
-                  <itemPath>../src/system_config/default/framework/system/devcon/sys_devcon.h</itemPath>
-                </logicalFolder>
-              </logicalFolder>
+      <logicalFolder name="config" displayName="config" projectFiles="true">
+        <logicalFolder name="default" displayName="default" projectFiles="true">
+          <logicalFolder name="peripheral" displayName="peripheral" projectFiles="true">
+            <logicalFolder name="clk" displayName="clk" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/clk/plib_clk.h</itemPath>
             </logicalFolder>
-            <itemPath>../src/system_config/default/system_config.h</itemPath>
-            <itemPath>../src/system_config/default/system_definitions.h</itemPath>
-          </logicalFolder>
-        </logicalFolder>
-        <itemPath>../src/app.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f1" displayName="framework" projectFiles="true">
-        <logicalFolder name="f1" displayName="driver" projectFiles="true">
-          <logicalFolder name="f1" displayName="mcpwm" projectFiles="true">
-            <itemPath>../../../../../../framework/driver/mcpwm/drv_mcpwm.h</itemPath>
-          </logicalFolder>
-          <logicalFolder name="f2" displayName="tmr" projectFiles="true">
-            <logicalFolder name="f1" displayName="src" projectFiles="true">
-              <itemPath>../../../../../../framework/driver/tmr/src/drv_tmr_variant_mapping.h</itemPath>
+            <logicalFolder name="evic" displayName="evic" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/evic/plib_evic.h</itemPath>
             </logicalFolder>
-            <itemPath>../../../../../../framework/driver/tmr/drv_tmr.h</itemPath>
-            <itemPath>../../../../../../framework/driver/tmr/drv_tmr_mapping.h</itemPath>
-            <itemPath>../../../../../../framework/driver/tmr/drv_tmr_compatibility.h</itemPath>
-            <itemPath>../../../../../../framework/driver/tmr/tmr_definitions_pic32m.h</itemPath>
-          </logicalFolder>
-          <itemPath>../../../../../../framework/driver/driver.h</itemPath>
-          <itemPath>../../../../../../framework/driver/driver_common.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="f2" displayName="osal" projectFiles="true">
-          <itemPath>../../../../../../framework/osal/osal.h</itemPath>
-          <itemPath>../../../../../../framework/osal/osal_definitions.h</itemPath>
-          <itemPath>../../../../../../framework/osal/osal_impl_basic.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="f3" displayName="system" projectFiles="true">
-          <logicalFolder name="f2" displayName="clk" projectFiles="true">
-            <itemPath>../../../../../../framework/system/clk/sys_clk.h</itemPath>
-            <itemPath>../../../../../../framework/system/clk/sys_clk_compatibility.h</itemPath>
-            <itemPath>../../../../../../framework/system/clk/sys_clk_mapping.h</itemPath>
-          </logicalFolder>
-          <logicalFolder name="f1" displayName="common" projectFiles="true">
-            <itemPath>../../../../../../framework/system/common/sys_common.h</itemPath>
-            <itemPath>../../../../../../framework/system/common/sys_module.h</itemPath>
-            <itemPath>../../../../../../framework/system/common/sys_buffer.h</itemPath>
-            <itemPath>../../../../../../framework/system/common/sys_queue.h</itemPath>
-          </logicalFolder>
-          <logicalFolder name="f4" displayName="debug" projectFiles="true">
-            <itemPath>../../../../../../framework/system/debug/sys_debug.h</itemPath>
-          </logicalFolder>
-          <logicalFolder name="f5" displayName="int" projectFiles="true">
-            <logicalFolder name="f1" displayName="src" projectFiles="true">
-              <itemPath>../../../../../../framework/system/int/src/sys_int_private.h</itemPath>
+            <logicalFolder name="gpio" displayName="gpio" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/gpio/plib_gpio.h</itemPath>
             </logicalFolder>
-            <itemPath>../../../../../../framework/system/int/sys_int.h</itemPath>
-            <itemPath>../../../../../../framework/system/int/sys_int_mapping.h</itemPath>
+            <logicalFolder name="mcpwm" displayName="mcpwm" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/mcpwm/plib_mcpwm_common.h</itemPath>
+              <itemPath>../src/config/default/peripheral/mcpwm/plib_mcpwm.h</itemPath>
+            </logicalFolder>
+            <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.h</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr_common.h</itemPath>
+            </logicalFolder>
           </logicalFolder>
-          <logicalFolder name="f3" displayName="ports" projectFiles="true">
-            <itemPath>../../../../../../framework/system/ports/sys_ports.h</itemPath>
-            <itemPath>../../../../../../framework/system/ports/sys_ports_definitions.h</itemPath>
-          </logicalFolder>
-          <itemPath>../../../../../../framework/system/system.h</itemPath>
+          <itemPath>../src/config/default/device.h</itemPath>
+          <itemPath>../src/config/default/definitions.h</itemPath>
+          <itemPath>../src/config/default/toolchain_specifics.h</itemPath>
+          <itemPath>../src/config/default/interrupts.h</itemPath>
         </logicalFolder>
       </logicalFolder>
+      <itemPath>../src/app.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
+      <logicalFolder name="config" displayName="config" projectFiles="true">
+        <logicalFolder name="default" displayName="default" projectFiles="true">
+          <itemPath>../src/config/default/p32MK0512MCF064.ld</itemPath>
+        </logicalFolder>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <logicalFolder name="f2" displayName="app" projectFiles="true">
-        <logicalFolder name="f1" displayName="system_config" projectFiles="true">
-          <logicalFolder name="f1" displayName="default" projectFiles="true">
-            <logicalFolder name="f1" displayName="framework" projectFiles="true">
-              <logicalFolder name="f1" displayName="driver" projectFiles="true">
-                <logicalFolder name="f1" displayName="mcpwm" projectFiles="true">
-                  <logicalFolder name="f1" displayName="src" projectFiles="true">
-                    <itemPath>../src/system_config/default/framework/driver/mcpwm/src/drv_mcpwm_static.c</itemPath>
-                  </logicalFolder>
-                </logicalFolder>
-                <logicalFolder name="f2" displayName="tmr" projectFiles="true">
-                  <logicalFolder name="f1" displayName="src" projectFiles="true">
-                    <itemPath>../src/system_config/default/framework/driver/tmr/src/drv_tmr_static.c</itemPath>
-                    <itemPath>../src/system_config/default/framework/driver/tmr/src/drv_tmr_mapping.c</itemPath>
-                  </logicalFolder>
-                </logicalFolder>
-              </logicalFolder>
-              <logicalFolder name="f2" displayName="system" projectFiles="true">
-                <logicalFolder name="f1" displayName="clk" projectFiles="true">
-                  <logicalFolder name="f1" displayName="src" projectFiles="true">
-                    <itemPath>../src/system_config/default/framework/system/clk/src/sys_clk_pic32mk.c</itemPath>
-                  </logicalFolder>
-                </logicalFolder>
-                <logicalFolder name="f2" displayName="devcon" projectFiles="true">
-                  <logicalFolder name="f1" displayName="src" projectFiles="true">
-                    <itemPath>../src/system_config/default/framework/system/devcon/src/sys_devcon.c</itemPath>
-                    <itemPath>../src/system_config/default/framework/system/devcon/src/sys_devcon_pic32mk.c</itemPath>
-                  </logicalFolder>
-                </logicalFolder>
-                <logicalFolder name="f3" displayName="ports" projectFiles="true">
-                  <logicalFolder name="f1" displayName="src" projectFiles="true">
-                    <itemPath>../src/system_config/default/framework/system/ports/src/sys_ports_static.c</itemPath>
-                  </logicalFolder>
-                </logicalFolder>
-              </logicalFolder>
+      <logicalFolder name="config" displayName="config" projectFiles="true">
+        <logicalFolder name="default" displayName="default" projectFiles="true">
+          <logicalFolder name="peripheral" displayName="peripheral" projectFiles="true">
+            <logicalFolder name="clk" displayName="clk" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/clk/plib_clk.c</itemPath>
             </logicalFolder>
-            <itemPath>../src/system_config/default/system_init.c</itemPath>
-            <itemPath>../src/system_config/default/system_interrupt.c</itemPath>
-            <itemPath>../src/system_config/default/system_exceptions.c</itemPath>
-            <itemPath>../src/system_config/default/system_tasks.c</itemPath>
-          </logicalFolder>
-        </logicalFolder>
-        <itemPath>../src/app.c</itemPath>
-        <itemPath>../src/main.c</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f1" displayName="framework" projectFiles="true">
-        <logicalFolder name="f1" displayName="system" projectFiles="true">
-          <logicalFolder name="f1" displayName="int" projectFiles="true">
-            <logicalFolder name="f1" displayName="src" projectFiles="true">
-              <itemPath>../../../../../../framework/system/int/src/sys_int_pic32.c</itemPath>
+            <logicalFolder name="evic" displayName="evic" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/evic/plib_evic.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="gpio" displayName="gpio" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/gpio/plib_gpio.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="mcpwm" displayName="mcpwm" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/mcpwm/plib_mcpwm.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.c</itemPath>
             </logicalFolder>
           </logicalFolder>
+          <logicalFolder name="stdio" displayName="stdio" projectFiles="true">
+            <itemPath>../src/config/default/stdio/xc32_monitor.c</itemPath>
+          </logicalFolder>
+          <itemPath>../src/config/default/interrupts.c</itemPath>
+          <itemPath>../src/config/default/exceptions.c</itemPath>
+          <itemPath>../src/config/default/initialization.c</itemPath>
         </logicalFolder>
       </logicalFolder>
+      <itemPath>../src/main.c</itemPath>
+      <itemPath>../src/app.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
-      <itemPath>2309_AutomatisationPriseImageRTI-Rapport_v1.0.0.mc3</itemPath>
+      <itemPath>Second.mc3</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
     <Elem>../src</Elem>
-    <Elem>../../../..</Elem>
-    <Elem>..\src</Elem>
-    <Elem>..\src\default</Elem>
-    <Elem>..\src\system_config\default</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -169,18 +95,17 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>2.50</languageToolchainVersion>
+        <languageToolchainVersion>4.30</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC32MK-MC_DFP" vendor="Microchip" version="1.5.115"/>
+        <pack name="PIC32MK-MC_DFP" vendor="Microchip" version="1.11.151"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
       <compileType>
         <linkerTool>
           <linkerLibItems>
-            <linkerLibFileItem>../../../../../../bin/framework/peripheral/PIC32MK0512MCF064_peripherals.a</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
         <archiverTool>
@@ -204,27 +129,27 @@
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
       <C32>
-        <property key="additional-warnings" value="false"/>
+        <property key="additional-warnings" value="true"/>
         <property key="addresss-attribute-use" value="false"/>
+        <property key="appendMe" value=""/>
         <property key="enable-app-io" value="false"/>
         <property key="enable-omit-frame-pointer" value="false"/>
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
-        <property key="extra-include-directories"
-                  value="../src;../src/system_config/default;../src/default;../../../../../../framework;../src/system_config/default/framework"/>
+        <property key="extra-include-directories" value="../src;../src/config/default"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
-        <property key="make-warnings-into-errors" value="false"/>
-        <property key="optimization-level" value=""/>
-        <property key="place-data-into-section" value="false"/>
+        <property key="make-warnings-into-errors" value="true"/>
+        <property key="optimization-level" value="-O1"/>
+        <property key="place-data-into-section" value="true"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value=""/>
         <property key="strict-ansi" value="false"/>
         <property key="support-ansi" value="false"/>
-        <property key="tentative-definitions" value=""/>
+        <property key="tentative-definitions" value="-fno-common"/>
         <property key="toplevel-reordering" value=""/>
         <property key="unaligned-access" value=""/>
         <property key="use-cci" value="false"/>
@@ -262,6 +187,7 @@
         <property key="additional-options-use-response-files" value="false"/>
         <property key="additional-options-write-sla" value="false"/>
         <property key="allocate-dinit" value="false"/>
+        <property key="appendMe" value=""/>
         <property key="code-dinit" value="false"/>
         <property key="ebase-addr" value=""/>
         <property key="enable-check-sections" value="false"/>
@@ -278,13 +204,13 @@
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-cross-reference-file" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
-        <property key="heap-size" value="0"/>
+        <property key="heap-size" value="512"/>
         <property key="input-libraries" value=""/>
         <property key="kseg-length" value=""/>
         <property key="kseg-origin" value=""/>
         <property key="linker-symbols" value=""/>
         <property key="map-file" value="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"/>
-        <property key="no-device-startup-code" value="false"/>
+        <property key="no-device-startup-code" value="true"/>
         <property key="no-startup-files" value="false"/>
         <property key="oXC32ld-extra-opts" value=""/>
         <property key="optimization-level" value=""/>
@@ -301,6 +227,7 @@
       <C32CPP>
         <property key="additional-warnings" value="false"/>
         <property key="addresss-attribute-use" value="false"/>
+        <property key="appendMe" value=""/>
         <property key="check-new" value="false"/>
         <property key="eh-specs" value="true"/>
         <property key="enable-app-io" value="false"/>
@@ -309,7 +236,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exceptions" value="true"/>
         <property key="exclude-floating-point" value="false"/>
-        <property key="extra-include-directories" value=""/>
+        <property key="extra-include-directories" value="../src;../src/config/default"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
@@ -330,7 +257,7 @@
       <C32Global>
         <property key="common-include-directories" value=""/>
         <property key="gp-relative-option" value=""/>
-        <property key="legacy-libc" value="false"/>
+        <property key="legacy-libc" value="true"/>
         <property key="mdtcm" value=""/>
         <property key="mitcm" value=""/>
         <property key="mstacktcm" value="false"/>
@@ -557,7 +484,6 @@
         <property key="debugoptions.useswbreakpoints" value="false"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>

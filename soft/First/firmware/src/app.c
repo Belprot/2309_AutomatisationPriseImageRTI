@@ -130,7 +130,6 @@ void APP_Tasks ( void )
         case APP_STATE_INIT:
             
             
-            DRV_MCPWM_Initialize();
             DRV_MCPWM_Enable();
             
             

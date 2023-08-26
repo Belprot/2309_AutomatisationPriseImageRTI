@@ -646,7 +646,7 @@
       <Template dnOrder="2">
         <Name dnOrder="0">drv_mcpwm_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/mcpwm/src</Path>
-        <Checksum dnOrder="2">6EA97BA577408B9FA153522D6CD5047F</Checksum>
+        <Checksum dnOrder="2">55370BAE20A4924BBC4DE59F54F6612F</Checksum>
       </Template>
       <Template dnOrder="3">
         <Name dnOrder="0">main.c</Name>
