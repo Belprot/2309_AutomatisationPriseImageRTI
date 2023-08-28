@@ -39,16 +39,13 @@ int main ( void )
     /* Initialize all modules */
     SYS_Initialize ( NULL );
 
-        MCPWM_Start();
         
-        SIGN_LED_CMD_Clear();
-        TMR2_Start();
         
     while ( true )
     {
         /* Maintain state machines of all polled MPLAB Harmony modules. */
-        SYS_Tasks ( );
-        
+        //SYS_Tasks ( );
+        APP_Tasks();
         
     }
 

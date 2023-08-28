@@ -8143,82 +8143,66 @@
 </value>
       </entry>
    </tokenMap>
-   <generatedFileHashHistoryMap class="java.util.HashMap">
-      <entry>
-         <file>..\src\config\default\initialization.c</file>
-         <hash>121e219821e59acc14120475091339a4bf4045064ef7ccf55d503f233e21fafb</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\stdio\xc32_monitor.c</file>
-         <hash>858f8710d4287200a5ee7f3b3ad7c24f505aed9c05c16956ab0ff9f7bb162a6a</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\peripheral\evic\plib_evic.h</file>
-         <hash>3f92df2b85ebad7b8aff74826aafbdd157f4247c4f97e0106ec15630e4f9dd98</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm.c</file>
-         <hash>ac8d57e601aab9e90fa177135dcc29573b8e95b3113f5aec769ab721f5a5a949</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\exceptions.c</file>
-         <hash>51869a2069933bd13284df52f5f993f4e8b83ae6097dda36c4b1fc6e818df86d</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\peripheral\evic\plib_evic.c</file>
-         <hash>e0f66d1b54e0af7ab8960b09805d82bc918e41c4686dd03eb860339e81c35e45</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\peripheral\tmr\plib_tmr_common.h</file>
-         <hash>fe0f7e886eba99992a90f718b6aa9f2b438b8204094495f72a0d1e83418d3187</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm.h</file>
-         <hash>fe315bf2bcba7ad56b08d0be1fcfd1ab7230542fc98b1b2726f73d49e2a26c87</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\peripheral\tmr\plib_tmr2.h</file>
-         <hash>8499dc0cb6f4e7589e3df11e36118692f524f7ac156a597db7b25e63438bfd20</hash>
-      </entry>
+   <generatedFileHashHistoryMap class="java.util.TreeMap">
       <entry>
          <file>..\src\config\default\definitions.h</file>
          <hash>326791d5148ef0c9de21b420e14361c22aea977a1647c769f38782e59470a6c5</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\peripheral\gpio\plib_gpio.h</file>
-         <hash>2e20e88cb1ab7d2d3a32dd1356bf3a1476eb1b8859cf6af8b4f24b43ce6e81f4</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\toolchain_specifics.h</file>
-         <hash>b4de6e02e3e48c62f7ba233405ffdf6ef31bb971d1a7b49efa1676f45cabc1ac</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\interrupts.h</file>
-         <hash>6378975e0c333d2e0636d16f9e654c828cf027da9cd64ddda567caca068bd85b</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\peripheral\clk\plib_clk.c</file>
-         <hash>3e2260c0b2705c426bec6197c94448473177842ad1a069e6063f186793425826</hash>
       </entry>
       <entry>
          <file>..\src\config\default\device.h</file>
          <hash>10ec93c43a7b158a129ae05bd8f4a59ff5bcf3d0f3f062fdd64c374bc2d42099</hash>
       </entry>
       <entry>
-         <file>..\src\config\default\peripheral\gpio\plib_gpio.c</file>
-         <hash>81bf86070c1c8a4b000e8902b5a31cdc18a19af5fd50080a911bb835d0cf772c</hash>
+         <file>..\src\config\default\exceptions.c</file>
+         <hash>51869a2069933bd13284df52f5f993f4e8b83ae6097dda36c4b1fc6e818df86d</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\initialization.c</file>
+         <hash>121e219821e59acc14120475091339a4bf4045064ef7ccf55d503f233e21fafb</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\interrupts.c</file>
+         <hash>a03e839bd1d253a18f528a5acc46eda42038969dc5053218df3ba942bc9ed45c</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\interrupts.h</file>
+         <hash>6378975e0c333d2e0636d16f9e654c828cf027da9cd64ddda567caca068bd85b</hash>
       </entry>
       <entry>
          <file>..\src\config\default\p32MK0512MCF064.ld</file>
          <hash>67e29b4020e2877d90ae8c75f0a6b697624d297f4d387b3660497a88f54c94d1</hash>
       </entry>
       <entry>
+         <file>..\src\config\default\peripheral\clk\plib_clk.c</file>
+         <hash>3e2260c0b2705c426bec6197c94448473177842ad1a069e6063f186793425826</hash>
+      </entry>
+      <entry>
          <file>..\src\config\default\peripheral\clk\plib_clk.h</file>
          <hash>35384f2e13e59b7190bf77f6996baf3ea2377ec42df94979a6f793326def5255</hash>
       </entry>
       <entry>
-         <file>..\src\main.c</file>
-         <hash>d3c233d419e6304bfacbafc18cc68c0f5c26e365f23b20ea40ccfac458f664c5</hash>
+         <file>..\src\config\default\peripheral\evic\plib_evic.c</file>
+         <hash>e0f66d1b54e0af7ab8960b09805d82bc918e41c4686dd03eb860339e81c35e45</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\peripheral\evic\plib_evic.h</file>
+         <hash>3f92df2b85ebad7b8aff74826aafbdd157f4247c4f97e0106ec15630e4f9dd98</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\peripheral\gpio\plib_gpio.c</file>
+         <hash>81bf86070c1c8a4b000e8902b5a31cdc18a19af5fd50080a911bb835d0cf772c</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\peripheral\gpio\plib_gpio.h</file>
+         <hash>2e20e88cb1ab7d2d3a32dd1356bf3a1476eb1b8859cf6af8b4f24b43ce6e81f4</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm.c</file>
+         <hash>ac8d57e601aab9e90fa177135dcc29573b8e95b3113f5aec769ab721f5a5a949</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm.h</file>
+         <hash>fe315bf2bcba7ad56b08d0be1fcfd1ab7230542fc98b1b2726f73d49e2a26c87</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\mcpwm\plib_mcpwm_common.h</file>
@@ -8229,8 +8213,24 @@
          <hash>7bfff2e3c1452365efd498eaff86e9ed17d815c4b8615e4be90ccbb3a4466d30</hash>
       </entry>
       <entry>
-         <file>..\src\config\default\interrupts.c</file>
-         <hash>a03e839bd1d253a18f528a5acc46eda42038969dc5053218df3ba942bc9ed45c</hash>
+         <file>..\src\config\default\peripheral\tmr\plib_tmr2.h</file>
+         <hash>8499dc0cb6f4e7589e3df11e36118692f524f7ac156a597db7b25e63438bfd20</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\peripheral\tmr\plib_tmr_common.h</file>
+         <hash>fe0f7e886eba99992a90f718b6aa9f2b438b8204094495f72a0d1e83418d3187</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\stdio\xc32_monitor.c</file>
+         <hash>858f8710d4287200a5ee7f3b3ad7c24f505aed9c05c16956ab0ff9f7bb162a6a</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\toolchain_specifics.h</file>
+         <hash>b4de6e02e3e48c62f7ba233405ffdf6ef31bb971d1a7b49efa1676f45cabc1ac</hash>
+      </entry>
+      <entry>
+         <file>..\src\main.c</file>
+         <hash>d3c233d419e6304bfacbafc18cc68c0f5c26e365f23b20ea40ccfac458f664c5</hash>
       </entry>
    </generatedFileHashHistoryMap>
 </config>

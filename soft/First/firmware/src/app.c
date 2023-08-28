@@ -129,8 +129,10 @@ void APP_Tasks ( void )
         
         case APP_STATE_INIT:
             
-            
+            /* Turn ON all PWMs */
             DRV_MCPWM_Enable();
+            
+            //PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
             
             
             SIGN_LED_CMDOff();
