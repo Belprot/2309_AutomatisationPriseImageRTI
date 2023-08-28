@@ -92,11 +92,11 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #pragma config FDMTEN =     OFF
 /*** DEVCFG2 ***/
 
-#pragma config FPLLIDIV =   DIV_2
+#pragma config FPLLIDIV =   DIV_1
 #pragma config FPLLRNG =    RANGE_5_10_MHZ
 #pragma config FPLLICLK =   PLL_FRC
-#pragma config FPLLMULT =   MUL_40
-#pragma config FPLLODIV =   DIV_4
+#pragma config FPLLMULT =   MUL_80
+#pragma config FPLLODIV =   DIV_16
 #pragma config VBATBOREN =  ON
 #pragma config DSBOREN =    ON
 #pragma config DSWDTPS =    DSPS32
@@ -128,6 +128,9 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // Section: Driver Initialization Data
 // *****************************************************************************
 // *****************************************************************************
+// <editor-fold defaultstate="collapsed" desc="DRV_SPI Initialization Data"> 
+ /*** SPI Driver Initialization Data ***/
+// </editor-fold>
 
 // *****************************************************************************
 // *****************************************************************************
@@ -177,6 +180,10 @@ void SYS_Initialize ( void* data )
     /* Initialize Drivers */
     /*Initialize MCPWM */
     DRV_MCPWM_Initialize();
+
+    /*** SPI Driver Index 0 initialization***/
+
+    sysObj.spiObjectIdx0 = DRV_SPI_Initialize(DRV_SPI_INDEX_0, (const SYS_MODULE_INIT  * const)NULL);
     /*Initialize TMR0 */
     DRV_TMR0_Initialize();
  

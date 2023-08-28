@@ -56,6 +56,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "driver/tmr/drv_tmr_static.h"
 #include "peripheral/int/plib_int.h"
 #include "system/ports/sys_ports.h"
+#include "driver/spi/static/drv_spi_static.h"
 #include "app.h"
 
 
@@ -92,6 +93,9 @@ typedef struct
 {
     SYS_MODULE_OBJ  drvTmr0;
 
+
+    /*** SPI Object for Index 0 ***/
+    SYS_MODULE_OBJ				spiObjectIdx0;
 
 } SYSTEM_OBJECTS;
 

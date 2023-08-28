@@ -72,7 +72,13 @@ extern "C" {
 // Section: Type Definitions
 // *****************************************************************************
 // *****************************************************************************
-
+#define PWM_A_CMD_CH MCPWM_CHANNEL1
+#define PWM_B_CMD_CH MCPWM_CHANNEL1
+#define PWM_C_CMD_CH MCPWM_CHANNEL2
+#define PWM_D_CMD_CH MCPWM_CHANNEL2
+#define PWM_BL_CH MCPWM_CHANNEL3
+#define PWM_BUZZER_CH MCPWM_CHANNEL4
+#define PWM_DIM_CH MCPWM_CHANNEL6
 // *****************************************************************************
 /* Application states
 

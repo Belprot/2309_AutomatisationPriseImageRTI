@@ -54,6 +54,9 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "app.h"
+#include "Mc32SpiUtil.h"
+#include "lcd_spi.h"
+
 
 
 // *****************************************************************************
@@ -130,13 +133,26 @@ void APP_Tasks ( void )
         case APP_STATE_INIT:
             
             /* Turn ON all PWMs */
-            DRV_MCPWM_Enable();
+            //DRV_MCPWM_Enable();
             
-            //PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
             
+            //PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, 100);
+            //PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 500);
+            
+            RESET_LCD_CMDOn();
+
+            
+            initDispl();
+            ClrDisplay();
+            SetPostion(0);
+            WriteString("AAAsdgshgdhrrA");
+            SetPostion(2);
+            WriteString("AAAsdgshgdhrrA");
             
             SIGN_LED_CMDOff();
+            
             DRV_TMR0_Start();
+            
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
