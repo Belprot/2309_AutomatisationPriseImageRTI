@@ -110,7 +110,7 @@ SYS_MODULE_OBJ DRV_SPI0_Initialize(void)
     PLIB_SPI_StopInIdleEnable( SPI_ID_1 );
 
     /* Set up clock Polarity and output data phase*/
-    PLIB_SPI_ClockPolaritySelect( SPI_ID_1, SPI_CLOCK_POLARITY_IDLE_HIGH );
+    PLIB_SPI_ClockPolaritySelect( SPI_ID_1, SPI_CLOCK_POLARITY_IDLE_LOW );
     PLIB_SPI_OutputDataPhaseSelect( SPI_ID_1, SPI_OUTPUT_DATA_PHASE_ON_ACTIVE_TO_IDLE_CLOCK );
 
     /* Set up the Input Sample Phase*/

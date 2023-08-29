@@ -76,12 +76,24 @@ void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
     
     static int counter = 0;
+    static int counter2 = 0;
     
     counter++;
     if(counter >= 1000){
         
         counter = 0;
+        counter2++;
         SIGN_LED_CMDToggle();
+    }
+    
+    if(counter2 == 10){
+        
+        LED1_CMDOn();
+    }
+    if(counter2 >= 12){
+        
+        counter2 = 0;
+        LED1_CMDOff();
     }
 }
  

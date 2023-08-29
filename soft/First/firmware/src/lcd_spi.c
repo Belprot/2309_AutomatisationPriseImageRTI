@@ -10,6 +10,7 @@
 #include "lcd_spi.h"
 #include "Mc32SpiUtil.h"
 #include "app.h"
+#include "Delays.h"
 
 //--- module global varibles ---
 
