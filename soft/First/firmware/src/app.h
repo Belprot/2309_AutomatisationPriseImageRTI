@@ -56,8 +56,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "system_config.h"
 #include "system_definitions.h"
+#include "stepperDriver.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
@@ -96,10 +98,9 @@ typedef enum
 	APP_STATE_INIT=0,
 	APP_STATE_SERVICE_TASKS,
     APP_STATE_WAIT,
-
-	/* TODO: Define states used by the application state machine. */
-
 } APP_STATES;
+
+
 
 
 // *****************************************************************************
@@ -119,7 +120,8 @@ typedef struct
 {
     /* The application's current state */
     APP_STATES appState;
-
+    uint16_t primaryPwmPeriod;
+    
     /* TODO: Define any additional data used by the application. */
 
 } APP_DATA;

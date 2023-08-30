@@ -62,6 +62,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system/common/sys_common.h"
 #include "app.h"
 #include "system_definitions.h"
+#include "lcd_spi.h"
+#include "pec12.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -69,10 +71,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 
- 
 
 void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
 {
+    /* 10kHz */
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
     
     static int counter = 0;
@@ -86,7 +88,8 @@ void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
         SIGN_LED_CMDToggle();
     }
     
-    if(counter2 == 10){
+    
+    if(counter2 >= 10){
         
         LED1_CMDOn();
     }
@@ -96,19 +99,34 @@ void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
         LED1_CMDOff();
     }
 }
+    
+void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void)
+{
+    /* 500Hz */
+    PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_2);
+    
+    static uint8_t counter = 0;
+    
+    scanPec12();
+    
+    counter++;
+    /* 20Hz */
+    if(counter >= 25){
+        
+        counter = 0;
+        
+        /* States machines update */
+        APP_UpdateAppState(APP_STATE_SERVICE_TASKS);
+    }
+}
+
+void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void)
+{
+    PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_3);
+    
+    processStepper();
+}
  
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

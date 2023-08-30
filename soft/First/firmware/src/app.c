@@ -58,6 +58,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "lcd_spi.h"
 #include "Delays.h"
 #include "system/devcon/src/sys_devcon_local.h"
+#include "pec12.h"
 
 
 
@@ -83,6 +84,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APP_DATA appData;
+extern PEC12 pec12;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -122,6 +124,9 @@ void APP_Initialize ( void )
 {
     /* Place the App state machine in its initial state. */
     appData.appState = APP_STATE_INIT;
+    
+    /* Init all PEC12 state values */
+    appData.primaryPwmPeriod = 50000;
 }
 
 
@@ -137,10 +142,13 @@ void APP_Tasks ( void )
             /* Turn ON all PWMs */
             DRV_MCPWM_Enable();
             
-            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, 500);
+//            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_A_CMD_CH, 100);
+//            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_C_CMD_CH, 100);
+            
+            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, 700);
             //PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 500);
-            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, 250);
-
+            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, 2500);
+//            PLIB_MCPWM_PrimaryTimerSetup (MCPWM_ID_0 , MCPWM_CLOCK_DIVIDE_BY_8 , appData.primaryPwmPeriod);
             
             RESET_LCD_CMDOff();
             delay_ms(1);
@@ -148,28 +156,31 @@ void APP_Tasks ( void )
             RESET_AB_CMDOn();
             RESET_CD_CMDOn();
             
-            
-            delay_ms(10);
-            initDispl();
-            ClrDisplay();
-            SetPostion(LINE1);
-            WriteString("RTI ");
-            SetPostion(LINE2);
-            WriteString("2023 ");
-            SetPostion(LINE3);
-            WriteString(" ");
-            SetPostion(LINE4);
-            WriteString("Meven Ricchieri");
-            DisplayOnOff(DISPLAY_ON); //Disable cursor
+            printInit();
             
             DRV_TMR0_Start();
+            DRV_TMR1_Start();
+            DRV_TMR2_Start();
             
+            printMainMenu();
+            initMenuParam();
+            
+            /* Trigger and focus camera */
+            //TRIGGER_CMDOn();
+            //FOCUS_CMDOn();
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
             break;
-
+            
         case APP_STATE_SERVICE_TASKS:
+            
+            /* 20Hz */
+            processSelection();
+            
+            
+            /* States machines update */
+            APP_UpdateAppState(APP_STATE_WAIT);
             break;
         
         
@@ -178,14 +189,10 @@ void APP_Tasks ( void )
 
             break;
 
-        
 
         /* The default state should never be executed. */
         default:
-        {
-            /* TODO: Handle error in application's state machine. */
             break;
-        }
     }
 }
 

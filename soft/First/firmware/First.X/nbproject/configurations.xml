@@ -42,6 +42,8 @@
         <itemPath>../src/Mc32SpiUtil.h</itemPath>
         <itemPath>../src/lcd_spi.h</itemPath>
         <itemPath>../src/Delays.h</itemPath>
+        <itemPath>../src/pec12.h</itemPath>
+        <itemPath>../src/menu.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="driver" projectFiles="true">
@@ -109,6 +111,7 @@
           <itemPath>../../../../../../framework/system/system.h</itemPath>
         </logicalFolder>
       </logicalFolder>
+      <itemPath>../src/stepperDriver.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -175,6 +178,9 @@
         <itemPath>../src/Mc32SpiUtil.c</itemPath>
         <itemPath>../src/lcd_spi.c</itemPath>
         <itemPath>../src/Delays.c</itemPath>
+        <itemPath>../src/pec12.c</itemPath>
+        <itemPath>../src/menu.c</itemPath>
+        <itemPath>../src/stepperDriver.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="system" projectFiles="true">

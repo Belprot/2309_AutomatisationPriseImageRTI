@@ -38,6 +38,8 @@ void initDispl(void)
 
 	ClrDisplay();
 	DisplayOnOff(DISPLAY_ON | CURSOR_ON | BLINK_ON);
+    
+    SetROM(ROMA);
 }
 
 //-----------------------------------------------------
