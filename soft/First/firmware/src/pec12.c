@@ -9,7 +9,6 @@
 #include "pec12.h"
 #include "lcd_spi.h"
 
-
 PEC12 pec12;
 
 void scanPec12(void){

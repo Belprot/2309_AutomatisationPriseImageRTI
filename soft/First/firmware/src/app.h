@@ -74,6 +74,9 @@ extern "C" {
 // Section: Type Definitions
 // *****************************************************************************
 // *****************************************************************************
+
+#define SYS_CLK 40000000
+
 #define PWM_A_CMD_CH MCPWM_CHANNEL1
 #define PWM_B_CMD_CH MCPWM_CHANNEL1
 #define PWM_C_CMD_CH MCPWM_CHANNEL2

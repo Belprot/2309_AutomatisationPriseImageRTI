@@ -669,7 +669,7 @@
       <Template dnOrder="1">
         <Name dnOrder="0">drv_mcpwm_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/mcpwm/src</Path>
-        <Checksum dnOrder="2">7501316ACCC13AC41DE47D8E7D615613</Checksum>
+        <Checksum dnOrder="2">2002D670A10E2EB738631D3AB0F7DB1B</Checksum>
       </Template>
       <Template dnOrder="2">
         <Name dnOrder="0">drv_tmr_static.h</Name>
@@ -787,7 +787,7 @@
       <Template dnOrder="25">
         <Name dnOrder="0">drv_tmr_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/tmr/src</Path>
-        <Checksum dnOrder="2">7C6619E89BD226CA0C5C696D1CFC3685</Checksum>
+        <Checksum dnOrder="2">68559A1244DFA8D0120ACE101CB68571</Checksum>
       </Template>
       <Template dnOrder="26">
         <Name dnOrder="0">sys_devcon_pic32mk.c</Name>

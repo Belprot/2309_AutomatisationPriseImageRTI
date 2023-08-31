@@ -84,6 +84,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APP_DATA appData;
+STEPPER_DATA stepperData;
 extern PEC12 pec12;
 
 // *****************************************************************************
@@ -127,6 +128,17 @@ void APP_Initialize ( void )
     
     /* Init all PEC12 state values */
     appData.primaryPwmPeriod = 50000;
+    
+    stepperData.isCW = true;
+    stepperData.motorStepNumber = 200;
+    stepperData.stepPerSec = 100;
+    stepperData.stepPerTurn = 200;
+    stepperData.nbrFullTurn = 10;
+    stepperData.gearValue = 1;
+    stepperData.degreePerStep = 1.8;
+    stepperData.performedStep = 0;
+    stepperData.motorAngle = 0;
+    stepperData.stepToDo = 0;
 }
 
 
@@ -139,20 +151,24 @@ void APP_Tasks ( void )
         
         case APP_STATE_INIT:
             
-            /* Turn ON all PWMs */
-            DRV_MCPWM_Enable();
+            PLIB_MCPWM_Enable(MCPWM_ID_0);
+            turnOffStepperPwms();
             
-//            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_A_CMD_CH, 100);
-//            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_C_CMD_CH, 100);
-            
+            /* Turn ON required PWMs */
+            PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_BL_CH);
+            PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_BUZZER_CH);
+            PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_DIM_CH);
+            /* Change PWMs DutyCycle */
             PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, 700);
-            //PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 500);
+            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 500);
             PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, 2500);
-//            PLIB_MCPWM_PrimaryTimerSetup (MCPWM_ID_0 , MCPWM_CLOCK_DIVIDE_BY_8 , appData.primaryPwmPeriod);
+            
             
             RESET_LCD_CMDOff();
             delay_ms(1);
             RESET_LCD_CMDOn();
+            
+            
             RESET_AB_CMDOn();
             RESET_CD_CMDOn();
             
@@ -177,7 +193,6 @@ void APP_Tasks ( void )
             
             /* 20Hz */
             processSelection();
-            
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);

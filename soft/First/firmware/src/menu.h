@@ -24,6 +24,7 @@ extern "C" {
         SETTINGS_MENU,
         ABOUT_MENU,
         MOTOR_MENU,
+        MANUAL_MODE_MENU,
                 
     } MENU_STATE;
     
@@ -37,22 +38,54 @@ extern "C" {
     
     typedef enum{
         
-        RETURN_SEL = 0,
+        MANUAL_MODE_SEL = 1,
+        AUTOMATIC_MODE_SEL,
                 
     } CHOICE_SEQ_MENU_STATE;
+    
+    typedef enum{
+        
+        RETURN_SEL = 0
+    } COMMON;
+    
+    typedef enum{
+        
+        ROTATION_SEL = 1,
+        SPEED_SEL, // ???????
+                
+    } ROTATION_MENU_STATE;
+    
+    typedef enum{
+        
+        MOTOR_SEL = 1,
+    };
+    
+    typedef enum{
+        
+        ANGLE_MODIF = 0,
+        SPEED_MODIF,
+        GEAR_MODIF,
+                
+    } MODIF_STATE;
     
     typedef struct{
         
         MENU_STATE menuState;
-        MAIN_MENU_STATE mainMenuState;
+        MODIF_STATE modifState;
         bool isPrinted;
         
     } MENU;
 
     void printInit(void);
     void printMainMenu(void);
+    void printParameterMenu(void);
+    void printMotorMenu(void);
+    void printChoiceSeqMenu(void);
+    void printAboutMenu(void);
+    void printManualModeMenu(void);
+    
     void processSelection(void);
-    void processMenu(int8_t cursor);
+    void processMenu(int16_t cursor);
     void clearFirstRow(void);
     
 #ifdef	__cplusplus
