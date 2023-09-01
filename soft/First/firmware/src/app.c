@@ -131,11 +131,11 @@ void APP_Initialize ( void )
     
     stepperData.isCW = true;
     stepperData.motorStepNumber = 200;
-    stepperData.stepPerSec = 100;
+    stepperData.stepPerSec = 50;
     stepperData.stepPerTurn = 200;
     stepperData.nbrFullTurn = 10;
     stepperData.gearValue = 1;
-    stepperData.degreePerStep = 1.8;
+    stepperData.anglePerStep = 1.8;
     stepperData.performedStep = 0;
     stepperData.motorAngle = 0;
     stepperData.stepToDo = 0;

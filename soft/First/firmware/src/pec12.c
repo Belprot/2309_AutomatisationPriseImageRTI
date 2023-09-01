@@ -13,9 +13,6 @@ PEC12 pec12;
 
 void scanPec12(void){
     
-    static int counter = 0;
-//    char a_toPrint[21];
-    
     // Save old states for debounce
     pec12.chA.state[3] = pec12.chA.state[2];
     pec12.chA.state[2] = pec12.chA.state[1];
@@ -35,7 +32,7 @@ void scanPec12(void){
             && pec12.chA.state[2] == 1 && pec12.chA.state[3] == 1){
         
         // Check direction of rotation
-        if(pec12.chB.state[0] == 1 && pec12.chB.state[1]){
+        if(pec12.chB.state[0] == 1 && pec12.chB.state[1] == 1){
             
             // CW
             pec12.incrOrDecr++;

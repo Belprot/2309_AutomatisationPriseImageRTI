@@ -75,7 +75,7 @@ extern STEPPER_DATA stepperData;
 
 void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
 {
-    /* 10kHz */
+    /* Frequency = 10kHz */
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
     
     static int counter = 0;
@@ -86,9 +86,8 @@ void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
         
         counter = 0;
         counter2++;
-        SIGN_LED_CMDToggle();
+//        SIGN_LED_CMDToggle();
     }
-    
     
     if(counter2 >= 10){
         
@@ -103,30 +102,35 @@ void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
     
 void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void)
 {
-    /* 500Hz */
+    /* Frequency = 500Hz */
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_2);
     
     static uint8_t counter = 0;
     
+    /* Scan the activity of the rotary encoder */
     scanPec12();
     
     counter++;
     /* 20Hz */
-    if(counter >= 25){
+    if(counter >= 50){
         
         counter = 0;
         
         /* States machines update */
         APP_UpdateAppState(APP_STATE_SERVICE_TASKS);
+        SIGN_LED_CMDToggle();
     }
 }
 
 void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void)
 {
+    /* Variable frequency */
+//    SIGN_LED_CMDOff();
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_3);
     
     changeSpeed(&stepperData);
     processStepper(&stepperData);
+//    SIGN_LED_CMDOn();
 }
  
 

@@ -22,10 +22,13 @@ void changeSpeed(STEPPER_DATA *pStepperData){
     
     uint16_t tmrPerdiod = 0;
     uint16_t frequency = 0;
+    //uint16_t presc = 0;
     
-    frequency = 4 * pStepperData->stepPerSec;
     
-    tmrPerdiod = SYS_CLK / (frequency * TMR_PRESCALE_VALUE_8);
+    frequency = pStepperData->stepPerSec;
+    //presc = TMR_PrescaleGet_Default(TMR_ID_3);
+    tmrPerdiod = SYS_CLK / (frequency * 16) - 1;
+    PLIB_TMR_Counter16BitClear(TMR_ID_3);
     PLIB_TMR_Period16BitSet(TMR_ID_3, tmrPerdiod);
     
 }
@@ -120,3 +123,87 @@ void processStepper(STEPPER_DATA *pStepperData){
         //turnOffStepperPwms();
     }
 } 
+
+
+
+
+
+//----------------------------------------------------------------------------//
+void setSpeed(STEPPER_DATA *pStepperData, uint16_t *pStepPerSec){
+    
+    // Limit values to avoid problems
+    if(*pStepPerSec < STEP_PER_SEC_MIN) *pStepPerSec = STEP_PER_SEC_MIN;
+    if(*pStepPerSec > STEP_PER_SEC_MAX) *pStepPerSec = STEP_PER_SEC_MAX;
+    
+    // Save data
+    pStepperData->stepPerSec = *pStepPerSec;
+}
+
+int16_t getSpeed(STEPPER_DATA *pStepperData){
+    
+    return pStepperData->stepPerSec;
+}
+
+//----------------------------------------------------------------------------//
+void setGearReduction(STEPPER_DATA *pStepperData, uint16_t *pGearValue){
+    
+    // Limit values to avoid problems
+    if(*pGearValue < GEAR_VALUE_MIN) *pGearValue = GEAR_VALUE_MIN;
+    if(*pGearValue > GEAR_VALUE_MAX) *pGearValue = GEAR_VALUE_MAX;
+    
+    // Save data
+    pStepperData->gearValue = *pGearValue;
+}
+
+uint16_t getGearReduction(STEPPER_DATA *pStepperData){
+    
+    return pStepperData->gearValue;
+}
+
+//----------------------------------------------------------------------------//
+void setAnglePerStep(STEPPER_DATA *pStepperData, uint16_t *pAnglePerStep){
+    
+    float temp = (*pAnglePerStep / 10.0);
+    
+    // Limit values to avoid problems
+    if(temp < ANGLE_PER_STEP_MIN) temp = (ANGLE_PER_STEP_MIN);
+    if(temp > ANGLE_PER_STEP_MAX) temp = (ANGLE_PER_STEP_MAX);
+    *pAnglePerStep = temp * 10;
+    
+    // Save data
+    pStepperData->anglePerStep = temp;
+}
+
+uint16_t getAnglePerStep(STEPPER_DATA *pStepperData){
+    
+    // x10 ???
+    return pStepperData->anglePerStep * 10;
+}
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------//
+void setRotationToDo(STEPPER_DATA *pStepperData, uint16_t *pRotationToDo){
+    
+    // Limit values to avoid problems
+    if(*pRotationToDo < ROTATION_TO_DO_MIN) *pRotationToDo = ROTATION_TO_DO_MIN;
+    if(*pRotationToDo > ROTATION_TO_DO_MAX) *pRotationToDo = ROTATION_TO_DO_MAX;
+    
+    // Save data
+    pStepperData->stepToDo = *pRotationToDo * pStepperData->stepPerTurn;
+}
+
+uint16_t getRotationToDo(STEPPER_DATA *pStepperData){
+    
+    return pStepperData->stepToDo * pStepperData->stepPerTurn;
+}
+
+
+void returnToHome(void){
+    
+    
+}
