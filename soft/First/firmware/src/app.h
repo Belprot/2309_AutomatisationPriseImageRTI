@@ -222,7 +222,7 @@ void APP_Tasks( void );
 void APP_Delay_ms(uint32_t ms);
 
 void setBlIntensity(int32_t *backLightIntensitiy);
-uint16_t getBlIntensity(void);
+int32_t getBlIntensity(void);
 
 #endif /* _APP_H */
 

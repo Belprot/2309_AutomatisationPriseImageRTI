@@ -228,6 +228,7 @@ void menuActionProcess(int32_t pec12RotationValue){
                         isInModifMode = true;
                         break;
                 }
+                isFirstDataProcessPass = true;
                 break; 
 
             //----------------------------------------------------------------// Main menu -> About menu
@@ -295,12 +296,13 @@ void menuDataProcess(int32_t *pec12RotationValue){
                 }
                 setAnglePerStep(&stepperData, pec12RotationValue);
                 break;
-                
+            
+            //----------------------------------------------------------------// BL_INTENSITY_MODIF
             case BL_INTENSITY_MODIF :
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
-                    //*pec12RotationValue = getAnglePerStep(&stepperData);
+                    *pec12RotationValue = getBlIntensity();
                 }
                 setBlIntensity(pec12RotationValue);
                 break;

@@ -237,10 +237,10 @@ void setBlIntensity(int32_t *backLightIntensitiy){
     appData.backLightIntensitiy = *backLightIntensitiy * 25;
     PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, appData.backLightIntensitiy);
 }
-//int32_t getBlIntensity(void){
-//    
-//    return appData.backLightIntensitiy;
-//}
+int32_t getBlIntensity(void){
+    
+    return appData.backLightIntensitiy / 25;
+}
 
 
 /*******************************************************************************
