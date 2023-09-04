@@ -84,6 +84,9 @@ extern "C" {
 #define PWM_BL_CH MCPWM_CHANNEL3
 #define PWM_BUZZER_CH MCPWM_CHANNEL4
 #define PWM_DIM_CH MCPWM_CHANNEL6
+    
+#define BACKLIGHT_INTENSITY_MIN 0    
+#define BACKLIGHT_INTENSITY_MAX 100
 // *****************************************************************************
 /* Application states
 
@@ -130,9 +133,9 @@ typedef struct
     /* The application's current state */
     APP_STATES appState;
     SYSTEM_STATES systemState;
-    uint16_t primaryPwmPeriod;
+    uint32_t msCounter;
+    uint16_t backLightIntensitiy;
     
-    /* TODO: Define any additional data used by the application. */
 
 } APP_DATA;
 
@@ -216,7 +219,10 @@ void APP_Initialize ( void );
  */
 
 void APP_Tasks( void );
+void APP_Delay_ms(uint32_t ms);
 
+void setBlIntensity(int32_t *backLightIntensitiy);
+int32_t getBlIntensity(void);
 
 #endif /* _APP_H */
 
