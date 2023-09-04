@@ -28,25 +28,21 @@ void initMenuParam(){
 
 void processSelection(void){
     
-    static int16_t pec12RotationValue = 0;
+    static int32_t pec12RotationValue = 0;
     static bool isSimplePage = true;
     
     if(isInModifMode){
         
         int temp = getPec12IncrOrDecr();
         
-        if(temp > 0) stepperData.isCW = true;
-        else if(temp < 0) stepperData.isCW = false;
-        
         pec12RotationValue += temp;
-        //menuActionProcess(pec12RotationValue);
         menuDataProcess(&pec12RotationValue);
         menuPrintProcess();
         
+        // Pec12 switch pressed
         if(getPec12SwitchEvent()){
             
             isInModifMode = false;
-//            processMenu(pec12RotationValue);
             /* Put the cursor on the first line */ 
             pec12RotationValue = 0;
         }
@@ -59,12 +55,8 @@ void processSelection(void){
             else if(pec12RotationValue < 0) pec12RotationValue = 0;
         }
 
-        clearFirstRow();
-        char str[2];
-        SetPostion(pec12RotationValue * 0x20);
-
-        sprintf(str, "%c", RIGHT_ARROW);
-        WriteString(str);
+        printCursor(pec12RotationValue);
+        
 
         if(getPec12SwitchEvent()){
 
@@ -81,19 +73,19 @@ void processSelection(void){
    
     
 //____________________________________________________________________________//
-void menuActionProcess(int16_t pec12RotationValue){
+void menuActionProcess(int32_t pec12RotationValue){
     
     /* Menu action switch */
     if(isInModifMode == false){
         switch(menu.menuState){
 
-            //----------------------------------------------------------------//
+            //----------------------------------------------------------------// Main menu
             case MAIN_MENU:
 
                 switch(pec12RotationValue){
 
                     case CHOICE_SEQ_SEL:
-                        menu.menuState = CHOICE_SEQ_MENU;
+                        menu.menuState = MODE_CHOICE_MENU;
                         break;
 
                     case SETTINGS_SEL:
@@ -106,8 +98,8 @@ void menuActionProcess(int16_t pec12RotationValue){
                 }
                 break;
 
-            //----------------------------------------------------------------//
-            case CHOICE_SEQ_MENU:
+            //----------------------------------------------------------------// Main menu -> Choice menu
+            case MODE_CHOICE_MENU:
 
                 switch(pec12RotationValue){
 
@@ -124,31 +116,45 @@ void menuActionProcess(int16_t pec12RotationValue){
                 }
                 break;
                 
-            //----------------------------------------------------------------//
+            //----------------------------------------------------------------// Main menu -> Choice menu -> Manual Mode
             case MANUAL_MODE_MENU:
                 switch(pec12RotationValue){
 
                     case RETURN_SEL:
-                        menu.menuState = CHOICE_SEQ_MENU;
+                        menu.menuState = MODE_CHOICE_MENU;
                         break;
                         
-                    case RETURN_HOME_SEL:
-                        menu.menuState = RETURN_HOME_MENU;
+                    case AUTO_HOME_SEL:
+                        menu.menuState = AUTO_HOME_MENU;
                         break;
 
                     case ANGLE_SEL:
                         menu.modifState = ANGLE_MODIF;
                         isInModifMode = true;
+                        isFirstDataProcessPass = true;
                         break;
                 }
                 break;
                 
-            case RETURN_HOME_MENU:
+            case AUTO_HOME_MENU:
+                    switch(pec12RotationValue){
+
+                    case RETURN_SEL:
+                        menu.menuState = MODE_CHOICE_MENU;
+                        break;
+                        
+                    case AUTO_HOME_START_SEL:
+                        menu.modifState = AUTO_HOME_START;
+                        isInModifMode = true;
+                        isFirstDataProcessPass = true;
+                        break;
+                    }
+                break;
                 
                 //returnToHome(); PEUT ETRE METTRE AILLEUR
                 break;
 
-            //----------------------------------------------------------------//
+            //----------------------------------------------------------------// Main menu -> Settings menu
             case SETTINGS_MENU:
 
                 switch(pec12RotationValue){
@@ -167,7 +173,7 @@ void menuActionProcess(int16_t pec12RotationValue){
                 }
                 break;
             
-            //----------------------------------------------------------------//
+            //----------------------------------------------------------------// Main menu -> Settings menu -> Motor menu
             case MOTOR_MENU:
                 switch(pec12RotationValue){
 
@@ -193,7 +199,7 @@ void menuActionProcess(int16_t pec12RotationValue){
                 isFirstDataProcessPass = true;
                 break;
                 
-            //----------------------------------------------------------------//
+            //----------------------------------------------------------------// Main menu -> Settings menu -> LEDs menu
             case LEDS_MENU:
                 switch(pec12RotationValue){
 
@@ -202,13 +208,11 @@ void menuActionProcess(int16_t pec12RotationValue){
                         break;
                         
                     case LIGHT_TIME_SEL:
-                        break;
-                        
-                        
+                        break;    
                 }
                 break;
 
-            //----------------------------------------------------------------//
+            //----------------------------------------------------------------// Main menu -> About menu
             case ABOUT_MENU:
 
                 switch(pec12RotationValue){
@@ -226,7 +230,7 @@ void menuActionProcess(int16_t pec12RotationValue){
 }
 
 //____________________________________________________________________________//
-void menuDataProcess(int16_t *pec12RotationValue){
+void menuDataProcess(int32_t *pec12RotationValue){
     
     /* Data action switch */
     if(isInModifMode){
@@ -242,7 +246,7 @@ void menuDataProcess(int16_t *pec12RotationValue){
                 setRotationToDo(&stepperData, pec12RotationValue); 
                 break;
                 
-            case RETURN_HOME_MENU:
+            case AUTO_HOME_MENU:
                 
                 break;
             
@@ -273,9 +277,30 @@ void menuDataProcess(int16_t *pec12RotationValue){
                 }
                 setAnglePerStep(&stepperData, pec12RotationValue);
                 break;
+                
+            case AUTO_HOME_START:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+//                    isInModifMode = false; // AFFICHER .. ECRAN
+                    autoHome(&stepperData);
+                }
+                else{
+                    
+//                    if(INDEXStateGet()){ // PAS ASSEZ RAPIDE  ICI
+//                        
+//                        // APELER FONCTION
+//                        stepperData.stepToDo = 0;
+//                    }
+                    // attendre
+                }
+                break;
         }
     }
 }
+
+
+
 
 //____________________________________________________________________________//
 void menuPrintProcess(void){
@@ -298,7 +323,7 @@ void menuPrintProcess(void){
             printLedsMenu();
             break;
         
-        case CHOICE_SEQ_MENU:
+        case MODE_CHOICE_MENU:
             printChoiceSeqMenu();
             
             break;
@@ -308,6 +333,10 @@ void menuPrintProcess(void){
         
         case ABOUT_MENU:
             printAboutMenu();
+            break;
+        
+        case AUTO_HOME_MENU:
+            printAutoHomeMenu();
             break;
         
         default:
@@ -383,7 +412,7 @@ void printLedsMenu(void){
     SetPostion(LINE2);
     WriteString("  Light time");
     SetPostion(LINE3);
-    WriteString("  ");
+    WriteString("  Time bw lights");
     SetPostion(LINE4);
     WriteString("  ");
 }
@@ -421,16 +450,36 @@ void printManualModeMenu(void){
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    sprintf(str, "  Auto home : %s", "NOK");
+    if(stepperData.isIndexed == true){
+        sprintf(str, "  Auto home : %s", "DONE");
+    } else {
+        sprintf(str, "  Auto home : %s", "NOK");
+    }
     WriteString(str);
     SetPostion(LINE3);
-    stepperData.realAngle = stepperData.motorStepNumber * stepperData.anglePerStep;
-//    sprintf(str, "  Angle : %05.1f", ((float)stepperData.stepToDo * 1.8));
-    sprintf(str, "  Steps : %05d", stepperData.stepToDo);
+//    sprintf(str, "  Angle : %05.1f", (((float)stepperData.stepToDo * 1.8) 
+//              / stepperData.gearValue));
+    sprintf(str, "  Steps : %05d", stepperData.stepToDoReach);
     WriteString(str);
+    SetPostion(LINE4);
+    sprintf(str, "  Steps ef: %05d", stepperData.performedStep);
+    WriteString(str);
+}
+
+void printAutoHomeMenu(void){
+    
+    ClrDisplay();
+    SetPostion(LINE1);
+    WriteString("  Return");
+    SetPostion(LINE2);
+    WriteString("  Press to index");
+    SetPostion(LINE3);
+    WriteString("  ...");
     SetPostion(LINE4);
     WriteString("  ");
 }
+
+
 
 /* Clear the first row all 4 lines */
 void clearFirstRow(void){
@@ -443,4 +492,14 @@ void clearFirstRow(void){
     WriteString(" ");
     SetPostion(LINE4);
     WriteString(" ");
+}
+
+/* Print cursor */
+void printCursor(int32_t cursor){
+    
+        clearFirstRow();
+        char str[2];
+        SetPostion(cursor * 0x20);
+        sprintf(str, "%c", RIGHT_ARROW);
+        WriteString(str);
 }

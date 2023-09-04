@@ -4713,7 +4713,12 @@ CONFIG_USE_SYS_INPUT=n
 # from $HARMONY_VERSION_PATH\framework\system\int\config\sys_int_pic32m.hconfig
 #
 CONFIG_USE_SYS_INT=y
-CONFIG_USE_EXT_INT=n
+CONFIG_USE_EXT_INT=y
+CONFIG_EXT_INT_INSTANCES_NUMBER=1
+#
+# from $HARMONY_VERSION_PATH\framework\system\int\config\ext_int_idx.ftl
+#
+CONFIG_EXT_INT_INST_IDX0=n
 #
 # from $HARMONY_VERSION_PATH\framework\system\msg\config\sys_msg.hconfig
 #

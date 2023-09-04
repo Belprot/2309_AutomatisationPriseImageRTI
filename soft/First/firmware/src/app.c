@@ -129,16 +129,16 @@ void APP_Initialize ( void )
     /* Init all PEC12 state values */
     appData.primaryPwmPeriod = 50000;
     
-    stepperData.isCW = true;
+    stepperData.isAtHomeInCW = false;
+    stepperData.isAtHomeInCCW = false;
     stepperData.motorStepNumber = 200;
-    stepperData.stepPerSec = 50;
+    stepperData.stepPerSec = 200;
     stepperData.stepPerTurn = 200;
-    stepperData.nbrFullTurn = 10;
     stepperData.gearValue = 1;
     stepperData.anglePerStep = 1.8;
     stepperData.performedStep = 0;
-    stepperData.motorAngle = 0;
-    stepperData.stepToDo = 0;
+    stepperData.stepToDoReach = 0;
+    stepperData.isIndexed = false;
 }
 
 

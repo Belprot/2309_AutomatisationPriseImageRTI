@@ -21,14 +21,14 @@ extern "C" {
     typedef enum
     {
         MAIN_MENU = 0,
-        CHOICE_SEQ_MENU,
+        MODE_CHOICE_MENU,
         SETTINGS_MENU,
         ABOUT_MENU,
         MOTOR_MENU,
         MANUAL_MODE_MENU,
         LEDS_MENU,
         BACKLIGHT_MENU,
-        RETURN_HOME_MENU,
+        AUTO_HOME_MENU,
                 
     } MENU_STATE;
     
@@ -56,6 +56,12 @@ extern "C" {
     
     typedef enum{
         
+        AUTO_HOME_START_SEL = 1,
+                
+    } AUTO_HOME_MENU_LIST;
+    
+    typedef enum{
+        
         MANUAL_MODE_SEL = 1,
         AUTOMATIC_MODE_SEL,
                 
@@ -65,7 +71,7 @@ extern "C" {
     
     typedef enum{
         
-        RETURN_HOME_SEL = 1,
+        AUTO_HOME_SEL = 1,
         ANGLE_SEL,
                 
     } MANUAL_MODE_MENU_SEL;
@@ -88,14 +94,16 @@ extern "C" {
     
     
     /* X is when the value is auto modified */
+    // PEUT ETRE MODIFIER VAL MOD ET INTERACT
     typedef enum{
         
         ANGLE_MODIF = 0,
         SPEED_MODIF,
         GEAR_MODIF,
         STEP_PER_TURN_MODIF,
-        
                 
+        AUTO_HOME_START,// INTERACT   
+        
     } MODIF_LIST;
     
     
@@ -120,13 +128,15 @@ extern "C" {
     void printChoiceSeqMenu(void);
     void printAboutMenu(void);
     void printManualModeMenu(void);
+    void printAutoHomeMenu(void);
     
     void processSelection(void);
-    void menuActionProcess(int16_t pec12RotationValue);
-    void menuDataProcess(int16_t *pec12RotationValue);
+    void menuActionProcess(int32_t pec12RotationValue);
+    void menuDataProcess(int32_t *pec12RotationValue);
     void menuPrintProcess(void);
     
     void clearFirstRow(void);
+    void printCursor(int32_t cursor);
     
 #ifdef	__cplusplus
 }

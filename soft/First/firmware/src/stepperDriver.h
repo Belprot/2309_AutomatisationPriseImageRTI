@@ -28,26 +28,25 @@ extern "C" {
     #define ANGLE_PER_STEP_MIN 0.1
     #define ANGLE_PER_STEP_MAX 10.0
     
-    #define ROTATION_TO_DO_MIN 0
+    #define ROTATION_TO_DO_MIN -50000
     #define ROTATION_TO_DO_MAX 50000
 
     // Structures
     typedef struct{
 
-        // Motor real time data
-        bool isCW;
-        int16_t stepPerSec;
-        uint32_t performedStep;
-        int32_t stepToDo;
-        float motorAngle;
-        float realAngle;
+        // Motion motor data
+        bool        isAtHomeInCW;
+        bool        isAtHomeInCCW;
+        bool        isIndexed;
+        int16_t     stepPerSec;
+        int32_t     performedStep;
+        int32_t     stepToDoReach;
 
         // Motor characteristics
-        float anglePerStep;
-        uint16_t nbrFullTurn;
-        uint16_t stepPerTurn;
-        uint16_t gearValue;
-        uint32_t motorStepNumber;
+        uint16_t    stepPerTurn;
+        uint16_t    gearValue;
+        uint32_t    motorStepNumber;
+        float       anglePerStep;
 
     } STEPPER_DATA;
 
@@ -56,10 +55,12 @@ extern "C" {
     // Prototypes
     void turnOffStepperPwms(void);
     void changeSpeed(STEPPER_DATA *pStepperData);
-    //void processStepper(void);
     void processStepper(STEPPER_DATA *pStepperData);
+    bool isIndexReach(void);
 
-
+    
+    
+    
 #ifdef	__cplusplus
 }
 #endif

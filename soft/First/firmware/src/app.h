@@ -103,6 +103,12 @@ typedef enum
     APP_STATE_WAIT,
 } APP_STATES;
 
+typedef enum{
+    
+    SYS_STATE_MENU = 0,
+    SYS_STATE_MANUAL,
+    SYS_STATE_AUTO
+} SYSTEM_STATES;
 
 
 
@@ -123,6 +129,7 @@ typedef struct
 {
     /* The application's current state */
     APP_STATES appState;
+    SYSTEM_STATES systemState;
     uint16_t primaryPwmPeriod;
     
     /* TODO: Define any additional data used by the application. */

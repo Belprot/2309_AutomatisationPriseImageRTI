@@ -10,6 +10,9 @@
 
 #include <stepperDriver.h>
 
+
+
+/* Disable all PWMs for motor control */
 void turnOffStepperPwms(void){
     
     PLIB_MCPWM_ChannelPWMxHDisable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
@@ -18,6 +21,7 @@ void turnOffStepperPwms(void){
     PLIB_MCPWM_ChannelPWMxLDisable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
 }
 
+//----------------------------------------------------------------------------//
 void changeSpeed(STEPPER_DATA *pStepperData){
     
     uint16_t tmrPerdiod = 0;
@@ -33,91 +37,115 @@ void changeSpeed(STEPPER_DATA *pStepperData){
     
 }
 
+//----------------------------------------------------------------------------//
 void processStepper(STEPPER_DATA *pStepperData){
     
-    static uint8_t counter = 0;
+    static uint8_t step = 0;
+    //------------------------------------------------------------------------// Counter clockwise CCW
+    if(pStepperData->performedStep > pStepperData->stepToDoReach){
+        if(pStepperData->isAtHomeInCCW == false){
+            switch(step){
 
-    if(pStepperData->performedStep < pStepperData->stepToDo && 
-            pStepperData->isCW == true){
-        switch(counter){
-            
-            case 1:
-                PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                break;
+                case 1:
+                    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    break;
 
-            case 2:
-                PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                break;
+                case 2:
+                    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    break;
 
-            case 3:
-                PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                break;
+                case 3:
+                    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    break;
 
-            case 0:
-                PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                break;
+                case 0:
+                    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    break;
+            }
+            step++;
         }
-        counter++;
-        if(counter == 4){
+        /* Four steps performed in CCW */
+        if(step == 4){
             
-            counter = 0;
-            pStepperData->performedStep += 4;
-        }
-    }
-    else if(pStepperData->performedStep > pStepperData->stepToDo && 
-            pStepperData->isCW == false){
-        switch(counter){
-            
-            case 1:
-                PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                
-                break;
-
-            case 0:
-                PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                break;
-
-            case 3:
-                PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                break;
-
-            case 2:
-                PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
-                PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
-                break;
-        }
-        counter++;
-        if(counter == 4){
-            
-            counter = 0;
+            step = 0;
             pStepperData->performedStep -= 4;
         }
+        /* Index is reach in CCW */
+        if(INDEXStateGet()){ 
+                        
+            pStepperData->isAtHomeInCCW = true;
+            pStepperData->stepToDoReach = pStepperData->performedStep;
+        }
+        else pStepperData->isAtHomeInCCW = false;
+    }
+    //------------------------------------------------------------------------// Clockwise CW
+    else if(pStepperData->performedStep < pStepperData->stepToDoReach){
+        if(pStepperData->isAtHomeInCW == false){
+            switch(step){
+
+                case 1:
+                    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+
+                    break;
+
+                case 0:
+                    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    break;
+
+                case 3:
+                    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    break;
+
+                case 2:
+                    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    break;
+            }
+            step++;
+        }
+        /* Four steps performed in CW */
+        if(step == 4){
+            
+            step = 0;
+            pStepperData->performedStep += 4;
+        }
+        /* Index is reach in CW */
+        if(INDEXStateGet()){ 
+                        
+            pStepperData->isAtHomeInCW = true;
+            pStepperData->stepToDoReach = pStepperData->performedStep;
+        }
+        else pStepperData->isAtHomeInCW = false;
     }
     
-    if(pStepperData->performedStep == pStepperData->stepToDo){
+    
+    
+    
+    // The motor reach its desired position
+    if(pStepperData->performedStep == pStepperData->stepToDoReach){
         
         int8_t i = 0;
         //turnOffStepperPwms();
@@ -128,8 +156,8 @@ void processStepper(STEPPER_DATA *pStepperData){
 
 
 
-//----------------------------------------------------------------------------//
-void setSpeed(STEPPER_DATA *pStepperData, uint16_t *pStepPerSec){
+//----------------------------------------------------------------------------// setSpeed
+void setSpeed(STEPPER_DATA *pStepperData, uint32_t *pStepPerSec){
     
     // Limit values to avoid problems
     if(*pStepPerSec < STEP_PER_SEC_MIN) *pStepPerSec = STEP_PER_SEC_MIN;
@@ -139,13 +167,13 @@ void setSpeed(STEPPER_DATA *pStepperData, uint16_t *pStepPerSec){
     pStepperData->stepPerSec = *pStepPerSec;
 }
 
-int16_t getSpeed(STEPPER_DATA *pStepperData){
+int32_t getSpeed(STEPPER_DATA *pStepperData){
     
     return pStepperData->stepPerSec;
 }
 
-//----------------------------------------------------------------------------//
-void setGearReduction(STEPPER_DATA *pStepperData, uint16_t *pGearValue){
+//----------------------------------------------------------------------------// setGearReduction
+void setGearReduction(STEPPER_DATA *pStepperData, uint32_t *pGearValue){
     
     // Limit values to avoid problems
     if(*pGearValue < GEAR_VALUE_MIN) *pGearValue = GEAR_VALUE_MIN;
@@ -154,14 +182,14 @@ void setGearReduction(STEPPER_DATA *pStepperData, uint16_t *pGearValue){
     // Save data
     pStepperData->gearValue = *pGearValue;
 }
-
-uint16_t getGearReduction(STEPPER_DATA *pStepperData){
+//----------------------------------------------------------------------------// getGearReduction
+uint32_t getGearReduction(STEPPER_DATA *pStepperData){
     
     return pStepperData->gearValue;
 }
 
-//----------------------------------------------------------------------------//
-void setAnglePerStep(STEPPER_DATA *pStepperData, uint16_t *pAnglePerStep){
+//----------------------------------------------------------------------------// setAnglePerStep
+void setAnglePerStep(STEPPER_DATA *pStepperData, uint32_t *pAnglePerStep){
     
     float temp = (*pAnglePerStep / 10.0);
     
@@ -173,8 +201,8 @@ void setAnglePerStep(STEPPER_DATA *pStepperData, uint16_t *pAnglePerStep){
     // Save data
     pStepperData->anglePerStep = temp;
 }
-
-uint16_t getAnglePerStep(STEPPER_DATA *pStepperData){
+//----------------------------------------------------------------------------// getAnglePerStep
+uint32_t getAnglePerStep(STEPPER_DATA *pStepperData){
     
     // x10 ???
     return pStepperData->anglePerStep * 10;
@@ -186,24 +214,34 @@ uint16_t getAnglePerStep(STEPPER_DATA *pStepperData){
 
 
 
-//----------------------------------------------------------------------------//
-void setRotationToDo(STEPPER_DATA *pStepperData, uint16_t *pRotationToDo){
+//----------------------------------------------------------------------------// setRotationToDo
+void setRotationToDo(STEPPER_DATA *pStepperData, int32_t *pRotationToDo){
     
     // Limit values to avoid problems
     if(*pRotationToDo < ROTATION_TO_DO_MIN) *pRotationToDo = ROTATION_TO_DO_MIN;
     if(*pRotationToDo > ROTATION_TO_DO_MAX) *pRotationToDo = ROTATION_TO_DO_MAX;
     
     // Save data
-    pStepperData->stepToDo = *pRotationToDo * pStepperData->stepPerTurn;
+    pStepperData->stepToDoReach = *pRotationToDo * pStepperData->stepPerTurn;
+}
+//----------------------------------------------------------------------------// getRotationTodo
+int32_t getRotationToDo(STEPPER_DATA *pStepperData){
+    
+    return pStepperData->stepToDoReach / pStepperData->stepPerTurn;
 }
 
-uint16_t getRotationToDo(STEPPER_DATA *pStepperData){
+//----------------------------------------------------------------------------// autoHome
+void autoHome(STEPPER_DATA *pStepperData){
     
-    return pStepperData->stepToDo * pStepperData->stepPerTurn;
+    // Check if the arm is not at home
+    if(pStepperData->isAtHomeInCCW == false){
+        // Put a step to do value for returning home
+        pStepperData->stepToDoReach = -10000; // DEFINE? STEP_TO_DO_MAX
+    }
 }
-
-
-void returnToHome(void){
+//----------------------------------------------------------------------------// isIndexReach
+/* Check if the Reed contact is trigged (home place) */
+bool isIndexReach(void){
     
-    
+    return INDEXStateGet();
 }
