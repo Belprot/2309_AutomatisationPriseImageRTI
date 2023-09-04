@@ -13,6 +13,7 @@
 
 
 MENU menu;
+extern APP_DATA appData;
 extern STEPPER_DATA stepperData;
 bool isInModifMode = 0;
 bool isFirstDataProcessPass = false;
@@ -85,7 +86,7 @@ void menuActionProcess(int32_t pec12RotationValue){
                 switch(pec12RotationValue){
 
                     case CHOICE_SEQ_SEL:
-                        menu.menuState = MODE_CHOICE_MENU;
+                        menu.menuState = CAPTURE_MODE_MENU;
                         break;
 
                     case SETTINGS_SEL:
@@ -99,7 +100,7 @@ void menuActionProcess(int32_t pec12RotationValue){
                 break;
 
             //----------------------------------------------------------------// Main menu -> Choice menu
-            case MODE_CHOICE_MENU:
+            case CAPTURE_MODE_MENU:
 
                 switch(pec12RotationValue){
 
@@ -121,7 +122,7 @@ void menuActionProcess(int32_t pec12RotationValue){
                 switch(pec12RotationValue){
 
                     case RETURN_SEL:
-                        menu.menuState = MODE_CHOICE_MENU;
+                        menu.menuState = CAPTURE_MODE_MENU;
                         break;
                         
                     case AUTO_HOME_SEL:
@@ -140,7 +141,7 @@ void menuActionProcess(int32_t pec12RotationValue){
                     switch(pec12RotationValue){
 
                     case RETURN_SEL:
-                        menu.menuState = MODE_CHOICE_MENU;
+                        menu.menuState = CAPTURE_MODE_MENU;
                         break;
                         
                     case AUTO_HOME_START_SEL:
@@ -169,6 +170,10 @@ void menuActionProcess(int32_t pec12RotationValue){
                         
                     case LEDS_SEL:
                         menu.menuState = LEDS_MENU;
+                        break;
+                    
+                    case BACKLIGHT_SEL:
+                        menu.menuState = BACKLIGHT_MENU;
                         break;
                 }
                 break;
@@ -205,12 +210,25 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = SETTINGS_MENU;
-                        break;
+                        break;   
                         
-                    case LIGHT_TIME_SEL:
-                        break;    
                 }
                 break;
+                
+            //----------------------------------------------------------------// Main menu -> Settings menu -> Back-light
+            case BACKLIGHT_MENU:
+                switch(pec12RotationValue){
+                    
+                    case RETURN_SEL:
+                        menu.menuState = SETTINGS_MENU;
+                        break;  
+                        
+                    case BACKLIGHT_INTENSITY_SEL:
+                        menu.modifState = BL_INTENSITY_MODIF;
+                        isInModifMode = true;
+                        break;
+                }
+                break; 
 
             //----------------------------------------------------------------// Main menu -> About menu
             case ABOUT_MENU:
@@ -278,6 +296,16 @@ void menuDataProcess(int32_t *pec12RotationValue){
                 setAnglePerStep(&stepperData, pec12RotationValue);
                 break;
                 
+            case BL_INTENSITY_MODIF :
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+                    //*pec12RotationValue = getAnglePerStep(&stepperData);
+                }
+                setBlIntensity(pec12RotationValue);
+                break;
+                
+                
             case AUTO_HOME_START:
                 if(isFirstDataProcessPass){
                     
@@ -294,6 +322,7 @@ void menuDataProcess(int32_t *pec12RotationValue){
 //                    }
                     // attendre
                 }
+                
                 break;
         }
     }
@@ -323,7 +352,12 @@ void menuPrintProcess(void){
             printLedsMenu();
             break;
         
-        case MODE_CHOICE_MENU:
+        case BACKLIGHT_MENU:
+            printBackLightMenu();
+            break;
+                    
+                    
+        case CAPTURE_MODE_MENU:
             printChoiceSeqMenu();
             
             break;
@@ -347,25 +381,38 @@ void menuPrintProcess(void){
 
 void printInit(void){
     
-    delay_ms(10);
+    char str[2];
+    RESET_LCD_CMDOff();
+    APP_Delay_ms(1);
+    RESET_LCD_CMDOn();
+    APP_Delay_ms(10);
     initDispl();
     ClrDisplay();
-    SetPostion(LINE1);
-    WriteString("RTI System ");
-    SetPostion(LINE2);
-    WriteString("2023 ");
-    SetPostion(LINE3);
-    WriteString(" ");
-    SetPostion(LINE4);
-    WriteString("Meven Ricchieri");
     DisplayOnOff(DISPLAY_ON); //Disable cursor
+    SetPostion(LINE1);
+    WriteString("Auto RTI Capt System");
+    SetPostion(LINE2);
+    WriteString("08-09 2023");
+    SetPostion(LINE3);
+    WriteString("Meven Ricchieri");
+    SetPostion(LINE4);
+    
+    int i;
+    for (i = 0; i < 20; i++){
+        
+        APP_Delay_ms(100);
+        SetPostion(LINE4 + i);
+        sprintf(str, "%c", 0xD0);
+        WriteString(str);
+    }
+    APP_Delay_ms(150);
 }
 
 void printMainMenu(void){
     
     ClrDisplay();
     SetPostion(LINE1);
-    WriteString("  Mode choice");
+    WriteString("  Capture mode");
     SetPostion(LINE2);
     WriteString("  Settings");
     SetPostion(LINE3);
@@ -457,12 +504,12 @@ void printManualModeMenu(void){
     }
     WriteString(str);
     SetPostion(LINE3);
-//    sprintf(str, "  Angle : %05.1f", (((float)stepperData.stepToDo * 1.8) 
-//              / stepperData.gearValue));
-    sprintf(str, "  Steps : %05d", stepperData.stepToDoReach);
+    sprintf(str, "  Angle : %05.1f", (((float)stepperData.stepToDoReach * 1.8) 
+            / stepperData.gearValue));
+//    sprintf(str, "  Steps      : %05d", stepperData.stepToDoReach);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Steps ef: %05d", stepperData.performedStep);
+    sprintf(str, "  Steps      : %05d", stepperData.performedStep);
     WriteString(str);
 }
 
@@ -478,6 +525,19 @@ void printAutoHomeMenu(void){
     SetPostion(LINE4);
     WriteString("  ");
 }
+
+void printBackLightMenu(void){
+    
+    char str[21];
+    ClrDisplay();
+    SetPostion(LINE1);
+    WriteString("  Return");
+    SetPostion(LINE2);
+    /* 0.04 = 100 / 2500 */
+    sprintf(str, "  Intensity : %03.0f%%", ((float)appData.backLightIntensitiy * 0.04));
+    WriteString(str);
+}
+
 
 
 
@@ -497,9 +557,9 @@ void clearFirstRow(void){
 /* Print cursor */
 void printCursor(int32_t cursor){
     
-        clearFirstRow();
-        char str[2];
-        SetPostion(cursor * 0x20);
-        sprintf(str, "%c", RIGHT_ARROW);
-        WriteString(str);
+    char str[2];
+    clearFirstRow();
+    SetPostion(cursor * 0x20);
+    sprintf(str, "%c", RIGHT_ARROW);
+    WriteString(str);
 }

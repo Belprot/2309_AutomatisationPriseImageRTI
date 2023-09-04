@@ -674,12 +674,12 @@
       <Template dnOrder="2">
         <Name dnOrder="0">drv_tmr_static.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default/framework/driver/tmr</Path>
-        <Checksum dnOrder="2">E9C3112A6AE233C3096E30F2F81A273E</Checksum>
+        <Checksum dnOrder="2">8C64664AEDE504C4C1A03C4B9C0CC418</Checksum>
       </Template>
       <Template dnOrder="3">
         <Name dnOrder="0">drv_tmr_mapping.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/tmr/src</Path>
-        <Checksum dnOrder="2">84EC844A8E2C391E068EA80BD6DEF41F</Checksum>
+        <Checksum dnOrder="2">65C24AB9CFA0216FAE6039B27780D5B6</Checksum>
       </Template>
       <Template dnOrder="4">
         <Name dnOrder="0">drv_spi_static_tasks.c</Name>
@@ -704,7 +704,7 @@
       <Template dnOrder="8">
         <Name dnOrder="0">system_interrupt.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">836240596F00CECF3F2E43A0B233F070</Checksum>
+        <Checksum dnOrder="2">2F4961C6B8A8EE2B391D522CF44F4402</Checksum>
         <ProjectFileChecksum dnOrder="3">829D1311A6CF5F25B475357CB7C8A900</ProjectFileChecksum>
       </Template>
       <Template dnOrder="9">
@@ -720,7 +720,7 @@
       <Template dnOrder="11">
         <Name dnOrder="0">system_init.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">DEEBE198AE0B5D102DA3C9020AE6E9B9</Checksum>
+        <Checksum dnOrder="2">F367C5B411B53EDD2F98528705B56481</Checksum>
       </Template>
       <Template dnOrder="12">
         <Name dnOrder="0">main.c</Name>
@@ -734,7 +734,7 @@
       <Template dnOrder="14">
         <Name dnOrder="0">system_definitions.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">58C6718153E53F2F668065DD53D0D2AE</Checksum>
+        <Checksum dnOrder="2">EAA29631B88338DCAC27FF572C6A4BF8</Checksum>
       </Template>
       <Template dnOrder="15">
         <Name dnOrder="0">system_exceptions.c</Name>
@@ -778,7 +778,7 @@
       <Template dnOrder="23">
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">6844CEAAE9709FFBDD58F882900A4EB7</Checksum>
+        <Checksum dnOrder="2">2A698ADFABA6F4D4236F5A96E4C1C253</Checksum>
       </Template>
       <Template dnOrder="24">
         <Name dnOrder="0">app.h</Name>
@@ -787,7 +787,7 @@
       <Template dnOrder="25">
         <Name dnOrder="0">drv_tmr_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/tmr/src</Path>
-        <Checksum dnOrder="2">B7423BAAA41C2A9F40A757035C3FE419</Checksum>
+        <Checksum dnOrder="2">D6DF1C5000606B95188B356BC6A4C4BA</Checksum>
       </Template>
       <Template dnOrder="26">
         <Name dnOrder="0">sys_devcon_pic32mk.c</Name>

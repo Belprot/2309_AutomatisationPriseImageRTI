@@ -125,9 +125,10 @@ void APP_Initialize ( void )
 {
     /* Place the App state machine in its initial state. */
     appData.appState = APP_STATE_INIT;
+    appData.msCounter = 0;
+    appData.backLightIntensitiy = 2500;
     
     /* Init all PEC12 state values */
-    appData.primaryPwmPeriod = 50000;
     
     stepperData.isAtHomeInCW = false;
     stepperData.isAtHomeInCCW = false;
@@ -148,7 +149,7 @@ void APP_Tasks ( void )
 {
     /* Main state machine */
     switch(appData.appState){
-        
+        //--------------------------------------------------------------------// APP_STATE_INIT
         case APP_STATE_INIT:
             
             PLIB_MCPWM_Enable(MCPWM_ID_0);
@@ -159,19 +160,19 @@ void APP_Tasks ( void )
             PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_BUZZER_CH);
             PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_DIM_CH);
             /* Change PWMs DutyCycle */
-            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, 700);
+            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, appData.backLightIntensitiy);
             PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 500);
             PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, 2500);
             
             
-            RESET_LCD_CMDOff();
-            delay_ms(1);
-            RESET_LCD_CMDOn();
             
             
+            /* Disable RESET on both H bridge */
             RESET_AB_CMDOn();
             RESET_CD_CMDOn();
             
+            APP_Delay_ms(1000);
+            /* Print screen on LCD */
             printInit();
             
             DRV_TMR0_Start();
@@ -189,6 +190,7 @@ void APP_Tasks ( void )
             APP_UpdateAppState(APP_STATE_WAIT);
             break;
             
+        //--------------------------------------------------------------------// APP_STATE_SERVICE_TASKS
         case APP_STATE_SERVICE_TASKS:
             
             /* 20Hz */
@@ -197,21 +199,49 @@ void APP_Tasks ( void )
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
             break;
-        
-        
+        //--------------------------------------------------------------------// APP_STATE_WAIT
         case APP_STATE_WAIT:
             /* Nothing is supposed to happen here */
-
             break;
 
-
-        /* The default state should never be executed. */
+        //--------------------------------------------------------------------// default
         default:
             break;
     }
 }
 
- 
+//----------------------------------------------------------------------------// APP_Delay_ms
+void APP_Delay_ms(uint32_t ms){
+    
+    DRV_TMR3_Start();
+//    SIGN_LED_CMDToggle();
+    while(appData.msCounter < ms){
+        
+    }
+//    SIGN_LED_CMDToggle();
+    
+    DRV_TMR3_Stop();
+    appData.msCounter = 0;
+}
+
+//----------------------------------------------------------------------------// setBlIntensity
+void setBlIntensity(int32_t *backLightIntensitiy){
+    
+    // Limit values to avoid problems
+    if(*backLightIntensitiy < BACKLIGHT_INTENSITY_MIN) *backLightIntensitiy 
+            = BACKLIGHT_INTENSITY_MIN;
+    if(*backLightIntensitiy > BACKLIGHT_INTENSITY_MAX) *backLightIntensitiy 
+            = BACKLIGHT_INTENSITY_MAX;
+    
+    /* 25 = 2500 / 100 */
+    appData.backLightIntensitiy = *backLightIntensitiy * 25;
+    PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, appData.backLightIntensitiy);
+}
+//int32_t getBlIntensity(void){
+//    
+//    return appData.backLightIntensitiy;
+//}
+
 
 /*******************************************************************************
  End of File

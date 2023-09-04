@@ -21,7 +21,7 @@ extern "C" {
     typedef enum
     {
         MAIN_MENU = 0,
-        MODE_CHOICE_MENU,
+        CAPTURE_MODE_MENU,
         SETTINGS_MENU,
         ABOUT_MENU,
         MOTOR_MENU,
@@ -80,6 +80,7 @@ extern "C" {
         
         MOTOR_SEL = 1,
         LEDS_SEL,
+        BACKLIGHT_SEL,
                 
     } SETTINGS_MENU_LIST;
     
@@ -91,7 +92,11 @@ extern "C" {
                 
     } MOTOR_MENU_LIST;
     
-    
+    typedef enum{
+        
+        BACKLIGHT_INTENSITY_SEL = 1,
+                
+    } BACKLIGHT_MENU_LIST;
     
     /* X is when the value is auto modified */
     // PEUT ETRE MODIFIER VAL MOD ET INTERACT
@@ -101,6 +106,8 @@ extern "C" {
         SPEED_MODIF,
         GEAR_MODIF,
         STEP_PER_TURN_MODIF,
+        BL_INTENSITY_MODIF,
+        LED_INTENSITY_MODIF,
                 
         AUTO_HOME_START,// INTERACT   
         
@@ -129,6 +136,7 @@ extern "C" {
     void printAboutMenu(void);
     void printManualModeMenu(void);
     void printAutoHomeMenu(void);
+    void printBackLightMenu(void);
     
     void processSelection(void);
     void menuActionProcess(int32_t pec12RotationValue);

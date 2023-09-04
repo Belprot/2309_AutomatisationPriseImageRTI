@@ -71,8 +71,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 
+extern APP_DATA appData;
 extern STEPPER_DATA stepperData;
 
+//----------------------------------------------------------------------------// TMR ID 0
 void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
 {
     /* Frequency = 10kHz */
@@ -99,7 +101,8 @@ void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
         LED1_CMDOff();
     }
 }
-    
+
+//----------------------------------------------------------------------------// TMR ID 1
 void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void)
 {
     /* Frequency = 500Hz */
@@ -118,10 +121,11 @@ void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void)
         
         /* States machines update */
         APP_UpdateAppState(APP_STATE_SERVICE_TASKS);
-        SIGN_LED_CMDToggle();
+//        SIGN_LED_CMDToggle();
     }
 }
 
+//----------------------------------------------------------------------------// TMR ID 2
 void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void)
 {
     /* Variable frequency */
@@ -133,8 +137,13 @@ void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void)
 //    SIGN_LED_CMDOn();
 }
  
-
-
+//----------------------------------------------------------------------------// TMR ID 3
+void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void)
+{
+    PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_4);
+    
+    appData.msCounter++;
+}
 
 
 
