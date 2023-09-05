@@ -260,6 +260,53 @@ DRV_TMR_OPERATION_MODE DRV_TMR3_DividerRangeGet
 (
     DRV_TMR_DIVIDER_RANGE * pDivRange
 );
+// *****************************************************************************
+// *****************************************************************************
+// Section: Interface Headers for Instance 4 for the static driver
+// *****************************************************************************
+// *****************************************************************************
+
+void DRV_TMR4_Initialize(void);
+bool DRV_TMR4_Start(void);
+void DRV_TMR4_Stop(void);
+static inline void DRV_TMR4_DeInitialize(void)
+{
+	DRV_TMR4_Stop();
+}
+static inline SYS_STATUS DRV_TMR4_Status(void)
+{
+	/* Return the status as ready always */
+    return SYS_STATUS_READY; 
+}
+static inline void DRV_TMR4_Open(void) {}
+DRV_TMR_CLIENT_STATUS DRV_TMR4_ClientStatus ( void );
+static inline DRV_TMR_OPERATION_MODE DRV_TMR4_OperationModeGet(void)
+{
+    return DRV_TMR_OPERATION_MODE_16_BIT;
+}
+static inline void DRV_TMR4_Close(void) 
+{
+    DRV_TMR4_Stop();
+}
+bool DRV_TMR4_ClockSet
+(
+    DRV_TMR_CLK_SOURCES clockSource, 
+    TMR_PRESCALE  prescale 
+);
+void DRV_TMR4_CounterValueSet(uint32_t value);
+uint32_t DRV_TMR4_CounterValueGet(void);
+void DRV_TMR4_CounterClear(void);
+TMR_PRESCALE DRV_TMR4_PrescalerGet(void);
+void DRV_TMR4_PeriodValueSet(uint32_t value);
+uint32_t DRV_TMR4_PeriodValueGet(void);
+void DRV_TMR4_StopInIdleDisable(void);
+void DRV_TMR4_StopInIdleEnable(void);
+static inline void DRV_TMR4_Tasks(void) {}
+uint32_t DRV_TMR4_CounterFrequencyGet(void);
+DRV_TMR_OPERATION_MODE DRV_TMR4_DividerRangeGet
+(
+    DRV_TMR_DIVIDER_RANGE * pDivRange
+);
 #endif // #ifndef _DRV_TMR_STATIC_H
 
 /*******************************************************************************

@@ -53,6 +53,7 @@ extern "C" {
         
         LIGHT_INTENSITY_SEL = 1,
         LIGHT_TIME_SEL,
+        TIME_BW_PICTURES, //<---- mettre dans réglage appareil photo
                 
     }LEDS_MENU_LIST;
     

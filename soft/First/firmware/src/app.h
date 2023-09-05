@@ -85,13 +85,14 @@ extern "C" {
 #define PWM_BUZZER_CH MCPWM_CHANNEL4
 #define PWM_DIM_CH MCPWM_CHANNEL6
     
+/* Intensity in percent */
 #define BACKLIGHT_INTENSITY_MIN 0    
 #define BACKLIGHT_INTENSITY_MAX 100
-    
-#define LIGHT_INTENSITY_MIN 0    
+/* Intensity in percent */
+#define LIGHT_INTENSITY_MIN 10    
 #define LIGHT_INTENSITY_MAX 100
-    
-#define LIGHT_TIME_MIN 0
+/* Time in ms */
+#define LIGHT_TIME_MIN 50
 #define LIGHT_TIME_MAX 1000
 // *****************************************************************************
 /* Application states
@@ -137,7 +138,8 @@ typedef enum{
 
 typedef enum{
     
-    PWR_LED1 = 1,
+    ALL_LED_DISABLE = 0,
+    PWR_LED1,
     PWR_LED2,
     PWR_LED3,
     PWR_LED4,
@@ -155,10 +157,12 @@ typedef struct
     uint32_t msCounter;
     
     uint16_t lightIntensity;
-    uint16_t timeBetweemPicture;
-    uint16_t exposureTime;
+    uint16_t timeBetweenPictures;
+    uint16_t exposureDuration;
     uint16_t lightTime;
-    uint16_t focusTime;
+    uint16_t focusDuration;
+    uint32_t seqClock;
+    bool isImagingStarted;
     
     uint16_t backLightIntensitiy;
     
@@ -260,7 +264,9 @@ int32_t getBlIntensity(void);
 void setLightTime(int32_t *lightTime);
 int32_t getLightTime(void);
 
-void takePicture(LED_ID ledId);
+void startImaging(LED_ID ledId);
+void imagingProcess(void);
+void imagingSeqProcess(void);
 
 void scanSwitch(void);
 bool getSwitchEvent(void);

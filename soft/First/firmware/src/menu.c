@@ -57,6 +57,10 @@ void menuManagementProcess(void){
         if(isSimplePage){
             if(pec12RotationValue > 3) pec12RotationValue = 3;
             else if(pec12RotationValue < 0) pec12RotationValue = 0;
+        } else{
+            if(pec12RotationValue > 3){
+                
+            }
         }
 
         printCursor(pec12RotationValue);
@@ -74,16 +78,7 @@ void menuManagementProcess(void){
     }
     if(getSwitchEvent()){
         
-        takePicture(1);
-        APP_Delay_ms(400);
-        takePicture(2);
-        APP_Delay_ms(400);
-        takePicture(3);
-        APP_Delay_ms(400);
-        takePicture(4);
-        APP_Delay_ms(400);
-        takePicture(5);
-        APP_Delay_ms(400);
+//        imagingSeqProcess();
     }
 }
    
@@ -408,7 +403,6 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
             printBackLightMenu();
             break;
                     
-                    
         case CAPTURE_MODE_MENU:
             printChoiceSeqMenu();
             
@@ -516,8 +510,6 @@ void printLedsMenu(void){
     SetPostion(LINE3);
     sprintf(str, "  Light time: %03dms", appData.lightTime);
     WriteString(str);
-    SetPostion(LINE4);
-    WriteString("  T bw lights: ");
 }
 
 void printChoiceSeqMenu(void){

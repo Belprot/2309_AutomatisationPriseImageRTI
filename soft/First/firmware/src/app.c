@@ -125,8 +125,13 @@ void APP_Initialize ( void )
     appData.appState = APP_STATE_INIT;
     appData.msCounter = 0;
     appData.backLightIntensitiy = 2500;
-    appData.lightTime = 100;
-    appData.focusTime = 200;
+    appData.lightIntensity = 2500;
+    appData.lightTime = 50;
+    appData.focusDuration = 50;
+//    appData.timeBetweenPictures = appData.lightTime + appData.focusDuration + 10;
+    appData.timeBetweenPictures = 200;
+    appData.isImagingStarted = false;
+    appData.seqClock = 0;
     
     initMenuParam();
     initStepperData();
@@ -136,8 +141,9 @@ void APP_Initialize ( void )
 
 
 //----------------------------------------------------------------------------// APP_Tasks
-void APP_Tasks ( void )
-{
+void APP_Tasks ( void ){
+    
+    static counter = 0;
     unsigned char degreeSymbol[] = {
         0b00011100,
         0b00010100,
@@ -177,28 +183,38 @@ void APP_Tasks ( void )
             DRV_TMR1_Start();
             DRV_TMR2_Start();
             
-            
             /* Create a degree symbol at 0x01 address of the CG RAM */
             DefineCharacter(0x01, &degreeSymbol[0]);
             
             printMainMenu();
-            
-            
-            
-            takePicture(1);
-            /* Trigger and focus camera */
-            //TRIGGER_CMDOn();
-            //FOCUS_CMDOn();
+
+            startImaging(5);
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
             break;
             
-        //--------------------------------------------------------------------// APP_STATE_SERVICE_TASKS
+        //--------------------------------------------------------------------// APP_STATE_SERVICE_TASKS 
+        /* Frequency = 1000Hz */
         case APP_STATE_SERVICE_TASKS:
             
-            /* 20Hz */
-            menuManagementProcess();
+            /* Scan the activity of the rotary encoder */
+            scanPec12();  
+            /* Scan the activity of the switch S1 */
+            scanSwitch();
+            /* ... */
+            imagingSeqProcess();
+            imagingProcess();
+            
+            counter++;
+            if(counter == 50){
+                
+                counter = 0;
+                /* Frequency = 20Hz */
+                menuManagementProcess();
+            }
+            
+            
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
@@ -227,6 +243,9 @@ void APP_Delay_ms(uint32_t ms){
     DRV_TMR3_Stop();
     appData.msCounter = 0;
 }
+
+
+
 
 //----------------------------------------------------------------------------// setBlIntensity
 void setBlIntensity(int32_t *backLightIntensitiy){
@@ -281,15 +300,116 @@ int32_t getLightTime(void){
 
 
 
-
-//----------------------------------------------------------------------------// takePicture
-void takePicture(LED_ID ledId){
-
-    appData.ledId = ledId;
-    /* Start the LED sequence */
+//----------------------------------------------------------------------------// imagingSeqProcess
+/* This function takes 5 pictures with 5 different LED */
+void imagingSeqProcess(void){
+    
     DRV_TMR0_Start();
+    
+    if(appData.seqClock == 0){
+            startImaging(1);
+            
+    } else if(appData.seqClock == 1 * appData.timeBetweenPictures){
+        startImaging(2);
+        
+    } else if(appData.seqClock == 2 * appData.timeBetweenPictures){
+        startImaging(3);
+        
+    } else if(appData.seqClock == 3 * appData.timeBetweenPictures){
+        startImaging(3);
+        
+    } else if(appData.seqClock == 4 * appData.timeBetweenPictures){
+        startImaging(4);
+        
+    } else if(appData.seqClock == 5 * appData.timeBetweenPictures){
+        startImaging(5);
+        
+    } else if(appData.seqClock == 6 * appData.timeBetweenPictures){
+        DRV_TMR0_Stop();
+        appData.seqClock = 0;
+        
+    }
+    
+    
 }
 
+
+//----------------------------------------------------------------------------// imagingProcess
+void imagingProcess(void){
+
+    static uint16_t counter = 0;
+//    appData.ledId = ledId;
+    /* Start the LED sequence */
+//    DRV_TMR0_Start();
+    
+    if(appData.isImagingStarted == true){
+        //------------------------------------------------------------------------// Start of sequence
+        if(counter == 0){
+
+            switch (appData.ledId){
+                /* Turn on LED */
+                case PWR_LED1:
+                    LED1_CMDOn();
+                    break;
+
+                case PWR_LED2:
+                    LED2_CMDOn();
+                    break;
+
+                case PWR_LED3:
+                    LED3_CMDOn();
+                    break;
+
+                case PWR_LED4:
+                    LED4_CMDOn();
+                    break;
+
+                case PWR_LED5:
+                    LED5_CMDOn();
+                    break;
+                }
+
+            /* Focus on the target */
+            FOCUS_CMDOn();
+        }
+
+        if(counter == appData.focusDuration){
+
+            /* Capture the target */
+            TRIGGER_CMDOn();
+        }
+
+        if(counter == (appData.exposureDuration - appData.focusDuration)){
+
+            TRIGGER_CMDOff();
+            FOCUS_CMDOff();
+        }
+
+        //------------------------------------------------------------------------// End of sequence
+        if(counter >= appData.lightTime){
+
+            /* Turn off all power LED */
+            LED1_CMDOff();
+            LED2_CMDOff();
+            LED3_CMDOff();
+            LED4_CMDOff();
+            LED5_CMDOff();
+            counter = 0;
+            appData.ledId = ALL_LED_DISABLE;
+            appData.isImagingStarted = false;
+//            DRV_TMR0_Stop();
+        } else {
+
+            counter++;
+        }
+    }
+}
+
+void startImaging(LED_ID ledId){
+    
+    appData.ledId = ledId;
+    appData.isImagingStarted = true;
+}
 
 void scanSwitch(void){
     
