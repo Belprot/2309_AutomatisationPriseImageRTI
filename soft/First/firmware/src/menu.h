@@ -14,6 +14,7 @@ extern "C" {
 
     #include <stdbool.h>
     #include <stdint.h>
+    #include <stepperDriver.h>
 
     #define RIGHT_ARROW 0x10
 
@@ -26,7 +27,7 @@ extern "C" {
         ABOUT_MENU,
         MOTOR_MENU,
         MANUAL_MODE_MENU,
-        LEDS_MENU,
+        LIGHT_MENU,
         BACKLIGHT_MENU,
         AUTO_HOME_MENU,
                 
@@ -50,7 +51,8 @@ extern "C" {
     
     typedef enum{
         
-        LIGHT_TIME_SEL = 1,
+        LIGHT_INTENSITY_SEL = 1,
+        LIGHT_TIME_SEL,
                 
     }LEDS_MENU_LIST;
     
@@ -107,7 +109,8 @@ extern "C" {
         GEAR_MODIF,
         STEP_PER_TURN_MODIF,
         BL_INTENSITY_MODIF,
-        LED_INTENSITY_MODIF,
+        LIGHT_INTENSITY_MODIF,
+        LIGHT_TIME_MODIF,
                 
         AUTO_HOME_START,// INTERACT   
         
@@ -130,18 +133,18 @@ extern "C" {
     void printInit(void);
     void printMainMenu(void);
     void printParameterMenu(void);
-    void printMotorMenu(void);
+    void printMotorMenu(STEPPER_DATA *pStepperData);
     void printLedsMenu(void);
     void printChoiceSeqMenu(void);
     void printAboutMenu(void);
-    void printManualModeMenu(void);
+    void printManualModeMenu(STEPPER_DATA *pStepperData);
     void printAutoHomeMenu(void);
     void printBackLightMenu(void);
     
-    void processSelection(void);
+    void menuManagementProcess(void);
     void menuActionProcess(int32_t pec12RotationValue);
-    void menuDataProcess(int32_t *pec12RotationValue);
-    void menuPrintProcess(void);
+    void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData);
+    void menuPrintProcess(STEPPER_DATA *pStepperData);
     
     void clearFirstRow(void);
     void printCursor(int32_t cursor);

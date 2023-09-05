@@ -41,7 +41,6 @@
         <itemPath>../src/app.h</itemPath>
         <itemPath>../src/Mc32SpiUtil.h</itemPath>
         <itemPath>../src/lcd_spi.h</itemPath>
-        <itemPath>../src/Delays.h</itemPath>
         <itemPath>../src/pec12.h</itemPath>
         <itemPath>../src/menu.h</itemPath>
       </logicalFolder>
@@ -177,7 +176,6 @@
         <itemPath>../src/main.c</itemPath>
         <itemPath>../src/Mc32SpiUtil.c</itemPath>
         <itemPath>../src/lcd_spi.c</itemPath>
-        <itemPath>../src/Delays.c</itemPath>
         <itemPath>../src/pec12.c</itemPath>
         <itemPath>../src/menu.c</itemPath>
         <itemPath>../src/stepperDriver.c</itemPath>

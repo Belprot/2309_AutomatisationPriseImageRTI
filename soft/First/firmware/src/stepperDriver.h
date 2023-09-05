@@ -56,8 +56,10 @@ extern "C" {
     void turnOffStepperPwms(void);
     void changeSpeed(STEPPER_DATA *pStepperData);
     void processStepper(STEPPER_DATA *pStepperData);
+    void initStepperData(void);
+    
     bool isIndexReach(void);
-
+    STEPPER_DATA* getStepperStruct(void);
     
     
     

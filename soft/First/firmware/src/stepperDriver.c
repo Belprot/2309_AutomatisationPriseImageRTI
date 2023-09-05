@@ -10,7 +10,7 @@
 
 #include <stepperDriver.h>
 
-
+static STEPPER_DATA stepperData;
 
 /* Disable all PWMs for motor control */
 void turnOffStepperPwms(void){
@@ -45,7 +45,7 @@ void processStepper(STEPPER_DATA *pStepperData){
     if(pStepperData->performedStep > pStepperData->stepToDoReach){
         if(pStepperData->isAtHomeInCCW == false){
             switch(step){
-
+                /* Sequence of 4 steps for CCW rotation */
                 case 1:
                     PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
                     PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
@@ -94,7 +94,7 @@ void processStepper(STEPPER_DATA *pStepperData){
     else if(pStepperData->performedStep < pStepperData->stepToDoReach){
         if(pStepperData->isAtHomeInCW == false){
             switch(step){
-
+                /* Sequence of 4 steps for CW rotation */
                 case 1:
                     PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
                     PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
@@ -142,8 +142,6 @@ void processStepper(STEPPER_DATA *pStepperData){
     }
     
     
-    
-    
     // The motor reach its desired position
     if(pStepperData->performedStep == pStepperData->stepToDoReach){
         
@@ -151,8 +149,6 @@ void processStepper(STEPPER_DATA *pStepperData){
         //turnOffStepperPwms();
     }
 } 
-
-
 
 
 
@@ -212,8 +208,6 @@ uint32_t getAnglePerStep(STEPPER_DATA *pStepperData){
 
 
 
-
-
 //----------------------------------------------------------------------------// setRotationToDo
 void setRotationToDo(STEPPER_DATA *pStepperData, int32_t *pRotationToDo){
     
@@ -244,4 +238,26 @@ void autoHome(STEPPER_DATA *pStepperData){
 bool isIndexReach(void){
     
     return INDEXStateGet();
+}
+
+//----------------------------------------------------------------------------// getStepperStruct
+STEPPER_DATA* getStepperStruct(void){
+    
+    /* Return the address of the structure */
+    return &stepperData;
+}
+
+//----------------------------------------------------------------------------// initStepperData
+void initStepperData(void){
+    
+    stepperData.isAtHomeInCW = false;
+    stepperData.isAtHomeInCCW = false;
+    stepperData.motorStepNumber = 200;
+    stepperData.stepPerSec = 200;
+    stepperData.stepPerTurn = 200;
+    stepperData.gearValue = 1;
+    stepperData.anglePerStep = 1.8;
+    stepperData.performedStep = 0;
+    stepperData.stepToDoReach = 0;
+    stepperData.isIndexed = false;
 }

@@ -56,7 +56,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "app.h"
 #include "Mc32SpiUtil.h"
 #include "lcd_spi.h"
-#include "Delays.h"
 #include "system/devcon/src/sys_devcon_local.h"
 #include "pec12.h"
 
@@ -84,8 +83,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 */
 
 APP_DATA appData;
-STEPPER_DATA stepperData;
-extern PEC12 pec12;
+SW S1;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -127,19 +125,12 @@ void APP_Initialize ( void )
     appData.appState = APP_STATE_INIT;
     appData.msCounter = 0;
     appData.backLightIntensitiy = 2500;
+    appData.lightTime = 100;
+    appData.focusTime = 200;
     
-    /* Init all PEC12 state values */
-    
-    stepperData.isAtHomeInCW = false;
-    stepperData.isAtHomeInCCW = false;
-    stepperData.motorStepNumber = 200;
-    stepperData.stepPerSec = 200;
-    stepperData.stepPerTurn = 200;
-    stepperData.gearValue = 1;
-    stepperData.anglePerStep = 1.8;
-    stepperData.performedStep = 0;
-    stepperData.stepToDoReach = 0;
-    stepperData.isIndexed = false;
+    initMenuParam();
+    initStepperData();
+
 }
 
 
@@ -147,6 +138,17 @@ void APP_Initialize ( void )
 //----------------------------------------------------------------------------// APP_Tasks
 void APP_Tasks ( void )
 {
+    unsigned char degreeSymbol[] = {
+        0b00011100,
+        0b00010100,
+        0b00011100,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+        0b00000000,
+    };
+    
     /* Main state machine */
     switch(appData.appState){
         //--------------------------------------------------------------------// APP_STATE_INIT
@@ -164,9 +166,6 @@ void APP_Tasks ( void )
             PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 500);
             PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, 2500);
             
-            
-            
-            
             /* Disable RESET on both H bridge */
             RESET_AB_CMDOn();
             RESET_CD_CMDOn();
@@ -175,13 +174,18 @@ void APP_Tasks ( void )
             /* Print screen on LCD */
             printInit();
             
-            DRV_TMR0_Start();
             DRV_TMR1_Start();
             DRV_TMR2_Start();
             
-            printMainMenu();
-            initMenuParam();
             
+            /* Create a degree symbol at 0x01 address of the CG RAM */
+            DefineCharacter(0x01, &degreeSymbol[0]);
+            
+            printMainMenu();
+            
+            
+            
+            takePicture(1);
             /* Trigger and focus camera */
             //TRIGGER_CMDOn();
             //FOCUS_CMDOn();
@@ -194,7 +198,7 @@ void APP_Tasks ( void )
         case APP_STATE_SERVICE_TASKS:
             
             /* 20Hz */
-            processSelection();
+            menuManagementProcess();
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
@@ -242,7 +246,74 @@ int32_t getBlIntensity(void){
     return appData.backLightIntensitiy / 25;
 }
 
+//----------------------------------------------------------------------------// setLighIntensity
+void setLightIntensity(int32_t *lightIntensity){
+    
+    // Limit values to avoid problems
+    if(*lightIntensity < LIGHT_INTENSITY_MIN) *lightIntensity 
+            = LIGHT_INTENSITY_MIN;
+    if(*lightIntensity > LIGHT_INTENSITY_MAX) *lightIntensity 
+            = LIGHT_INTENSITY_MAX;
+    
+    /* 25 = 2500 / 100 */
+    appData.lightIntensity = *lightIntensity * 25;
+    PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, appData.lightIntensity);
+}
+int32_t getLightIntensity(void){
+    
+    return appData.lightIntensity / 25;
+}
 
+//----------------------------------------------------------------------------// setLightTime
+void setLightTime(int32_t *lightTime){
+    
+    // Limit values to avoid problems
+    if(*lightTime < LIGHT_TIME_MIN) *lightTime = LIGHT_TIME_MIN;
+    if(*lightTime > LIGHT_TIME_MAX) *lightTime = LIGHT_TIME_MAX;
+    
+    appData.lightTime = *lightTime;
+}
+
+int32_t getLightTime(void){
+    
+    return appData.lightTime;
+}
+
+
+
+
+//----------------------------------------------------------------------------// takePicture
+void takePicture(LED_ID ledId){
+
+    appData.ledId = ledId;
+    /* Start the LED sequence */
+    DRV_TMR0_Start();
+}
+
+
+void scanSwitch(void){
+    
+    // Save old states for debounce
+    S1.state[3] = S1.state[2];
+    S1.state[2] = S1.state[1];
+    S1.state[1] = S1.state[0];
+    S1.state[0] = SWITCHStateGet();
+    
+    // Check if switch is pressed
+    if(S1.state[0] == 1 && S1.state[1] == 1
+            && S1.state[2] == 0 && S1.state[3] == 0){
+        
+        S1.isPressed = true;
+    }
+}
+
+bool getSwitchEvent(void){
+    
+    bool isPressed = S1.isPressed;
+    S1.isPressed = 0;
+    
+    return isPressed;
+}
 /*******************************************************************************
  End of File
  */

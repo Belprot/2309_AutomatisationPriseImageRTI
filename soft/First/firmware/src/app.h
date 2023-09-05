@@ -87,6 +87,12 @@ extern "C" {
     
 #define BACKLIGHT_INTENSITY_MIN 0    
 #define BACKLIGHT_INTENSITY_MAX 100
+    
+#define LIGHT_INTENSITY_MIN 0    
+#define LIGHT_INTENSITY_MAX 100
+    
+#define LIGHT_TIME_MIN 0
+#define LIGHT_TIME_MAX 1000
 // *****************************************************************************
 /* Application states
 
@@ -103,6 +109,7 @@ typedef enum
 	/* Application's state machine's initial state. */
 	APP_STATE_INIT=0,
 	APP_STATE_SERVICE_TASKS,
+    APP_STATE_SERVICE_CAPTURE,
     APP_STATE_WAIT,
 } APP_STATES;
 
@@ -128,16 +135,43 @@ typedef enum{
     Application strings and buffers are be defined outside this structure.
  */
 
+typedef enum{
+    
+    PWR_LED1 = 1,
+    PWR_LED2,
+    PWR_LED3,
+    PWR_LED4,
+    PWR_LED5,
+            
+}LED_ID;
+
+
 typedef struct
 {
     /* The application's current state */
     APP_STATES appState;
     SYSTEM_STATES systemState;
+    LED_ID ledId;
     uint32_t msCounter;
+    
+    uint16_t lightIntensity;
+    uint16_t timeBetweemPicture;
+    uint16_t exposureTime;
+    uint16_t lightTime;
+    uint16_t focusTime;
+    
     uint16_t backLightIntensitiy;
     
-
 } APP_DATA;
+
+
+    
+typedef struct
+{
+    bool state[4];
+    bool isPressed;
+    
+} SW;
 
 
 // *****************************************************************************
@@ -223,6 +257,15 @@ void APP_Delay_ms(uint32_t ms);
 
 void setBlIntensity(int32_t *backLightIntensitiy);
 int32_t getBlIntensity(void);
+void setLightTime(int32_t *lightTime);
+int32_t getLightTime(void);
+
+void takePicture(LED_ID ledId);
+
+void scanSwitch(void);
+bool getSwitchEvent(void);
+
+
 
 #endif /* _APP_H */
 

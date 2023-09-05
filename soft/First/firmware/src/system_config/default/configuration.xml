@@ -787,7 +787,7 @@
       <Template dnOrder="25">
         <Name dnOrder="0">drv_tmr_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/tmr/src</Path>
-        <Checksum dnOrder="2">D6DF1C5000606B95188B356BC6A4C4BA</Checksum>
+        <Checksum dnOrder="2">42B0EA101560ABE0EECD710676F0BBE1</Checksum>
       </Template>
       <Template dnOrder="26">
         <Name dnOrder="0">sys_devcon_pic32mk.c</Name>

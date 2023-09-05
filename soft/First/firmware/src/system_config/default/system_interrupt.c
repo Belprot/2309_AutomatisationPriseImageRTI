@@ -75,43 +75,88 @@ extern APP_DATA appData;
 extern STEPPER_DATA stepperData;
 
 //----------------------------------------------------------------------------// TMR ID 0
-void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
-{
+void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void){
+    
+    static uint16_t counter = 0;
     /* Frequency = 10kHz */
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
     
-    static int counter = 0;
-    static int counter2 = 0;
     
-    counter++;
-    if(counter >= 1000){
+    
+    //------------------------------------------------------------------------// Start of sequence
+    if(counter == 0){
         
-        counter = 0;
-        counter2++;
-//        SIGN_LED_CMDToggle();
+        switch (appData.ledId){
+            /* Turn on LED */
+            case PWR_LED1:
+                LED1_CMDOn();
+                break;
+
+            case PWR_LED2:
+                LED2_CMDOn();
+                break;
+
+            case PWR_LED3:
+                LED3_CMDOn();
+                break;
+
+            case PWR_LED4:
+                LED4_CMDOn();
+                break;
+
+            case PWR_LED5:
+                LED5_CMDOn();
+                break;
+            }
+        
+        /* Focus on the target */
+        FOCUS_CMDOn();
     }
     
-    if(counter2 >= 10){
+    if(counter == appData.focusTime){
         
-        LED1_CMDOn();
+        /* Capture the target */
+        TRIGGER_CMDOn();
     }
-    if(counter2 >= 12){
+    
+    if(counter == (appData.exposureTime - appData.focusTime)){
         
-        counter2 = 0;
+        TRIGGER_CMDOff();
+        FOCUS_CMDOff();
+    }
+    
+    //------------------------------------------------------------------------// End of sequence
+    if(counter >= appData.lightTime){
+
+        /* Turn off all power LED */
         LED1_CMDOff();
+        LED2_CMDOff();
+        LED3_CMDOff();
+        LED4_CMDOff();
+        LED5_CMDOff();
+        counter = 0;
+        DRV_TMR0_Stop();
+    } else {
+        
+        counter++;
     }
+    
 }
 
 //----------------------------------------------------------------------------// TMR ID 1
-void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void)
-{
+void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void){
+    
+    static uint8_t counter = 0;
     /* Frequency = 500Hz */
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_2);
     
-    static uint8_t counter = 0;
+    
     
     /* Scan the activity of the rotary encoder */
     scanPec12();
+    
+    /* Scan the activity of the switch S1 */
+    scanSwitch();
     
     counter++;
     /* 20Hz */
@@ -121,27 +166,28 @@ void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void)
         
         /* States machines update */
         APP_UpdateAppState(APP_STATE_SERVICE_TASKS);
-//        SIGN_LED_CMDToggle();
+        SIGN_LED_CMDToggle();
     }
 }
 
 //----------------------------------------------------------------------------// TMR ID 2
-void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void)
-{
+void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void){
+    
     /* Variable frequency */
 //    SIGN_LED_CMDOff();
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_3);
     
-    changeSpeed(&stepperData);
-    processStepper(&stepperData);
+    changeSpeed(getStepperStruct());
+    processStepper(getStepperStruct());
 //    SIGN_LED_CMDOn();
 }
  
 //----------------------------------------------------------------------------// TMR ID 3
-void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void)
-{
+void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void){
+    
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_4);
     
+    /* Timer for ms delay */
     appData.msCounter++;
 }
 

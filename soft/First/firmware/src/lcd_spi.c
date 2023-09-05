@@ -10,7 +10,6 @@
 #include "lcd_spi.h"
 #include "Mc32SpiUtil.h"
 #include "app.h"
-#include "Delays.h"
 
 //--- module global varibles ---
 
@@ -21,7 +20,7 @@
 void initDispl(void)
 {
     DRV_SPI0_Initialize();
-    delay_ms(1);
+    APP_Delay_ms(1);
     
 	//init Display
 	WriteIns(0x3A);	//8-Bit data length extension Bit RE=1; REV=0

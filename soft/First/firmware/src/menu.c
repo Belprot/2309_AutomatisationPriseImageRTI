@@ -14,42 +14,45 @@
 
 MENU menu;
 extern APP_DATA appData;
-extern STEPPER_DATA stepperData;
 bool isInModifMode = 0;
 bool isFirstDataProcessPass = false;
 
 
 void initMenuParam(){
-    
+
     menu.isPrinted = false;
     menu.menuState = MAIN_MENU;
 }
 
 
-
-void processSelection(void){
+//____________________________________________________________________________// menuManagementProcess
+void menuManagementProcess(void){
     
     static int32_t pec12RotationValue = 0;
     static bool isSimplePage = true;
     
+    /* Get PEC12 increments or decrements if there are */
+    int incrOrDecr = getPec12IncrOrDecr();
+    //------------------------------------------------------------------------// isInModifMode == true
     if(isInModifMode){
         
-        int temp = getPec12IncrOrDecr();
+        pec12RotationValue += incrOrDecr;
+        menuDataProcess(&pec12RotationValue, getStepperStruct());
+        menuPrintProcess(getStepperStruct());
         
-        pec12RotationValue += temp;
-        menuDataProcess(&pec12RotationValue);
-        menuPrintProcess();
-        
-        // Pec12 switch pressed
+        /* PEC12 switch pressed */
         if(getPec12SwitchEvent()){
             
+            /* Leave modification mode */
             isInModifMode = false;
             /* Put the cursor on the first line */ 
             pec12RotationValue = 0;
         }
     }
+    //------------------------------------------------------------------------// isInModifMode == false
     if(isInModifMode == false){
-        pec12RotationValue += getPec12IncrOrDecr();
+        
+        pec12RotationValue += incrOrDecr;
 
         if(isSimplePage){
             if(pec12RotationValue > 3) pec12RotationValue = 3;
@@ -58,17 +61,29 @@ void processSelection(void){
 
         printCursor(pec12RotationValue);
         
-
+        /* PEC12 switch pressed */
         if(getPec12SwitchEvent()){
 
-            
             menuActionProcess(pec12RotationValue);
-            menuDataProcess(&pec12RotationValue);
-            menuPrintProcess();
+            menuDataProcess(&pec12RotationValue, getStepperStruct());
+            menuPrintProcess(getStepperStruct());
             
             /* Put the cursor on the first line */
 //            pec12RotationValue = 0;
         }
+    }
+    if(getSwitchEvent()){
+        
+        takePicture(1);
+        APP_Delay_ms(400);
+        takePicture(2);
+        APP_Delay_ms(400);
+        takePicture(3);
+        APP_Delay_ms(400);
+        takePicture(4);
+        APP_Delay_ms(400);
+        takePicture(5);
+        APP_Delay_ms(400);
     }
 }
    
@@ -169,7 +184,7 @@ void menuActionProcess(int32_t pec12RotationValue){
                         break;
                         
                     case LEDS_SEL:
-                        menu.menuState = LEDS_MENU;
+                        menu.menuState = LIGHT_MENU;
                         break;
                     
                     case BACKLIGHT_SEL:
@@ -189,29 +204,42 @@ void menuActionProcess(int32_t pec12RotationValue){
                     case SPEED_SEL:
                         menu.modifState = SPEED_MODIF;
                         isInModifMode = true;
+                        isFirstDataProcessPass = true;
                         break;
                         
                     case GEAR_SEL:
                         menu.modifState = GEAR_MODIF;
                         isInModifMode = true;
+                        isFirstDataProcessPass = true;
                         break;
                         
                     case STEP_PER_TURN_SEL:
                         menu.modifState = STEP_PER_TURN_MODIF;
                         isInModifMode = true;
+                        isFirstDataProcessPass = true;
                         break;
                 }
-                isFirstDataProcessPass = true;
                 break;
                 
-            //----------------------------------------------------------------// Main menu -> Settings menu -> LEDs menu
-            case LEDS_MENU:
+            //----------------------------------------------------------------// Main menu -> Settings menu -> Light menu
+            case LIGHT_MENU:
                 switch(pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = SETTINGS_MENU;
-                        break;   
+                        break;
                         
+                    case LIGHT_INTENSITY_SEL:
+                        menu.modifState = LIGHT_INTENSITY_MODIF;
+                        isInModifMode = true;
+                        isFirstDataProcessPass = true;
+                        break;
+                        
+                    case LIGHT_TIME_SEL:
+                        menu.modifState = LIGHT_TIME_MODIF;
+                        isInModifMode = true;
+                        isFirstDataProcessPass = true;
+                        break;
                 }
                 break;
                 
@@ -249,7 +277,7 @@ void menuActionProcess(int32_t pec12RotationValue){
 }
 
 //____________________________________________________________________________//
-void menuDataProcess(int32_t *pec12RotationValue){
+void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
     
     /* Data action switch */
     if(isInModifMode){
@@ -260,9 +288,9 @@ void menuDataProcess(int32_t *pec12RotationValue){
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
-                    *pec12RotationValue = getRotationToDo(&stepperData); /////// A TESTER ET VALIDER, PERTE DE PAS POSSIBLE
+                    *pec12RotationValue = getRotationToDo(pStepperData); /////// A TESTER ET VALIDER, PERTE DE PAS POSSIBLE
                 }
-                setRotationToDo(&stepperData, pec12RotationValue); 
+                setRotationToDo(pStepperData, pec12RotationValue); 
                 break;
                 
             case AUTO_HOME_MENU:
@@ -274,27 +302,29 @@ void menuDataProcess(int32_t *pec12RotationValue){
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
-                    *pec12RotationValue = getSpeed(&stepperData);
+                    *pec12RotationValue = getSpeed(pStepperData);
                 }
-                setSpeed(&stepperData, pec12RotationValue);
+                setSpeed(pStepperData, pec12RotationValue);
                 break;
             
+            //----------------------------------------------------------------// GEAR_MODIF
             case GEAR_MODIF:
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
-                    *pec12RotationValue = getGearReduction(&stepperData);
+                    *pec12RotationValue = getGearReduction(pStepperData);
                 }
-                setGearReduction(&stepperData, pec12RotationValue);
+                setGearReduction(pStepperData, pec12RotationValue);
                 break;
                 
+            //----------------------------------------------------------------// STEP_PER_TURN_MODIF
             case STEP_PER_TURN_MODIF :
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
-                    *pec12RotationValue = getAnglePerStep(&stepperData);
+                    *pec12RotationValue = getAnglePerStep(pStepperData);
                 }
-                setAnglePerStep(&stepperData, pec12RotationValue);
+                setAnglePerStep(pStepperData, pec12RotationValue);
                 break;
             
             //----------------------------------------------------------------// BL_INTENSITY_MODIF
@@ -307,13 +337,33 @@ void menuDataProcess(int32_t *pec12RotationValue){
                 setBlIntensity(pec12RotationValue);
                 break;
                 
+            //----------------------------------------------------------------//    
+            case LIGHT_INTENSITY_MODIF:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+                    *pec12RotationValue = getLightIntensity();
+                }
+                setLightIntensity(pec12RotationValue);
+                break;
                 
+            //----------------------------------------------------------------//
+            case LIGHT_TIME_MODIF:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+                    *pec12RotationValue = getLightTime();
+                }
+                setLightTime(pec12RotationValue);
+                break;
+                
+            //----------------------------------------------------------------// AUTO_HOME_START
             case AUTO_HOME_START:
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
 //                    isInModifMode = false; // AFFICHER .. ECRAN
-                    autoHome(&stepperData);
+                    autoHome(pStepperData);
                 }
                 else{
                     
@@ -334,7 +384,7 @@ void menuDataProcess(int32_t *pec12RotationValue){
 
 
 //____________________________________________________________________________//
-void menuPrintProcess(void){
+void menuPrintProcess(STEPPER_DATA *pStepperData){
     /* Print switch */
     switch(menu.menuState){
         
@@ -347,10 +397,10 @@ void menuPrintProcess(void){
             break;
             
         case MOTOR_MENU:
-            printMotorMenu();
+            printMotorMenu(pStepperData);
             break;
            
-        case LEDS_MENU:
+        case LIGHT_MENU:
             printLedsMenu();
             break;
         
@@ -364,7 +414,7 @@ void menuPrintProcess(void){
             
             break;
         case MANUAL_MODE_MENU:
-            printManualModeMenu();
+            printManualModeMenu(pStepperData);
             break;
         
         case ABOUT_MENU:
@@ -420,7 +470,7 @@ void printMainMenu(void){
     SetPostion(LINE3);
     WriteString("  About");
     SetPostion(LINE4);
-    WriteString("  OK..");
+    WriteString("  ");
 }
 
 void printParameterMenu(void){
@@ -431,39 +481,43 @@ void printParameterMenu(void){
     SetPostion(LINE2);
     WriteString("  Motor");
     SetPostion(LINE3);
-    WriteString("  LEDs");
+    WriteString("  Power light");
     SetPostion(LINE4);
     WriteString("  Back-light");
 }
 
-void printMotorMenu(void){
+void printMotorMenu(STEPPER_DATA *pStepperData){
     
     char str[21];
     ClrDisplay();
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    sprintf(str, "  Speed : %03d", stepperData.stepPerSec);
+    sprintf(str, "  Speed : %03d", pStepperData->stepPerSec);
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Gear : %03d", stepperData.gearValue);
+    sprintf(str, "  Gear : %03d", pStepperData->gearValue);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Step angle : %01.2f", stepperData.anglePerStep);
+    sprintf(str, "  Step angle : %01.2f", pStepperData->anglePerStep);
     WriteString(str);
 }
 
 void printLedsMenu(void){
     
+    char str[21];
     ClrDisplay();
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    WriteString("  Light time");
+    /* 0.04 = 100 / 2500 */
+    sprintf(str, "  Intensity : %03.0f%%", ((float)appData.lightIntensity * 0.04));
+    WriteString(str);
     SetPostion(LINE3);
-    WriteString("  Time bw lights");
+    sprintf(str, "  Light time: %03dms", appData.lightTime);
+    WriteString(str);
     SetPostion(LINE4);
-    WriteString("  ");
+    WriteString("  T bw lights: ");
 }
 
 void printChoiceSeqMenu(void){
@@ -492,26 +546,26 @@ void printAboutMenu(void){
     WriteString("  08-09 2023");
 }
 
-void printManualModeMenu(void){
+void printManualModeMenu(STEPPER_DATA *pStepperData){
     
     char str[21];
     ClrDisplay();
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    if(stepperData.isIndexed == true){
+    if(pStepperData->isIndexed == true){
         sprintf(str, "  Auto home : %s", "DONE");
     } else {
         sprintf(str, "  Auto home : %s", "NOK");
     }
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Angle : %05.1f", (((float)stepperData.stepToDoReach * 1.8) 
-            / stepperData.gearValue));
+    sprintf(str, "  Angle : %05.1f%c", (((float)pStepperData->stepToDoReach * 1.8) 
+            / pStepperData->gearValue), 0x01);
 //    sprintf(str, "  Steps      : %05d", stepperData.stepToDoReach);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Steps      : %05d", stepperData.performedStep);
+    sprintf(str, "  Steps      : %05d", pStepperData->performedStep);
     WriteString(str);
 }
 
@@ -523,7 +577,7 @@ void printAutoHomeMenu(void){
     SetPostion(LINE2);
     WriteString("  Press to index");
     SetPostion(LINE3);
-    WriteString("  ...");
+    WriteString("  ");
     SetPostion(LINE4);
     WriteString("  ");
 }
