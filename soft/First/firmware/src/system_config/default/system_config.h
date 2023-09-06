@@ -158,6 +158,12 @@ extern "C" {
 // Section: Driver Configuration
 // *****************************************************************************
 // *****************************************************************************
+
+/*** EEPROM Driver Configuration ***/
+#define DRV_EEPROM_INSTANCES_NUMBER     	1
+#define DRV_EEPROM_CLIENTS_NUMBER        	1
+#define DRV_EEPROM_BUFFER_OBJECT_NUMBER  	5
+#define DRV_EEPROM_MEDIA_SIZE               1
 #define DRV_MCPWM_DRIVER_MODE_STATIC 
 
 /*** SPI Driver Configuration ***/

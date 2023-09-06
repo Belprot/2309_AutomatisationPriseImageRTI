@@ -74,6 +74,7 @@ void SYS_Tasks ( void )
     /* Maintain system services */
 
     /* Maintain Device Drivers */
+    DRV_EEPROM_Tasks (sysObj.drvEeprom);
     DRV_SPI_Tasks(sysObj.spiObjectIdx0);
 
     /* Maintain Middleware & Other Libraries */

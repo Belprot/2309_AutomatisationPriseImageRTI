@@ -52,6 +52,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 
+#include "stepperDriver.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -59,7 +60,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include <stdio.h>
 #include "system_config.h"
 #include "system_definitions.h"
-#include "stepperDriver.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
@@ -85,6 +85,8 @@ extern "C" {
 #define PWM_BUZZER_CH MCPWM_CHANNEL4
 #define PWM_DIM_CH MCPWM_CHANNEL6
     
+#define MARGIN_LED_DELAY 50
+    
 /* Intensity in percent */
 #define BACKLIGHT_INTENSITY_MIN 0    
 #define BACKLIGHT_INTENSITY_MAX 100
@@ -94,6 +96,16 @@ extern "C" {
 /* Time in ms */
 #define LIGHT_TIME_MIN 50
 #define LIGHT_TIME_MAX 1000
+/* Time in ms */
+#define EXPOSURE_TIME_MIN 50
+#define EXPOSURE_TIME_MAX 3000
+/* Time in ms */
+#define TIME_BW_PICTURES_MIN 50
+#define TIME_BW_PICTURES_MAX 9999
+    
+/* Value used to check if the EEPROM is already writent by this code */
+#define CONTROL_VALUE 0x11223344
+
 // *****************************************************************************
 /* Application states
 
@@ -156,19 +168,18 @@ typedef struct
     LED_ID ledId;
     uint32_t msCounter;
     
+    /* LED config */
     uint16_t lightIntensity;
     uint16_t timeBetweenPictures;
     uint16_t exposureDuration;
-    uint16_t lightTime;
-    uint16_t focusDuration;
+    
+//    uint16_t lightTime;
     uint32_t seqClock;
     bool isImagingStarted;
     
     uint16_t backLightIntensitiy;
     
 } APP_DATA;
-
-
     
 typedef struct
 {
@@ -177,7 +188,25 @@ typedef struct
     
 } SW;
 
-
+typedef struct{
+    
+    /* Motor data */
+    int16_t     stepPerSec;
+    uint16_t    stepPerTurn;
+    uint16_t    gearValue;
+    float       anglePerStep;
+    
+    /* LEDs data */
+    uint16_t lightIntensity;
+    uint16_t timeBetweenPictures;
+    uint16_t exposureDuration;
+    
+    uint16_t backLightIntensitiy;
+    
+    /* Security value */
+    uint32_t controlValue;
+        
+    } DATA_IN_EEPROM;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Routines
@@ -263,6 +292,10 @@ void setBlIntensity(int32_t *backLightIntensitiy);
 int32_t getBlIntensity(void);
 void setLightTime(int32_t *lightTime);
 int32_t getLightTime(void);
+void setExposureTime(int32_t *exposureTime);
+int32_t getExposureTime(void);
+void setTimeBwPictures(int32_t *timeBwPictures);
+int32_t getTimeBwPictures(void);
 
 void startImaging(LED_ID ledId);
 void imagingProcess(void);
@@ -270,6 +303,7 @@ void imagingSeqProcess(void);
 
 void scanSwitch(void);
 bool getSwitchEvent(void);
+
 
 
 

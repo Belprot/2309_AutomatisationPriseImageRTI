@@ -15,10 +15,12 @@ extern "C" {
     #include <stdbool.h>
     #include <stdint.h>
     #include <stepperDriver.h>
+    #include "Mc32NVMUtil.h"
 
     #define RIGHT_ARROW 0x10
 
     // Enumerations
+    /* All menu */
     typedef enum
     {
         MAIN_MENU = 0,
@@ -29,17 +31,21 @@ extern "C" {
         MANUAL_MODE_MENU,
         LIGHT_MENU,
         BACKLIGHT_MENU,
+        CAMERA_MENU,
+        SAVE_DATA_MENU,
         AUTO_HOME_MENU,
                 
     } MENU_STATE;
+    
+    
+    
+    
     
     typedef enum{
         
         RETURN_SEL = 0,
                 
     } COMMON;
-    
-    
     
     typedef enum{
         
@@ -53,7 +59,7 @@ extern "C" {
         
         LIGHT_INTENSITY_SEL = 1,
         LIGHT_TIME_SEL,
-        TIME_BW_PICTURES, //<---- mettre dans réglage appareil photo
+        TIME_BW_PICTURES, // <---- mettre dans réglage appareil photo
                 
     }LEDS_MENU_LIST;
     
@@ -70,8 +76,6 @@ extern "C" {
                 
     } CHOICE_SEQ_MENU_LIST;
     
-    
-    
     typedef enum{
         
         AUTO_HOME_SEL = 1,
@@ -84,6 +88,8 @@ extern "C" {
         MOTOR_SEL = 1,
         LEDS_SEL,
         BACKLIGHT_SEL,
+        CAMERA_SEL,
+        SAVE_DATA_SEL,
                 
     } SETTINGS_MENU_LIST;
     
@@ -101,8 +107,15 @@ extern "C" {
                 
     } BACKLIGHT_MENU_LIST;
     
-    /* X is when the value is auto modified */
-    // PEUT ETRE MODIFIER VAL MOD ET INTERACT
+    typedef enum{
+        
+        EXPOSURE_TIME_SEL = 1,
+        TIME_BW_PICTURES_SEL,
+                
+    } CAMERA_MENU_LIST;
+
+    
+    
     typedef enum{
         
         ANGLE_MODIF = 0,
@@ -112,7 +125,10 @@ extern "C" {
         BL_INTENSITY_MODIF,
         LIGHT_INTENSITY_MODIF,
         LIGHT_TIME_MODIF,
-                
+        EXPOSURE_TIME_MODIF,
+        TIME_BW_PICTURES_MODIF,
+        
+        SAVE_DATA_START,
         AUTO_HOME_START,// INTERACT   
         
     } MODIF_LIST;
@@ -122,18 +138,22 @@ extern "C" {
     // Structures
     typedef struct{
         
+        uint8_t menuPage;
+        uint8_t menuSize;
         MENU_STATE menuState;
         MODIF_LIST modifState;
-        bool isPrinted;
         
     } MENU;
 
     
     
+    
+    
     // Prototypes
     void printInit(void);
     void printMainMenu(void);
-    void printParameterMenu(void);
+    void printParameterMenuPage0(void);
+    void printParameterMenuPage1();
     void printMotorMenu(STEPPER_DATA *pStepperData);
     void printLedsMenu(void);
     void printChoiceSeqMenu(void);
@@ -141,6 +161,8 @@ extern "C" {
     void printManualModeMenu(STEPPER_DATA *pStepperData);
     void printAutoHomeMenu(void);
     void printBackLightMenu(void);
+    void printCameraMenu(void);
+    void printSaveDataMenu(void);
     
     void menuManagementProcess(void);
     void menuActionProcess(int32_t pec12RotationValue);
@@ -149,6 +171,10 @@ extern "C" {
     
     void clearFirstRow(void);
     void printCursor(int32_t cursor);
+    
+    bool saveDataInEeprom(STEPPER_DATA *pStepperData);
+    bool readDataFromEeprom(STEPPER_DATA *pStepperData);
+    
     
 #ifdef	__cplusplus
 }

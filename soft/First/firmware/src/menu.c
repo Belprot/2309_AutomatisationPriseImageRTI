@@ -20,7 +20,8 @@ bool isFirstDataProcessPass = false;
 
 void initMenuParam(){
 
-    menu.isPrinted = false;
+    menu.menuPage = 0;
+    menu.menuSize = 2;
     menu.menuState = MAIN_MENU;
 }
 
@@ -29,7 +30,6 @@ void initMenuParam(){
 void menuManagementProcess(void){
     
     static int32_t pec12RotationValue = 0;
-    static bool isSimplePage = true;
     
     /* Get PEC12 increments or decrements if there are */
     int incrOrDecr = getPec12IncrOrDecr();
@@ -54,20 +54,25 @@ void menuManagementProcess(void){
         
         pec12RotationValue += incrOrDecr;
 
-        if(isSimplePage){
-            if(pec12RotationValue > 3) pec12RotationValue = 3;
-            else if(pec12RotationValue < 0) pec12RotationValue = 0;
-        } else{
-            if(pec12RotationValue > 3){
-                
-            }
-        }
+        if(pec12RotationValue > menu.menuSize) pec12RotationValue =  menu.menuSize;
+        else if(pec12RotationValue < 0) pec12RotationValue = 0;
 
-        printCursor(pec12RotationValue);
+        if(pec12RotationValue <= 3){
+            
+            menu.menuPage = 0;
+            menuPrintProcess(getStepperStruct());
+            printCursor(pec12RotationValue);
+        }
+        else{
+            
+            menu.menuPage = 1;
+            menuPrintProcess(getStepperStruct());
+            printCursor(pec12RotationValue - 4);
+        }
         
         /* PEC12 switch pressed */
         if(getPec12SwitchEvent()){
-
+            
             menuActionProcess(pec12RotationValue);
             menuDataProcess(&pec12RotationValue, getStepperStruct());
             menuPrintProcess(getStepperStruct());
@@ -78,6 +83,7 @@ void menuManagementProcess(void){
     }
     if(getSwitchEvent()){
         
+        startImaging(1);
 //        imagingSeqProcess();
     }
 }
@@ -97,14 +103,17 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case CHOICE_SEQ_SEL:
                         menu.menuState = CAPTURE_MODE_MENU;
+                        menu.menuSize = 2;
                         break;
 
                     case SETTINGS_SEL:
                         menu.menuState = SETTINGS_MENU;
+                        menu.menuSize = 5;
                         break;
 
                     case ABOUT_SEL:
                         menu.menuState = ABOUT_MENU;
+                        menu.menuSize = 0;
                         break;
                 }
                 break;
@@ -116,13 +125,17 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = MAIN_MENU;
+                        menu.menuSize = 2;
                         break;
 
                     case MANUAL_MODE_SEL:
                         menu.menuState = MANUAL_MODE_MENU;
+                        menu.menuSize = 3;
                         break;
 
                     case AUTOMATIC_MODE_SEL:
+                        //....
+                        //....
                         break;
                 }
                 break;
@@ -133,10 +146,12 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = CAPTURE_MODE_MENU;
+                        menu.menuSize = 2;
                         break;
                         
                     case AUTO_HOME_SEL:
                         menu.menuState = AUTO_HOME_MENU;
+                        menu.menuSize = 1;
                         break;
 
                     case ANGLE_SEL:
@@ -147,11 +162,13 @@ void menuActionProcess(int32_t pec12RotationValue){
                 }
                 break;
                 
+            //----------------------------------------------------------------//
             case AUTO_HOME_MENU:
                     switch(pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = CAPTURE_MODE_MENU;
+                        menu.menuSize = 2;
                         break;
                         
                     case AUTO_HOME_START_SEL:
@@ -164,7 +181,7 @@ void menuActionProcess(int32_t pec12RotationValue){
                 
                 //returnToHome(); PEUT ETRE METTRE AILLEUR
                 break;
-
+                
             //----------------------------------------------------------------// Main menu -> Settings menu
             case SETTINGS_MENU:
 
@@ -172,19 +189,34 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = MAIN_MENU;
+                        menu.menuSize = 2;
                         break;
                         
                     case MOTOR_SEL:
                         menu.menuState = MOTOR_MENU;
+                        menu.menuSize = 3;
                         break;
                         
                     case LEDS_SEL:
                         menu.menuState = LIGHT_MENU;
+                        menu.menuSize = 1;
                         break;
                     
                     case BACKLIGHT_SEL:
                         menu.menuState = BACKLIGHT_MENU;
+                        menu.menuSize = 1;
                         break;
+                        
+                    case CAMERA_SEL:
+                        menu.menuState = CAMERA_MENU;
+                        menu.menuSize = 3;
+                        break;
+                    
+                    case SAVE_DATA_SEL:
+                        menu.menuState = SAVE_DATA_MENU;
+                        menu.menuSize = 1;
+                        break;
+                        
                 }
                 break;
             
@@ -194,6 +226,7 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = SETTINGS_MENU;
+                        menu.menuSize = 5;
                         break;
                         
                     case SPEED_SEL:
@@ -222,6 +255,7 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = SETTINGS_MENU;
+                        menu.menuSize = 5;
                         break;
                         
                     case LIGHT_INTENSITY_SEL:
@@ -230,29 +264,69 @@ void menuActionProcess(int32_t pec12RotationValue){
                         isFirstDataProcessPass = true;
                         break;
                         
-                    case LIGHT_TIME_SEL:
-                        menu.modifState = LIGHT_TIME_MODIF;
+//                    case LIGHT_TIME_SEL: // <--- in camera param
+//                        menu.modifState = LIGHT_TIME_MODIF;
+//                        isInModifMode = true;
+//                        isFirstDataProcessPass = true;
+//                        break;
+                }
+                break;
+                
+            //----------------------------------------------------------------// Main menu -> Settings menu -> Back-light menu
+            case BACKLIGHT_MENU:
+                switch(pec12RotationValue){
+
+                    case RETURN_SEL:
+                        menu.menuState = SETTINGS_MENU;
+                        menu.menuSize = 5;
+                        break;
+                        
+                    case LIGHT_INTENSITY_SEL:
+                        menu.modifState = BL_INTENSITY_MODIF;
                         isInModifMode = true;
                         isFirstDataProcessPass = true;
                         break;
                 }
                 break;
                 
-            //----------------------------------------------------------------// Main menu -> Settings menu -> Back-light
-            case BACKLIGHT_MENU:
+            //----------------------------------------------------------------// Main menu -> Settings menu -> Camera
+            case CAMERA_MENU:
                 switch(pec12RotationValue){
                     
                     case RETURN_SEL:
                         menu.menuState = SETTINGS_MENU;
+                        menu.menuSize = 5;
                         break;  
                         
-                    case BACKLIGHT_INTENSITY_SEL:
-                        menu.modifState = BL_INTENSITY_MODIF;
+                    case EXPOSURE_TIME_SEL:
+                        menu.modifState = EXPOSURE_TIME_MODIF;
+                        isInModifMode = true;
+                        break;
+                        
+                    case TIME_BW_PICTURES_SEL:
+                        menu.modifState = TIME_BW_PICTURES_MODIF;
                         isInModifMode = true;
                         break;
                 }
                 isFirstDataProcessPass = true;
                 break; 
+                
+            //----------------------------------------------------------------// Main menu -> Settings menu -> Save data
+            case SAVE_DATA_MENU:
+                switch(pec12RotationValue){
+                    
+                    case RETURN_SEL:
+                        menu.menuState = SETTINGS_MENU;
+                        menu.menuSize = 5;
+                        break;  
+                        
+                    case SAVE_DATA_SEL - 4:
+                        menu.modifState = SAVE_DATA_START;
+                        isInModifMode = true;
+                        break;
+                }
+                isFirstDataProcessPass = true;
+                break;
 
             //----------------------------------------------------------------// Main menu -> About menu
             case ABOUT_MENU:
@@ -261,6 +335,7 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = MAIN_MENU;
+                        menu.menuSize = 2;
                         break;
                 }
                 break;
@@ -278,21 +353,18 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
     if(isInModifMode){
         switch(menu.modifState){
 
-            //----------------------------------------------------------------// Manual mode data :
+            //----------------------------------------------------------------// ANGLE_MODIF
             case ANGLE_MODIF:
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
-                    *pec12RotationValue = getRotationToDo(pStepperData); /////// A TESTER ET VALIDER, PERTE DE PAS POSSIBLE
+                    /* A TESTER ET VALIDER, PERTE DE PAS POSSIBLE */
+                    *pec12RotationValue = getRotationToDo(pStepperData);
                 }
                 setRotationToDo(pStepperData, pec12RotationValue); 
                 break;
-                
-            case AUTO_HOME_MENU:
-                
-                break;
             
-            //----------------------------------------------------------------// Motor settings :
+            //----------------------------------------------------------------// SPEED_MODIF
             case SPEED_MODIF:
                 if(isFirstDataProcessPass){
                     
@@ -332,7 +404,7 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 setBlIntensity(pec12RotationValue);
                 break;
                 
-            //----------------------------------------------------------------//    
+            //----------------------------------------------------------------// LIGHT_INTENSITY_MODIF
             case LIGHT_INTENSITY_MODIF:
                 if(isFirstDataProcessPass){
                     
@@ -342,14 +414,51 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 setLightIntensity(pec12RotationValue);
                 break;
                 
-            //----------------------------------------------------------------//
-            case LIGHT_TIME_MODIF:
+            //----------------------------------------------------------------// LIGHT_TIME_MODIF
+//            case LIGHT_TIME_MODIF:
+//                if(isFirstDataProcessPass){
+//                    
+//                    isFirstDataProcessPass = false;
+//                    *pec12RotationValue = getLightTime();
+//                }
+//                setLightTime(pec12RotationValue);
+//                break;
+                
+            //----------------------------------------------------------------// EXPOSURE_TIME_MODIF
+            case EXPOSURE_TIME_MODIF:
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
-                    *pec12RotationValue = getLightTime();
+                    *pec12RotationValue = getExposureTime();
                 }
-                setLightTime(pec12RotationValue);
+                setExposureTime(pec12RotationValue);
+                break;
+                
+            //----------------------------------------------------------------// TIME_BW_PICTURES_MODIF
+            case TIME_BW_PICTURES_MODIF:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+                    *pec12RotationValue = getTimeBwPictures();
+                }
+                setTimeBwPictures(pec12RotationValue);
+                break;
+                
+                
+                
+            //----------------------------------------------------------------// SAVE_DATA_START
+            case SAVE_DATA_START:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+//                    isInModifMode = false; // AFFICHER .. ECRAN
+                    saveDataInEeprom(pStepperData);
+                    /* Once the data are saved, back to previous menu */
+                    isInModifMode = false;
+                    menu.menuState = SETTINGS_MENU;
+                    menu.menuSize = 5;
+                    
+                }
                 break;
                 
             //----------------------------------------------------------------// AUTO_HOME_START
@@ -388,7 +497,13 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
             break;
         
         case SETTINGS_MENU:
-            printParameterMenu();
+            switch (menu.menuPage){
+                case 0: printParameterMenuPage0();
+                    break;
+                case 1: printParameterMenuPage1();
+                    break;
+            }
+            
             break;
             
         case MOTOR_MENU:
@@ -403,10 +518,18 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
             printBackLightMenu();
             break;
                     
+        case CAMERA_MENU:
+            printCameraMenu();
+            break;
+            
+        case SAVE_DATA_MENU:
+            printSaveDataMenu();
+            break;
+            
         case CAPTURE_MODE_MENU:
             printChoiceSeqMenu();
-            
             break;
+            
         case MANUAL_MODE_MENU:
             printManualModeMenu(pStepperData);
             break;
@@ -423,6 +546,10 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
             break;
     }
 }
+
+
+
+
 
 
 void printInit(void){
@@ -446,7 +573,7 @@ void printInit(void){
     int i;
     for (i = 0; i < 20; i++){
         
-        APP_Delay_ms(100);
+        APP_Delay_ms(75);
         SetPostion(LINE4 + i);
         sprintf(str, "%c", 0xD0);
         WriteString(str);
@@ -467,7 +594,7 @@ void printMainMenu(void){
     WriteString("  ");
 }
 
-void printParameterMenu(void){
+void printParameterMenuPage0(void){
     
     ClrDisplay();
     SetPostion(LINE1);
@@ -478,6 +605,15 @@ void printParameterMenu(void){
     WriteString("  Power light");
     SetPostion(LINE4);
     WriteString("  Back-light");
+}
+
+void printParameterMenuPage1(void){
+    
+    ClrDisplay();
+    SetPostion(LINE1);
+    WriteString("  Camera");
+    SetPostion(LINE2);
+    WriteString("  Save data");
 }
 
 void printMotorMenu(STEPPER_DATA *pStepperData){
@@ -507,9 +643,9 @@ void printLedsMenu(void){
     /* 0.04 = 100 / 2500 */
     sprintf(str, "  Intensity : %03.0f%%", ((float)appData.lightIntensity * 0.04));
     WriteString(str);
-    SetPostion(LINE3);
-    sprintf(str, "  Light time: %03dms", appData.lightTime);
-    WriteString(str);
+//    SetPostion(LINE3);
+//    sprintf(str, "  Light time: %03dms", appData.lightTime);
+//    WriteString(str);
 }
 
 void printChoiceSeqMenu(void){
@@ -586,6 +722,35 @@ void printBackLightMenu(void){
     WriteString(str);
 }
 
+void printCameraMenu(void){
+    
+    char str[21];
+    ClrDisplay();
+    SetPostion(LINE1);
+    WriteString("  Return");
+    SetPostion(LINE2);
+    sprintf(str, "  Expos time: %04dms", appData.exposureDuration);
+    WriteString(str);
+    SetPostion(LINE3);
+    sprintf(str, "  Time bw pic:%04dms", appData.timeBetweenPictures);
+    WriteString(str);
+    SetPostion(LINE4);
+    WriteString("  Trigger : cable"); // <-- or IR but not ready
+}
+
+void printSaveDataMenu(){
+    
+    ClrDisplay();
+    SetPostion(LINE1);
+    WriteString("  Return");
+    SetPostion(LINE2);
+    WriteString("  Confirm to save");
+    SetPostion(LINE3);
+    WriteString("  ! Old values will ");
+    SetPostion(LINE4);
+    WriteString("  be overwritten ! ");
+}
+
 
 
 
@@ -610,4 +775,61 @@ void printCursor(int32_t cursor){
     SetPostion(cursor * 0x20);
     sprintf(str, "%c", RIGHT_ARROW);
     WriteString(str);
+}
+
+
+bool saveDataInEeprom(STEPPER_DATA *pStepperData){ // dataToSaveInEeprom
+    
+    DATA_IN_EEPROM dataToSaveInEeprom;
+    
+    /* Set the structure value for saving in EEPROM */
+    dataToSaveInEeprom.stepPerSec   = pStepperData->stepPerSec;
+    dataToSaveInEeprom.stepPerTurn  = pStepperData->stepPerTurn;
+    dataToSaveInEeprom.gearValue    = pStepperData->gearValue;
+    dataToSaveInEeprom.anglePerStep = pStepperData->anglePerStep;
+    
+    dataToSaveInEeprom.lightIntensity       = appData.lightIntensity;
+    dataToSaveInEeprom.timeBetweenPictures  = appData.timeBetweenPictures;
+    dataToSaveInEeprom.exposureDuration     = appData.exposureDuration;
+    
+    dataToSaveInEeprom.backLightIntensitiy  = appData.backLightIntensitiy;
+    
+    dataToSaveInEeprom.controlValue = CONTROL_VALUE;
+    
+    Init_DataBuff();
+    /* Write in the EEPROM */
+    NVM_WriteBlock((uint32_t*)&dataToSaveInEeprom, sizeof(dataToSaveInEeprom));
+    
+    return 0;
+}
+
+/* Read the parameters from the EEPROM */
+bool readDataFromEeprom(STEPPER_DATA *pStepperData){
+    
+    DATA_IN_EEPROM dataReadFromEeprom;
+    
+    Init_DataBuff();
+    /* Read in the EEPROM */
+    NVM_ReadBlock((uint32_t*)&dataReadFromEeprom, sizeof(dataReadFromEeprom));
+    
+    /* Check if the control value is already inside the EEPROM */
+    if(dataReadFromEeprom.controlValue == CONTROL_VALUE){
+        
+        /* Save data from EEPROM */
+        pStepperData->stepPerSec    = dataReadFromEeprom.stepPerSec;
+        pStepperData->stepPerTurn   = dataReadFromEeprom.stepPerTurn;
+        pStepperData->gearValue     = dataReadFromEeprom.gearValue;
+        pStepperData->anglePerStep  = dataReadFromEeprom.anglePerStep;
+        
+        appData.lightIntensity      = dataReadFromEeprom.lightIntensity;
+        appData.timeBetweenPictures = dataReadFromEeprom.timeBetweenPictures;
+        appData.exposureDuration    = dataReadFromEeprom.exposureDuration;
+        
+        appData.backLightIntensitiy = dataReadFromEeprom.backLightIntensitiy;
+    
+    } else {
+        
+        // SAVE INIT VAL
+        saveDataInEeprom(pStepperData);
+    }
 }

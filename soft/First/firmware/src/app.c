@@ -126,10 +126,10 @@ void APP_Initialize ( void )
     appData.msCounter = 0;
     appData.backLightIntensitiy = 2500;
     appData.lightIntensity = 2500;
-    appData.lightTime = 50;
-    appData.focusDuration = 50;
+//    appData.lightTime = 800;
+    appData.exposureDuration = 50;
 //    appData.timeBetweenPictures = appData.lightTime + appData.focusDuration + 10;
-    appData.timeBetweenPictures = 200;
+    appData.timeBetweenPictures = 1000;
     appData.isImagingStarted = false;
     appData.seqClock = 0;
     
@@ -160,6 +160,8 @@ void APP_Tasks ( void ){
         //--------------------------------------------------------------------// APP_STATE_INIT
         case APP_STATE_INIT:
             
+            readDataFromEeprom(getStepperStruct());
+            
             PLIB_MCPWM_Enable(MCPWM_ID_0);
             turnOffStepperPwms();
             
@@ -188,7 +190,7 @@ void APP_Tasks ( void ){
             
             printMainMenu();
 
-            startImaging(5);
+            //startImaging(5);
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
@@ -213,8 +215,6 @@ void APP_Tasks ( void ){
                 /* Frequency = 20Hz */
                 menuManagementProcess();
             }
-            
-            
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
@@ -283,21 +283,48 @@ int32_t getLightIntensity(void){
     return appData.lightIntensity / 25;
 }
 
-//----------------------------------------------------------------------------// setLightTime
-void setLightTime(int32_t *lightTime){
+////----------------------------------------------------------------------------// setLightTime
+//void setLightTime(int32_t *lightTime){
+//    
+//    // Limit values to avoid problems
+//    if(*lightTime < LIGHT_TIME_MIN) *lightTime = LIGHT_TIME_MIN;
+//    if(*lightTime > LIGHT_TIME_MAX) *lightTime = LIGHT_TIME_MAX;
+//    
+//    appData.lightTime = *lightTime;
+//}
+//
+//int32_t getLightTime(void){
+//    
+//    return appData.lightTime;
+//}
+
+//----------------------------------------------------------------------------// setExposureTime
+void setExposureTime(int32_t *exposureTime){
+   
+    // Limit values to avoid problems
+    if(*exposureTime < EXPOSURE_TIME_MIN) *exposureTime = EXPOSURE_TIME_MIN;
+    if(*exposureTime > EXPOSURE_TIME_MAX) *exposureTime = EXPOSURE_TIME_MAX;
+    
+    appData.exposureDuration = *exposureTime;
+}
+int32_t getExposureTime(void){
+    
+    return appData.exposureDuration;
+}
+
+//----------------------------------------------------------------------------// setTimeBwPictures
+void setTimeBwPictures(int32_t *timeBwPictures){
     
     // Limit values to avoid problems
-    if(*lightTime < LIGHT_TIME_MIN) *lightTime = LIGHT_TIME_MIN;
-    if(*lightTime > LIGHT_TIME_MAX) *lightTime = LIGHT_TIME_MAX;
+    if(*timeBwPictures < TIME_BW_PICTURES_MIN) *timeBwPictures = TIME_BW_PICTURES_MIN;
+    if(*timeBwPictures > TIME_BW_PICTURES_MAX) *timeBwPictures = TIME_BW_PICTURES_MAX;
     
-    appData.lightTime = *lightTime;
+    appData.timeBetweenPictures = *timeBwPictures;
 }
-
-int32_t getLightTime(void){
+int32_t getTimeBwPictures(void){
     
-    return appData.lightTime;
+    return appData.timeBetweenPictures;
 }
-
 
 
 //----------------------------------------------------------------------------// imagingSeqProcess
@@ -307,7 +334,7 @@ void imagingSeqProcess(void){
     DRV_TMR0_Start();
     
     if(appData.seqClock == 0){
-            startImaging(1);
+        startImaging(1);
             
     } else if(appData.seqClock == 1 * appData.timeBetweenPictures){
         startImaging(2);
@@ -316,21 +343,15 @@ void imagingSeqProcess(void){
         startImaging(3);
         
     } else if(appData.seqClock == 3 * appData.timeBetweenPictures){
-        startImaging(3);
-        
-    } else if(appData.seqClock == 4 * appData.timeBetweenPictures){
         startImaging(4);
         
-    } else if(appData.seqClock == 5 * appData.timeBetweenPictures){
+    } else if(appData.seqClock == 4 * appData.timeBetweenPictures){
         startImaging(5);
-        
-    } else if(appData.seqClock == 6 * appData.timeBetweenPictures){
+
+    } else if(appData.seqClock == 5 * appData.timeBetweenPictures){
         DRV_TMR0_Stop();
-        appData.seqClock = 0;
-        
+        appData.seqClock = 0;   
     }
-    
-    
 }
 
 
@@ -368,25 +389,21 @@ void imagingProcess(void){
                     LED5_CMDOn();
                     break;
                 }
-
-            /* Focus on the target */
-            FOCUS_CMDOn();
         }
 
-        if(counter == appData.focusDuration){
+        if(counter == MARGIN_LED_DELAY){
 
             /* Capture the target */
             TRIGGER_CMDOn();
         }
 
-        if(counter == (appData.exposureDuration - appData.focusDuration)){
-
+        if(counter == appData.exposureDuration + MARGIN_LED_DELAY){
+            
             TRIGGER_CMDOff();
-            FOCUS_CMDOff();
         }
 
         //------------------------------------------------------------------------// End of sequence
-        if(counter >= appData.lightTime){
+        if(counter >= appData.exposureDuration + (2 * MARGIN_LED_DELAY)){
 
             /* Turn off all power LED */
             LED1_CMDOff();
@@ -434,6 +451,12 @@ bool getSwitchEvent(void){
     
     return isPressed;
 }
+
+
+
+
+
+
 /*******************************************************************************
  End of File
  */

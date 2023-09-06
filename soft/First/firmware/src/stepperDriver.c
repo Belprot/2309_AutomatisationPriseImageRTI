@@ -252,10 +252,9 @@ void initStepperData(void){
     
     stepperData.isAtHomeInCW = false;
     stepperData.isAtHomeInCCW = false;
-    stepperData.motorStepNumber = 200;
     stepperData.stepPerSec = 200;
     stepperData.stepPerTurn = 200;
-    stepperData.gearValue = 1;
+    stepperData.gearValue = 200;
     stepperData.anglePerStep = 1.8;
     stepperData.performedStep = 0;
     stepperData.stepToDoReach = 0;

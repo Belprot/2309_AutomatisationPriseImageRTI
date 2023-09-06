@@ -588,76 +588,92 @@
         <Path dnOrder="1">Source&amp;#160;Files/framework/system/int/src</Path>
       </File>
       <File dnOrder="15">
+        <Name dnOrder="0">drv_eeprom.c</Name>
+        <Path dnOrder="1">Source&amp;#160;Files/framework/driver/eeprom/src/dynamic</Path>
+      </File>
+      <File dnOrder="16">
         <Name dnOrder="0">sys_clk_compatibility.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/clk</Path>
       </File>
-      <File dnOrder="16">
+      <File dnOrder="17">
         <Name dnOrder="0">sys_clk.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/clk</Path>
       </File>
-      <File dnOrder="17">
+      <File dnOrder="18">
         <Name dnOrder="0">drv_spi_sys_queue.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/driver/spi/src</Path>
       </File>
-      <File dnOrder="18">
+      <File dnOrder="19">
         <Name dnOrder="0">sys_ports_definitions.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/ports</Path>
       </File>
-      <File dnOrder="19">
+      <File dnOrder="20">
         <Name dnOrder="0">osal_impl_basic.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/osal</Path>
       </File>
-      <File dnOrder="20">
+      <File dnOrder="21">
         <Name dnOrder="0">sys_clk_mapping.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/clk</Path>
       </File>
-      <File dnOrder="21">
+      <File dnOrder="22">
         <Name dnOrder="0">sys_int_mapping.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/int</Path>
       </File>
-      <File dnOrder="22">
+      <File dnOrder="23">
         <Name dnOrder="0">osal_definitions.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/osal</Path>
       </File>
-      <File dnOrder="23">
+      <File dnOrder="24">
         <Name dnOrder="0">drv_spi_internal.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/driver/spi/src/dynamic</Path>
       </File>
-      <File dnOrder="24">
+      <File dnOrder="25">
         <Name dnOrder="0">drv_mcpwm.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/driver/mcpwm</Path>
       </File>
-      <File dnOrder="25">
+      <File dnOrder="26">
         <Name dnOrder="0">sys_int_private.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/int/src</Path>
       </File>
-      <File dnOrder="26">
+      <File dnOrder="27">
         <Name dnOrder="0">drv_tmr_compatibility.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/driver/tmr</Path>
       </File>
-      <File dnOrder="27">
+      <File dnOrder="28">
         <Name dnOrder="0">system.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system</Path>
       </File>
-      <File dnOrder="28">
+      <File dnOrder="29">
+        <Name dnOrder="0">drv_eeprom.h</Name>
+        <Path dnOrder="1">Header&amp;#160;Files/framework/driver/eeprom</Path>
+      </File>
+      <File dnOrder="30">
         <Name dnOrder="0">sys_debug.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/debug</Path>
       </File>
-      <File dnOrder="29">
+      <File dnOrder="31">
         <Name dnOrder="0">sys_module.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/common</Path>
       </File>
-      <File dnOrder="30">
+      <File dnOrder="32">
         <Name dnOrder="0">drv_spi_variant_mapping.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/driver/spi/src</Path>
       </File>
-      <File dnOrder="31">
+      <File dnOrder="33">
+        <Name dnOrder="0">drv_eeprom_variant_mapping.h</Name>
+        <Path dnOrder="1">Header&amp;#160;Files/framework/driver/eeprom/src</Path>
+      </File>
+      <File dnOrder="34">
         <Name dnOrder="0">sys_queue.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/common</Path>
       </File>
-      <File dnOrder="32">
+      <File dnOrder="35">
         <Name dnOrder="0">sys_int.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/framework/system/int</Path>
+      </File>
+      <File dnOrder="36">
+        <Name dnOrder="0">drv_eeprom_local.h</Name>
+        <Path dnOrder="1">Header&amp;#160;Files/framework/driver/eeprom/src</Path>
       </File>
     </Files>
     <Templates dnOrder="1">
@@ -720,7 +736,7 @@
       <Template dnOrder="11">
         <Name dnOrder="0">system_init.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">1F9DF256B0FC5C09137AF9AAC2C7482D</Checksum>
+        <Checksum dnOrder="2">7FED87E04BA917C2F6AF923B1BBAFCB0</Checksum>
       </Template>
       <Template dnOrder="12">
         <Name dnOrder="0">main.c</Name>
@@ -734,7 +750,7 @@
       <Template dnOrder="14">
         <Name dnOrder="0">system_definitions.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">43AE1D3F1C57FE251B55E3EA7122B148</Checksum>
+        <Checksum dnOrder="2">141C5DD8EA51509A76A8D6AC93881A6D</Checksum>
       </Template>
       <Template dnOrder="15">
         <Name dnOrder="0">system_exceptions.c</Name>
@@ -773,12 +789,12 @@
       <Template dnOrder="22">
         <Name dnOrder="0">system_tasks.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">4D84EA925D18141256BC973E1B5040C4</Checksum>
+        <Checksum dnOrder="2">333C3A84778AB64CFFF50E086DC88FA6</Checksum>
       </Template>
       <Template dnOrder="23">
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">CDB1669F2A6B5A44E204C9B333B271A2</Checksum>
+        <Checksum dnOrder="2">C02A2FACA8C7789E279ED03460977868</Checksum>
       </Template>
       <Template dnOrder="24">
         <Name dnOrder="0">app.h</Name>

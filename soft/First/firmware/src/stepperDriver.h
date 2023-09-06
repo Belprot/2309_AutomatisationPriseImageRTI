@@ -17,7 +17,7 @@ extern "C" {
 
     // Defines
     #define STEP_PER_SEC_MIN 40
-    #define STEP_PER_SEC_MAX 50000
+    #define STEP_PER_SEC_MAX 600
 
     #define GEAR_VALUE_MIN 1
     #define GEAR_VALUE_MAX 1000
@@ -34,20 +34,19 @@ extern "C" {
     // Structures
     typedef struct{
 
-        // Motion motor data
+        /* Motion motor data */
         bool        isAtHomeInCW;
         bool        isAtHomeInCCW;
         bool        isIndexed;
-        int16_t     stepPerSec;
         int32_t     performedStep;
         int32_t     stepToDoReach;
 
-        // Motor characteristics
+        /* Motor characteristics */
+        int16_t     stepPerSec;
         uint16_t    stepPerTurn;
         uint16_t    gearValue;
-        uint32_t    motorStepNumber;
         float       anglePerStep;
-
+        
     } STEPPER_DATA;
 
 
