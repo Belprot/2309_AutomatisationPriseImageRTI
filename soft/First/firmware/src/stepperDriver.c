@@ -11,7 +11,29 @@
 #include <stepperDriver.h>
 
 static STEPPER_DATA stepperData;
+extern APP_DATA appData;
 
+
+//----------------------------------------------------------------------------// initStepperData
+void initStepperData(void){
+    
+    stepperData.isAtHomeInCW    = false;
+    stepperData.isAtHomeInCCW   = false;
+    stepperData.isIndexed       = false;
+    stepperData.isInAutoHomeSeq = false;
+    
+    stepperData.performedSteps  = 0;
+    stepperData.stepToReach     = 0;
+    
+    stepperData.stepPerSec      = 400;
+    
+    stepperData.stepPerTurn     = 200;
+    stepperData.gearValue       = 200;
+    
+    stepperData.anglePerStep    = 1.8;
+}
+
+//----------------------------------------------------------------------------// turnOffStepperPwms
 /* Disable all PWMs for motor control */
 void turnOffStepperPwms(void){
     
@@ -21,7 +43,7 @@ void turnOffStepperPwms(void){
     PLIB_MCPWM_ChannelPWMxLDisable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
 }
 
-//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------// changeSpeed
 void changeSpeed(STEPPER_DATA *pStepperData){
     
     uint16_t tmrPerdiod = 0;
@@ -37,12 +59,12 @@ void changeSpeed(STEPPER_DATA *pStepperData){
     
 }
 
-//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------// processStepper
 void processStepper(STEPPER_DATA *pStepperData){
     
     static uint8_t step = 0;
-    //------------------------------------------------------------------------// Counter clockwise CCW
-    if(pStepperData->performedStep > pStepperData->stepToDoReach){
+    //---------------------------// Counter clockwise CCW
+    if(pStepperData->performedSteps > pStepperData->stepToReach){
         if(pStepperData->isAtHomeInCCW == false){
             switch(step){
                 /* Sequence of 4 steps for CCW rotation */
@@ -80,7 +102,7 @@ void processStepper(STEPPER_DATA *pStepperData){
         if(step == 4){
             
             step = 0;
-            pStepperData->performedStep -= 4;
+            pStepperData->performedSteps -= 4;
         }
         /* Index is reach in CCW */
         if(INDEXStateGet() && pStepperData->isAtHomeInCW == false){
@@ -90,16 +112,16 @@ void processStepper(STEPPER_DATA *pStepperData){
             
             if(pStepperData->isInAutoHomeSeq == true){
                 
-                pStepperData->stepToDoReach = 0;
-                pStepperData->performedStep = 0;
+                pStepperData->stepToReach = 0;
+                pStepperData->performedSteps = 0;
                 pStepperData->isIndexed = true;
                 pStepperData->isInAutoHomeSeq = false;
             }
         }
         else pStepperData->isAtHomeInCCW = false;
     }
-    //------------------------------------------------------------------------// Clockwise CW
-    else if(pStepperData->performedStep < pStepperData->stepToDoReach){
+    //---------------------------// Clockwise CW
+    else if(pStepperData->performedSteps < pStepperData->stepToReach){
         if(pStepperData->isAtHomeInCW == false){
             switch(step){
                 /* Sequence of 4 steps for CW rotation */
@@ -138,20 +160,23 @@ void processStepper(STEPPER_DATA *pStepperData){
         if(step == 4){
             
             step = 0;
-            pStepperData->performedStep += 4;
+            pStepperData->performedSteps += 4;
         }
         /* Index is reach in CW */
         if(INDEXStateGet() && pStepperData->isAtHomeInCCW == false){
                         
             pStepperData->isAtHomeInCW = true;
-//            pStepperData->stepToDoReach = pStepperData->performedStep;
+            /* Stop the automatic sequence */
+            appData.isFullImaginSeqEnable = false;
+            /* Stop the motor */
+            pStepperData->stepToReach = pStepperData->performedSteps;
         }
         else pStepperData->isAtHomeInCW = false;
     }
     
     
     // The motor reach its desired position
-    if(pStepperData->performedStep == pStepperData->stepToDoReach){
+    if(pStepperData->performedSteps == pStepperData->stepToReach){
         
         int8_t i = 0;
         //turnOffStepperPwms();
@@ -212,8 +237,11 @@ uint32_t getAnglePerStep(STEPPER_DATA *pStepperData){
     return pStepperData->anglePerStep * 10;
 }
 
-
-
+//----------------------------------------------------------------------------// getPerformedSteps
+int32_t getPerformedSteps(STEPPER_DATA *pStepperData){
+    
+    return pStepperData->performedSteps / pStepperData->stepPerTurn;
+}
 
 
 //----------------------------------------------------------------------------// setRotationToDo
@@ -224,12 +252,12 @@ void setRotationToDo(STEPPER_DATA *pStepperData, int32_t *pRotationToDo){
     if(*pRotationToDo > ROTATION_TO_DO_MAX) *pRotationToDo = ROTATION_TO_DO_MAX;
     
     // Save data
-    pStepperData->stepToDoReach = *pRotationToDo * pStepperData->stepPerTurn;
+    pStepperData->stepToReach = *pRotationToDo * pStepperData->stepPerTurn;
 }
 //----------------------------------------------------------------------------// getRotationTodo
 int32_t getRotationToDo(STEPPER_DATA *pStepperData){
     
-    return pStepperData->stepToDoReach / pStepperData->stepPerTurn;
+    return pStepperData->stepToReach / pStepperData->stepPerTurn;
 }
 
 //----------------------------------------------------------------------------// autoHome
@@ -239,27 +267,14 @@ void startAutoHome(STEPPER_DATA *pStepperData){
     // Check if the arm is not at home
     if(pStepperData->isAtHomeInCCW == false){
         // Put steps to do for returning home in CCW
-        pStepperData->stepToDoReach = -50000; // DEFINE? STEP_TO_DO_MAX
+        pStepperData->stepToReach = -50000; // DEFINE? STEP_TO_DO_MAX
     }
 }
 
 //----------------------------------------------------------------------------// getStepperStruct
-STEPPER_DATA* getStepperStruct(void){
+STEPPER_DATA* getMyStepperStruct(void){
     
     /* Return the address of the structure */
     return &stepperData;
 }
 
-//----------------------------------------------------------------------------// initStepperData
-void initStepperData(void){
-    
-    stepperData.isAtHomeInCW = false;
-    stepperData.isAtHomeInCCW = false;
-    stepperData.stepPerSec = 200;
-    stepperData.stepPerTurn = 200;
-    stepperData.gearValue = 200;
-    stepperData.anglePerStep = 1.8;
-    stepperData.performedStep = 0;
-    stepperData.stepToDoReach = 0;
-    stepperData.isIndexed = false;
-}

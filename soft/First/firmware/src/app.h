@@ -53,6 +53,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "stepperDriver.h"
+#include "lights.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -90,18 +91,7 @@ extern "C" {
 /* Intensity in percent */
 #define BACKLIGHT_INTENSITY_MIN 0    
 #define BACKLIGHT_INTENSITY_MAX 100
-/* Intensity in percent */
-#define LIGHT_INTENSITY_MIN 10    
-#define LIGHT_INTENSITY_MAX 100
-/* Time in ms */
-#define LIGHT_TIME_MIN 50
-#define LIGHT_TIME_MAX 1000
-/* Time in ms */
-#define EXPOSURE_TIME_MIN 50
-#define EXPOSURE_TIME_MAX 3000
-/* Time in ms */
-#define TIME_BW_PICTURES_MIN 50
-#define TIME_BW_PICTURES_MAX 9999
+
     
 /* Value used to check if the EEPROM is already writent by this code */
 #define CONTROL_VALUE 0x11223344
@@ -180,8 +170,12 @@ typedef struct
     uint32_t seqClock2_ms;
     bool isFiveShotsSeqEnable;
     bool isFullImaginSeqEnable;
+    bool isFirstPass;
+    uint8_t nbrOfFiveShotsSeqPerformed;
     
     uint16_t backLightIntensitiy;
+    
+    uint16_t buzzerIntensity;
     
 } APP_DATA;
     
@@ -289,27 +283,20 @@ void APP_Initialize ( void );
     This routine must be called from SYS_Tasks() routine.
  */
 
-void APP_Tasks( void );
-void APP_Delay_ms(uint32_t ms);
+    void APP_Tasks( void );
+    void APP_Delay_ms(uint32_t ms);
 
-void setBlIntensity(int32_t *backLightIntensitiy);
-int32_t getBlIntensity(void);
-void setLightTime(int32_t *lightTime);
-int32_t getLightTime(void);
-void setExposureTime(int32_t *exposureTime);
-int32_t getExposureTime(void);
-void setTimeBwPictures(int32_t *timeBwPictures);
-int32_t getTimeBwPictures(void);
+    void setBlIntensity(int32_t *backLightIntensitiy);
+    int32_t getBlIntensity(void);
 
-void startSimpleShotSequence(LED_ID ledId);
-void simpleShotProcess(void);
-void fiveShotsSeqProcess(void);
-void startFullImagingSequence(void);
+    void fullImagingSeqProcess(void);
 
-void scanSwitch(void);
-bool getSwitchEvent(void);
+    void scanSwitch(void);
+    bool getSwitchEvent(void);
 
-void turnOffAllPwrLeds(void);
+
+
+
 
 
 #endif /* _APP_H */

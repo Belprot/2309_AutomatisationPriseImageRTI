@@ -124,15 +124,15 @@ void APP_Initialize ( void )
     /* Place the App state machine in its initial state. */
     appData.appState = APP_STATE_INIT;
     appData.msCounter = 0;
-    appData.backLightIntensitiy = 2500;
-    appData.lightIntensity = 2500;
-//    appData.lightTime = 800;
+    appData.backLightIntensitiy = 2500; /* 100% */
+    appData.lightIntensity = 2500; /* 100% */
     appData.exposureDuration = 100;
-//    appData.timeBetweenPictures = appData.lightTime + appData.focusDuration + 10;
-    appData.timeBetweenPictures = 1000;
+    appData.timeBetweenPictures = 400;
     appData.isFiveShotsSeqEnable = false;
     appData.seqClock1_ms = 0;
     appData.angleBwEachSeq = 10;
+    appData.nbrOfFiveShotsSeqPerformed = 0;
+    appData.buzzerIntensity = 2500;
     
     initMenuParam();
     initStepperData();
@@ -143,7 +143,7 @@ void APP_Initialize ( void )
 //----------------------------------------------------------------------------// APP_Tasks
 void APP_Tasks ( void ){
     
-    static uint16_t counter = 0;
+    static uint16_t counter1 = 0;
     static uint16_t counter2 = 0;
     
     unsigned char degreeSymbol[] = {
@@ -163,37 +163,41 @@ void APP_Tasks ( void ){
         case APP_STATE_INIT:
             
             /* Read data from EEPROM to restore presets */
-            readDataFromEeprom(getStepperStruct());
+            readDataFromEeprom(getMyStepperStruct());
             
+            /* Turn on MCPWM  */
             PLIB_MCPWM_Enable(MCPWM_ID_0);
+            /* Turn off stepper motor */  // A CONTROLER SI UTILE   
             turnOffStepperPwms();
+            /* Disable RESET on both H bridge */
+            RESET_AB_CMDOn();
+            RESET_CD_CMDOn();
             
             /* Turn ON required PWMs */
             PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_BL_CH);
             PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_BUZZER_CH);
             PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_DIM_CH);
-            /* Change PWMs DutyCycle */
+            /* Update PWMs DutyCycle with data from EEPROM */
             PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, appData.backLightIntensitiy);
-            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 500);
-            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, 2500);
+            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, appData.buzzerIntensity);
+            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, appData.lightIntensity);
             
-            /* Disable RESET on both H bridge */
-            RESET_AB_CMDOn();
-            RESET_CD_CMDOn();
+            
             
             APP_Delay_ms(1000);
             /* Print screen on LCD */
-            printInit();
+            printLcdInit();
             
-            /* Start Timers */
-            
+            /* Start useful Timers */
+            DRV_TMR0_Start();
             DRV_TMR1_Start();
             DRV_TMR2_Start();
-            
+            DRV_TMR4_Start();
             
             /* Create a degree symbol at 0x01 address of the CG RAM */
             DefineCharacter(0x01, &degreeSymbol[0]);
             
+            /* Print main menu once all peripherals are configured */
             printMainMenu();
             
             /* States machines update */
@@ -201,39 +205,28 @@ void APP_Tasks ( void ){
             break;
             
         //--------------------------------------------------------------------// APP_STATE_SERVICE_TASKS 
-        /* Frequency = 10000Hz */
+        /* Frequency = 10'000Hz */
         case APP_STATE_SERVICE_TASKS:
             
+            /* Process who is responsible of the sequence, motor orders and 
+             * lights orders. */
+            sequenceManagementProcess();
             
-//            /* Take pictures if the flag is true */
-//            if(appData.isFiveShotsSeqEnable == true){
-//                
-//                fiveShotsSeqProcess();
-//            }
-            
-            if(appData.isFullImaginSeqEnable == true){
-                
-                fullImagingSeqProcess();
-            }
-            
-            
-            
-            
-            counter++;
-            counter2++;
             if(counter2 >= 10){
+                /* Frequency = 1'000Hz */
                 counter2 = 0;
                 /* Scan the activity of the rotary encoder */
                 scanPec12();  
                 /* Scan the activity of the switch S1 */
                 scanSwitch();
             }
-            if(counter >= 500){
-                
-                counter = 0;
+            if(counter1 >= 500){
                 /* Frequency = 20Hz */
+                counter1 = 0;
                 menuManagementProcess();
             }
+            counter1++;
+            counter2++;
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
@@ -248,11 +241,6 @@ void APP_Tasks ( void ){
             break;
     }
 }
-
-
-
-
-
 
 
 //----------------------------------------------------------------------------// APP_Delay_ms
@@ -287,175 +275,19 @@ int32_t getBlIntensity(void){
     return appData.backLightIntensitiy / 25;
 }
 
-//----------------------------------------------------------------------------// setLighIntensity
-void setLightIntensity(int32_t *lightIntensity){
+//----------------------------------------------------------------------------// fullImagingSeqProcess
+void fullImagingSeqProcess(void){
     
-    // Limit values to avoid problems
-    if(*lightIntensity < LIGHT_INTENSITY_MIN) *lightIntensity 
-            = LIGHT_INTENSITY_MIN;
-    if(*lightIntensity > LIGHT_INTENSITY_MAX) *lightIntensity 
-            = LIGHT_INTENSITY_MAX;
-    
-    /* 25 = 2500 / 100 */
-    appData.lightIntensity = *lightIntensity * 25;
-    PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, appData.lightIntensity);
-}
-int32_t getLightIntensity(void){
-    
-    return appData.lightIntensity / 25;
-}
+//    static uint8_t counter = 0;
 
-//----------------------------------------------------------------------------// setExposureTime
-void setExposureTime(int32_t *exposureTime){
-   
-    // Limit values to avoid problems
-    if(*exposureTime < EXPOSURE_TIME_MIN) *exposureTime = EXPOSURE_TIME_MIN;
-    if(*exposureTime > EXPOSURE_TIME_MAX) *exposureTime = EXPOSURE_TIME_MAX;
+    startFiveShotsSequence();
+//    if(counter >= 5) appData.isFullImaginSeqEnable = false;
     
-    appData.exposureDuration = *exposureTime;
-}
-int32_t getExposureTime(void){
     
-    return appData.exposureDuration;
-}
-
-//----------------------------------------------------------------------------// setTimeBwPictures
-void setTimeBwPictures(int32_t *timeBwPictures){
-    
-    // Limit values to avoid problems
-    if(*timeBwPictures < TIME_BW_PICTURES_MIN) *timeBwPictures = TIME_BW_PICTURES_MIN;
-    if(*timeBwPictures > TIME_BW_PICTURES_MAX) *timeBwPictures = TIME_BW_PICTURES_MAX;
-    
-    appData.timeBetweenPictures = *timeBwPictures;
-}
-int32_t getTimeBwPictures(void){
-    
-    return appData.timeBetweenPictures;
-}
-
-
-void fullImagingSeqProcess(){
-    
-    do{
-        fiveShotsSeqProcess();
     // move motor (appData.angleBwEachSeq)
-    }while(10);
-    
 }
 
-//----------------------------------------------------------------------------// imagingSeqProcess
-/* This function takes 5 pictures with 5 different LED */
-void fiveShotsSeqProcess(void){
-    
-    if(appData.seqClock1_ms == 0){
-        appData.ledId = PWR_LED1;
-        
-    } else if(appData.seqClock1_ms == 1 * appData.timeBetweenPictures){
-        appData.ledId = PWR_LED2;
-        
-    } else if(appData.seqClock1_ms == 2 * appData.timeBetweenPictures){
-        appData.ledId = PWR_LED3;
-        
-    } else if(appData.seqClock1_ms == 3 * appData.timeBetweenPictures){
-        appData.ledId = PWR_LED4;
-        
-    } else if(appData.seqClock1_ms == 4 * appData.timeBetweenPictures){
-        appData.ledId = PWR_LED5;
-
-    } else if(appData.seqClock1_ms == 5 * appData.timeBetweenPictures){
-        DRV_TMR0_Stop();
-        DRV_TMR4_Stop();
-        appData.isFiveShotsSeqEnable = false;
-        appData.seqClock1_ms = 0;   
-        appData.seqClock2_ms = 0; 
-    }
-    simpleShotProcess();
-}
-
-//----------------------------------------------------------------------------// simpleShotProcess
-void simpleShotProcess(void){
-
-    //------------------------------------------------------------------------// Start of sequence
-    if(appData.seqClock2_ms == 0){
-
-        switch (appData.ledId){
-            /* Turn on LED */
-            case PWR_LED1:
-                turnOffAllPwrLeds();
-                LED1_CMDOn();
-                break;
-
-            case PWR_LED2:
-                turnOffAllPwrLeds();
-                LED2_CMDOn();
-                break;
-
-            case PWR_LED3:
-                turnOffAllPwrLeds();
-                LED3_CMDOn();
-                break;
-
-            case PWR_LED4:
-                turnOffAllPwrLeds();
-                LED4_CMDOn();
-                break;
-
-            case PWR_LED5:
-                turnOffAllPwrLeds();
-                LED5_CMDOn();
-                break;
-        }
-    }
-    if(appData.seqClock2_ms == MARGIN_LED_DELAY){
-
-        /* Capture the target */
-        FOCUS_CMDOn();
-        TRIGGER_CMDOn();
-    }
-    if(appData.seqClock2_ms == appData.exposureDuration + MARGIN_LED_DELAY){
-
-        TRIGGER_CMDOff();
-        FOCUS_CMDOff();
-    }
-    //------------------------------------------------------------------------// End of sequence
-    if(appData.seqClock2_ms >= appData.exposureDuration + (2 * MARGIN_LED_DELAY)){
-
-        turnOffAllPwrLeds();
-        appData.seqClock2_ms = 0;
-        appData.ledId = ALL_LED_DISABLE;
-    }
-}
-
-void turnOffAllPwrLeds(void){
-    
-    /* Turn off all power LED */
-    LED1_CMDOff();
-    LED2_CMDOff();
-    LED3_CMDOff();
-    LED4_CMDOff();
-    LED5_CMDOff();
-}
-
-
-/* Start a sequence for 5 shots */
-void startFiveShotsSequence(){
-    
-    appData.isFiveShotsSeqEnable = true;
-    DRV_TMR0_Start();
-    DRV_TMR4_Start();
-}
-
-
-void startFullImagingSequence(void){
-    
-    appData.isFullImaginSeqEnable = true;
-}
-
-
-
-
-
-
+//----------------------------------------------------------------------------// scanSwitch
 void scanSwitch(void){
     
     // Save old states for debounce
@@ -471,7 +303,7 @@ void scanSwitch(void){
         S1.isPressed = true;
     }
 }
-
+//----------------------------------------------------------------------------// getSwitchEvent
 bool getSwitchEvent(void){
     
     bool isPressed = S1.isPressed;
@@ -479,11 +311,6 @@ bool getSwitchEvent(void){
     
     return isPressed;
 }
-
-
-
-
-
 
 /*******************************************************************************
  End of File

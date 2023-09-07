@@ -40,8 +40,8 @@ extern "C" {
         bool        isIndexed;
         bool        isInAutoHomeSeq;
         
-        int32_t     performedStep;
-        int32_t     stepToDoReach;
+        int32_t     performedSteps;
+        int32_t     stepToReach;
 
         /* Motor characteristics */
         int16_t     stepPerSec;
@@ -56,12 +56,23 @@ extern "C" {
 
 
     // Prototypes
+    void initStepperData(void);
     void turnOffStepperPwms(void);
     void changeSpeed(STEPPER_DATA *pStepperData);
     void processStepper(STEPPER_DATA *pStepperData);
-    void initStepperData(void);
+   
     
-    STEPPER_DATA* getStepperStruct(void);
+    void setSpeed(STEPPER_DATA *pStepperData, uint32_t *pStepPerSec);
+    int32_t getSpeed(STEPPER_DATA *pStepperData);
+    void setGearReduction(STEPPER_DATA *pStepperData, uint32_t *pGearValue);
+    uint32_t getGearReduction(STEPPER_DATA *pStepperData);
+    void setAnglePerStep(STEPPER_DATA *pStepperData, uint32_t *pAnglePerStep);
+    uint32_t getAnglePerStep(STEPPER_DATA *pStepperData);
+    int32_t getPerformedSteps(STEPPER_DATA *pStepperData);
+    void setRotationToDo(STEPPER_DATA *pStepperData, int32_t *pRotationToDo);
+    int32_t getRotationToDo(STEPPER_DATA *pStepperData);
+    void startAutoHome(STEPPER_DATA *pStepperData);
+    STEPPER_DATA* getMyStepperStruct(void);
     
     
     

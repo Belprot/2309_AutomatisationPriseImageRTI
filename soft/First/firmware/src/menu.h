@@ -50,7 +50,7 @@ extern "C" {
     
     typedef enum{
         
-        CHOICE_SEQ_SEL = 0,
+        CAPTURE_MODE_SEL = 0,
         SETTINGS_SEL,
         ABOUT_SEL,
                 
@@ -82,7 +82,13 @@ extern "C" {
         AUTO_HOME_SEL = 1,
         ANGLE_SEL,
                 
-    } MANUAL_MODE_MENU_SEL;
+    } MANUAL_MODE_MENU_LIST;
+    
+    typedef enum{
+        
+        AUTOMATIC_MODE_START_SEL = 1,
+                
+    } AUTO_MODE_MENU_LIST;
     
     typedef enum{
         
@@ -128,9 +134,10 @@ extern "C" {
         LIGHT_TIME_MODIF,
         EXPOSURE_TIME_MODIF,
         TIME_BW_PICTURES_MODIF,
-        
+                
         SAVE_DATA_START,
         AUTO_HOME_START,// INTERACT   
+        AUTOMATIC_MODE_START,
         
     } MODIF_LIST;
     
@@ -151,7 +158,7 @@ extern "C" {
     
     
     // Prototypes
-    void printInit(void);
+    void printLcdInit(void);
     void printMainMenu(void);
     void printParameterMenuPage0(void);
     void printParameterMenuPage1();
@@ -160,6 +167,7 @@ extern "C" {
     void printChoiceSeqMenu(void);
     void printAboutMenu(void);
     void printManualModeMenu(STEPPER_DATA *pStepperData);
+    void printAutoModeMenu(STEPPER_DATA *pStepperData);
     void printAutoHomeMenu(void);
     void printBackLightMenu(void);
     void printCameraMenu(void);

@@ -37,8 +37,8 @@ void menuManagementProcess(void){
     if(isInModifMode){
         
         pec12RotationValue += incrOrDecr;
-        menuDataProcess(&pec12RotationValue, getStepperStruct());
-        menuPrintProcess(getStepperStruct());
+        menuDataProcess(&pec12RotationValue, getMyStepperStruct());
+        menuPrintProcess(getMyStepperStruct());
         
         /* PEC12 switch pressed */
         if(getPec12SwitchEvent()){
@@ -60,13 +60,13 @@ void menuManagementProcess(void){
         if(pec12RotationValue <= 3){
             
             menu.menuPage = 0;
-            menuPrintProcess(getStepperStruct());
+            menuPrintProcess(getMyStepperStruct());
             printCursor(pec12RotationValue);
         }
         else{
             
             menu.menuPage = 1;
-            menuPrintProcess(getStepperStruct());
+            menuPrintProcess(getMyStepperStruct());
             printCursor(pec12RotationValue - 4);
         }
         
@@ -74,8 +74,8 @@ void menuManagementProcess(void){
         if(getPec12SwitchEvent()){
             
             menuActionProcess(pec12RotationValue);
-            menuDataProcess(&pec12RotationValue, getStepperStruct());
-            menuPrintProcess(getStepperStruct());
+            menuDataProcess(&pec12RotationValue, getMyStepperStruct());
+            menuPrintProcess(getMyStepperStruct());
             
             /* Put the cursor on the first line */
 //            pec12RotationValue = 0;
@@ -83,18 +83,14 @@ void menuManagementProcess(void){
     }
     if(getSwitchEvent()){
         
+        //startFiveShotsSequence();
+//        startFullImagingSequence();
+        
         switch (menu.menuState){
             
             case MANUAL_MODE_MENU:
-//                startImaging(1);
                 /* Start a sequence of 5 pictures */
                 startFiveShotsSequence();
-                break;
-                
-            case AUTOMATIC_MODE_MENU:
-                /* Start a full sequence with motor rotation */
-                startFullImagingSequence();
-                // fullImagingSeqProcess();
                 break;
                 
             default:
@@ -116,7 +112,7 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                 switch(pec12RotationValue){
 
-                    case CHOICE_SEQ_SEL:
+                    case CAPTURE_MODE_SEL:
                         menu.menuState = CAPTURE_MODE_MENU;
                         menu.menuSize = 2;
                         break;
@@ -149,8 +145,8 @@ void menuActionProcess(int32_t pec12RotationValue){
                         break;
 
                     case AUTOMATIC_MODE_SEL:
-                        //....
-                        //....
+                        menu.menuState = AUTOMATIC_MODE_MENU;
+                        menu.menuSize = 1;
                         break;
                 }
                 break;
@@ -177,7 +173,24 @@ void menuActionProcess(int32_t pec12RotationValue){
                 }
                 break;
                 
-            //----------------------------------------------------------------//
+            //----------------------------------------------------------------// Main menu -> Auto menu
+            case AUTOMATIC_MODE_MENU:
+                switch(pec12RotationValue){
+
+                    case RETURN_SEL:
+                        menu.menuState = CAPTURE_MODE_MENU;
+                        menu.menuSize = 2;
+                        break;
+                        
+                    case AUTOMATIC_MODE_START_SEL:
+                        menu.modifState = AUTOMATIC_MODE_START;
+                        isInModifMode = true;
+                        isFirstDataProcessPass = true;
+                        break;
+                }
+                break;
+                
+            //----------------------------------------------------------------// Main menu -> Manual menu -> Auto home
             case AUTO_HOME_MENU:
                     switch(pec12RotationValue){
                         
@@ -429,16 +442,6 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 setLightIntensity(pec12RotationValue);
                 break;
                 
-            //----------------------------------------------------------------// LIGHT_TIME_MODIF
-//            case LIGHT_TIME_MODIF:
-//                if(isFirstDataProcessPass){
-//                    
-//                    isFirstDataProcessPass = false;
-//                    *pec12RotationValue = getLightTime();
-//                }
-//                setLightTime(pec12RotationValue);
-//                break;
-                
             //----------------------------------------------------------------// EXPOSURE_TIME_MODIF
             case EXPOSURE_TIME_MODIF:
                 if(isFirstDataProcessPass){
@@ -484,6 +487,19 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                     isInModifMode = false;
                     menu.menuState = MANUAL_MODE_MENU;
                     menu.menuSize = 2;
+                }
+                break;
+                
+            case AUTOMATIC_MODE_START:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+                    /* Start the auto home seq. */
+                    startFullImagingSequence();
+                    /* Once auto home seq. is started, back to previous menu */
+                    isInModifMode = false;
+                    menu.menuState = AUTOMATIC_MODE_MENU;
+                    menu.menuSize = 1;
                 }
                 break;
         }
@@ -539,6 +555,10 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
         case MANUAL_MODE_MENU:
             printManualModeMenu(pStepperData);
             break;
+            
+        case AUTOMATIC_MODE_MENU:
+            printAutoModeMenu(pStepperData);
+            break;
         
         case ABOUT_MENU:
             printAboutMenu();
@@ -558,7 +578,11 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
 
 
 
-void printInit(void){
+
+
+
+
+void printLcdInit(void){
     
     char str[2];
     RESET_LCD_CMDOff();
@@ -694,12 +718,33 @@ void printManualModeMenu(STEPPER_DATA *pStepperData){
     }
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Des. angle :%03.1f%c", (((float)pStepperData->stepToDoReach * 1.8) 
+    sprintf(str, "  Des. angle :%03.1f%c", (((float)pStepperData->stepToReach * 1.8) 
             / pStepperData->gearValue), 0x01);
 //    sprintf(str, "  Steps      : %05d", stepperData.stepToDoReach);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Real angle :%03.1f%c", (((float)pStepperData->performedStep * 1.8) 
+    sprintf(str, "  Real angle :%03.1f%c", (((float)pStepperData->performedSteps * 1.8) 
+            / pStepperData->gearValue), 0x01);
+//    sprintf(str, "  Steps       :%05d", pStepperData->performedStep);
+    WriteString(str);
+}
+
+void printAutoModeMenu(STEPPER_DATA *pStepperData){
+    
+    char str[21];
+    ClrDisplay();
+    SetPostion(LINE1);
+    WriteString("  Return");
+    SetPostion(LINE2);
+    sprintf(str, "  Start sequence?");
+    WriteString(str);
+    SetPostion(LINE3);
+    sprintf(str, "  Des. angle :%03.1f%c", (((float)pStepperData->stepToReach * 1.8) 
+            / pStepperData->gearValue), 0x01);
+//    sprintf(str, "  Steps      : %05d", stepperData.stepToDoReach);
+    WriteString(str);
+    SetPostion(LINE4);
+    sprintf(str, "  Real angle :%03.1f%c", (((float)pStepperData->performedSteps * 1.8) 
             / pStepperData->gearValue), 0x01);
 //    sprintf(str, "  Steps       :%05d", pStepperData->performedStep);
     WriteString(str);

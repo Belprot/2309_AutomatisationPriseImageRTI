@@ -44,6 +44,7 @@
         <itemPath>../src/pec12.h</itemPath>
         <itemPath>../src/menu.h</itemPath>
         <itemPath>../src/Mc32NVMUtil.h</itemPath>
+        <itemPath>../src/lights.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="driver" projectFiles="true">
@@ -188,6 +189,7 @@
         <itemPath>../src/menu.c</itemPath>
         <itemPath>../src/stepperDriver.c</itemPath>
         <itemPath>../src/Mc32NVMUtil.c</itemPath>
+        <itemPath>../src/lights.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="driver" projectFiles="true">

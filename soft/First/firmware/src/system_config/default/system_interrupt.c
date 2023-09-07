@@ -81,6 +81,7 @@ void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void){
     
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
     appData.seqClock1_ms++;
+    
 }
 
 //----------------------------------------------------------------------------// TMR ID 2
@@ -102,8 +103,8 @@ void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void){
 //    SIGN_LED_CMDOff();
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_3);
     
-    changeSpeed(getStepperStruct());
-    processStepper(getStepperStruct());
+    changeSpeed(getMyStepperStruct());
+    processStepper(getMyStepperStruct());
 //    SIGN_LED_CMDOn();
 }
  
@@ -118,12 +119,65 @@ void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void){
     appData.msCounter++;
 }
 
-//----------------------------------------------------------------------------// TMR ID 5 <-- Not used
+//----------------------------------------------------------------------------// TMR ID 5
 /* Frequency = 1000Hz */
 void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_5);
-    appData.seqClock2_ms++;
+    
+    //------------------------------------------------------------------------// Start of sequence
+    if(appData.seqClock2_ms == 0){
+
+        switch (appData.ledId){
+            /* Turn on LED */
+            case PWR_LED1:
+                turnOffAllPwrLeds();
+                LED1_CMDOn();
+                break;
+
+            case PWR_LED2:
+                turnOffAllPwrLeds();
+                LED2_CMDOn();
+                break;
+
+            case PWR_LED3:
+                turnOffAllPwrLeds();
+                LED3_CMDOn();
+                break;
+
+            case PWR_LED4:
+                turnOffAllPwrLeds();
+                LED4_CMDOn();
+                break;
+
+            case PWR_LED5:
+                turnOffAllPwrLeds();
+                LED5_CMDOn();
+                break;
+        }
+    }
+    if(appData.seqClock2_ms == MARGIN_LED_DELAY){
+
+        /* Capture the target */
+        FOCUS_CMDOn();
+        TRIGGER_CMDOn();
+    }
+    if(appData.seqClock2_ms == appData.exposureDuration + MARGIN_LED_DELAY){
+
+        TRIGGER_CMDOff();
+        FOCUS_CMDOff();
+    }
+    //------------------------------------------------------------------------// End of sequence
+    if(appData.seqClock2_ms >= appData.exposureDuration + (2 * MARGIN_LED_DELAY)){
+
+        DRV_TMR4_Stop();
+        turnOffAllPwrLeds();
+        appData.seqClock2_ms = 0;
+        appData.ledId = ALL_LED_DISABLE;
+    } else {
+        appData.seqClock2_ms++;
+    }
+    
 }
 
 
