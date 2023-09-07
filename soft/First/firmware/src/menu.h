@@ -20,7 +20,8 @@ extern "C" {
     #define RIGHT_ARROW 0x10
 
     // Enumerations
-    /* All menu */
+    
+    /* All menus */
     typedef enum
     {
         MAIN_MENU = 0,
@@ -34,9 +35,9 @@ extern "C" {
         CAMERA_MENU,
         SAVE_DATA_MENU,
         AUTO_HOME_MENU,
+        AUTOMATIC_MODE_MENU,
                 
     } MENU_STATE;
-    
     
     
     
@@ -59,7 +60,7 @@ extern "C" {
         
         LIGHT_INTENSITY_SEL = 1,
         LIGHT_TIME_SEL,
-        TIME_BW_PICTURES, // <---- mettre dans réglage appareil photo
+        TIME_BW_PICTURES,
                 
     }LEDS_MENU_LIST;
     

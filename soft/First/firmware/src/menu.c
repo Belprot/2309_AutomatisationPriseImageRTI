@@ -83,8 +83,23 @@ void menuManagementProcess(void){
     }
     if(getSwitchEvent()){
         
-        startImaging(1);
-//        imagingSeqProcess();
+        switch (menu.menuState){
+            
+            case MANUAL_MODE_MENU:
+//                startImaging(1);
+                /* Start a sequence of 5 pictures */
+                startFiveShotsSequence();
+                break;
+                
+            case AUTOMATIC_MODE_MENU:
+                /* Start a full sequence with motor rotation */
+                startFullImagingSequence();
+                // fullImagingSeqProcess();
+                break;
+                
+            default:
+                break;
+        }
     }
 }
    
@@ -130,7 +145,7 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case MANUAL_MODE_SEL:
                         menu.menuState = MANUAL_MODE_MENU;
-                        menu.menuSize = 3;
+                        menu.menuSize = 2;
                         break;
 
                     case AUTOMATIC_MODE_SEL:
@@ -165,9 +180,9 @@ void menuActionProcess(int32_t pec12RotationValue){
             //----------------------------------------------------------------//
             case AUTO_HOME_MENU:
                     switch(pec12RotationValue){
-
+                        
                     case RETURN_SEL:
-                        menu.menuState = CAPTURE_MODE_MENU;
+                        menu.menuState = MANUAL_MODE_MENU;
                         menu.menuSize = 2;
                         break;
                         
@@ -444,8 +459,6 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 setTimeBwPictures(pec12RotationValue);
                 break;
                 
-                
-                
             //----------------------------------------------------------------// SAVE_DATA_START
             case SAVE_DATA_START:
                 if(isFirstDataProcessPass){
@@ -457,7 +470,6 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                     isInModifMode = false;
                     menu.menuState = SETTINGS_MENU;
                     menu.menuSize = 5;
-                    
                 }
                 break;
                 
@@ -466,19 +478,13 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
-//                    isInModifMode = false; // AFFICHER .. ECRAN
-                    autoHome(pStepperData);
+                    /* Start the auto home seq. */
+                    startAutoHome(pStepperData);
+                    /* Once auto home seq. is started, back to previous menu */
+                    isInModifMode = false;
+                    menu.menuState = MANUAL_MODE_MENU;
+                    menu.menuSize = 2;
                 }
-                else{
-                    
-//                    if(INDEXStateGet()){ // PAS ASSEZ RAPIDE  ICI
-//                        
-//                        // APELER FONCTION
-//                        stepperData.stepToDo = 0;
-//                    }
-                    // attendre
-                }
-                
                 break;
         }
     }
@@ -682,18 +688,20 @@ void printManualModeMenu(STEPPER_DATA *pStepperData){
     WriteString("  Return");
     SetPostion(LINE2);
     if(pStepperData->isIndexed == true){
-        sprintf(str, "  Auto home : %s", "DONE");
+        sprintf(str, "  Auto home    :%s", "DONE");
     } else {
-        sprintf(str, "  Auto home : %s", "NOK");
+        sprintf(str, "  Auto home     :%s", "NOK");
     }
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Angle : %05.1f%c", (((float)pStepperData->stepToDoReach * 1.8) 
+    sprintf(str, "  Des. angle :%03.1f%c", (((float)pStepperData->stepToDoReach * 1.8) 
             / pStepperData->gearValue), 0x01);
 //    sprintf(str, "  Steps      : %05d", stepperData.stepToDoReach);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Steps      : %05d", pStepperData->performedStep);
+    sprintf(str, "  Real angle :%03.1f%c", (((float)pStepperData->performedStep * 1.8) 
+            / pStepperData->gearValue), 0x01);
+//    sprintf(str, "  Steps       :%05d", pStepperData->performedStep);
     WriteString(str);
 }
 
@@ -778,7 +786,9 @@ void printCursor(int32_t cursor){
 }
 
 
-bool saveDataInEeprom(STEPPER_DATA *pStepperData){ // dataToSaveInEeprom
+
+//----------------------------------------------------------------------------// saveDataInEeprom
+bool saveDataInEeprom(STEPPER_DATA *pStepperData){
     
     DATA_IN_EEPROM dataToSaveInEeprom;
     
@@ -803,6 +813,7 @@ bool saveDataInEeprom(STEPPER_DATA *pStepperData){ // dataToSaveInEeprom
     return 0;
 }
 
+//----------------------------------------------------------------------------// readDataFromEeprom
 /* Read the parameters from the EEPROM */
 bool readDataFromEeprom(STEPPER_DATA *pStepperData){
     

@@ -38,13 +38,17 @@ extern "C" {
         bool        isAtHomeInCW;
         bool        isAtHomeInCCW;
         bool        isIndexed;
+        bool        isInAutoHomeSeq;
+        
         int32_t     performedStep;
         int32_t     stepToDoReach;
 
         /* Motor characteristics */
         int16_t     stepPerSec;
+        
         uint16_t    stepPerTurn;
         uint16_t    gearValue;
+        
         float       anglePerStep;
         
     } STEPPER_DATA;
@@ -57,7 +61,6 @@ extern "C" {
     void processStepper(STEPPER_DATA *pStepperData);
     void initStepperData(void);
     
-    bool isIndexReach(void);
     STEPPER_DATA* getStepperStruct(void);
     
     

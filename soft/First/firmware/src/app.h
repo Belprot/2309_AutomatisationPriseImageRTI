@@ -173,9 +173,13 @@ typedef struct
     uint16_t timeBetweenPictures;
     uint16_t exposureDuration;
     
-//    uint16_t lightTime;
-    uint32_t seqClock;
-    bool isImagingStarted;
+    /* Auto mode param */
+    uint8_t angleBwEachSeq;
+    
+    uint32_t seqClock1_ms;
+    uint32_t seqClock2_ms;
+    bool isFiveShotsSeqEnable;
+    bool isFullImaginSeqEnable;
     
     uint16_t backLightIntensitiy;
     
@@ -297,14 +301,15 @@ int32_t getExposureTime(void);
 void setTimeBwPictures(int32_t *timeBwPictures);
 int32_t getTimeBwPictures(void);
 
-void startImaging(LED_ID ledId);
-void imagingProcess(void);
-void imagingSeqProcess(void);
+void startSimpleShotSequence(LED_ID ledId);
+void simpleShotProcess(void);
+void fiveShotsSeqProcess(void);
+void startFullImagingSequence(void);
 
 void scanSwitch(void);
 bool getSwitchEvent(void);
 
-
+void turnOffAllPwrLeds(void);
 
 
 #endif /* _APP_H */

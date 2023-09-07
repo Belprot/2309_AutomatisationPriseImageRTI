@@ -83,10 +83,18 @@ void processStepper(STEPPER_DATA *pStepperData){
             pStepperData->performedStep -= 4;
         }
         /* Index is reach in CCW */
-        if(INDEXStateGet()){ 
+        if(INDEXStateGet() && pStepperData->isAtHomeInCW == false){
                         
             pStepperData->isAtHomeInCCW = true;
-            pStepperData->stepToDoReach = pStepperData->performedStep;
+//            pStepperData->stepToDoReach = pStepperData->performedStep;
+            
+            if(pStepperData->isInAutoHomeSeq == true){
+                
+                pStepperData->stepToDoReach = 0;
+                pStepperData->performedStep = 0;
+                pStepperData->isIndexed = true;
+                pStepperData->isInAutoHomeSeq = false;
+            }
         }
         else pStepperData->isAtHomeInCCW = false;
     }
@@ -133,10 +141,10 @@ void processStepper(STEPPER_DATA *pStepperData){
             pStepperData->performedStep += 4;
         }
         /* Index is reach in CW */
-        if(INDEXStateGet()){ 
+        if(INDEXStateGet() && pStepperData->isAtHomeInCCW == false){
                         
             pStepperData->isAtHomeInCW = true;
-            pStepperData->stepToDoReach = pStepperData->performedStep;
+//            pStepperData->stepToDoReach = pStepperData->performedStep;
         }
         else pStepperData->isAtHomeInCW = false;
     }
@@ -225,19 +233,14 @@ int32_t getRotationToDo(STEPPER_DATA *pStepperData){
 }
 
 //----------------------------------------------------------------------------// autoHome
-void autoHome(STEPPER_DATA *pStepperData){
+void startAutoHome(STEPPER_DATA *pStepperData){
     
+    pStepperData->isInAutoHomeSeq = true;
     // Check if the arm is not at home
     if(pStepperData->isAtHomeInCCW == false){
-        // Put a step to do value for returning home
-        pStepperData->stepToDoReach = -10000; // DEFINE? STEP_TO_DO_MAX
+        // Put steps to do for returning home in CCW
+        pStepperData->stepToDoReach = -50000; // DEFINE? STEP_TO_DO_MAX
     }
-}
-//----------------------------------------------------------------------------// isIndexReach
-/* Check if the Reed contact is trigged (home place) */
-bool isIndexReach(void){
-    
-    return INDEXStateGet();
 }
 
 //----------------------------------------------------------------------------// getStepperStruct

@@ -80,12 +80,12 @@ extern STEPPER_DATA stepperData;
 void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void){
     
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
-    appData.seqClock++;
+    appData.seqClock1_ms++;
 }
 
 //----------------------------------------------------------------------------// TMR ID 2
 /* This timer clocks the main state machine */
-/* Frequency = 1000Hz */
+/* Frequency = 10000Hz */
 void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void){
     
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_2);
@@ -119,10 +119,11 @@ void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void){
 }
 
 //----------------------------------------------------------------------------// TMR ID 5 <-- Not used
+/* Frequency = 1000Hz */
 void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_5);
-    
+    appData.seqClock2_ms++;
 }
 
 
