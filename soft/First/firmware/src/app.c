@@ -55,6 +55,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #include "app.h"
 #include "Mc32SpiUtil.h"
+#include "Mc32_spi_sm.h"
 #include "lcd_spi.h"
 #include "system/devcon/src/sys_devcon_local.h"
 #include "pec12.h"
@@ -131,8 +132,9 @@ void APP_Initialize ( void )
     appData.isFiveShotsSeqEnable = false;
     appData.seqClock1_ms = 0;
     appData.angleBwEachSeq = 10;
-    appData.nbrOfFiveShotsSeqPerformed = 0;
+    appData.nbrOfShotsPerformed = 0;
     appData.buzzerIntensity = 2500;
+    appData.valSeq = 0;
     
     initMenuParam();
     initStepperData();
@@ -192,7 +194,6 @@ void APP_Tasks ( void ){
             DRV_TMR0_Start();
             DRV_TMR1_Start();
             DRV_TMR2_Start();
-            DRV_TMR4_Start();
             
             /* Create a degree symbol at 0x01 address of the CG RAM */
             DefineCharacter(0x01, &degreeSymbol[0]);
@@ -210,6 +211,8 @@ void APP_Tasks ( void ){
             
             /* Process who is responsible of the sequence, motor orders and 
              * lights orders. */
+            
+            SIGN_LED_CMDOff();
             sequenceManagementProcess();
             
             if(counter2 >= 10){
@@ -227,6 +230,11 @@ void APP_Tasks ( void ){
             }
             counter1++;
             counter2++;
+            
+            SIGN_LED_CMDOn();
+            
+            // Calls the SPI do task state machine
+//            SPI_DoTasks();
             
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);

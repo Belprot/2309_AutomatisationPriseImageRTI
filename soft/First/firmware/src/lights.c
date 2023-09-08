@@ -5,24 +5,26 @@ extern APP_DATA appData;
 //----------------------------------------------------------------------------// lightManagementProcess
 void sequenceManagementProcess(void){
     
-    static int32_t order = 5 //= angleDesired / gear;
+    static int32_t order = 5; //= angleDesired / gear;
     
     if(appData.isFiveShotsSeqEnable){
         
+        /* Sequence of 5 pictures is enable */
         fiveShotsSeqProcess();
     }
     if(appData.isFullImaginSeqEnable){
         
-        switch (appData.nbrOfFiveShotsSeqPerformed){
+        /* Full sequence is enable */
+        switch (appData.valSeq){
             
             case 0:
-                appData.nbrOfFiveShotsSeqPerformed += fiveShotsSeqProcess();
+                appData.valSeq += fiveShotsSeqProcess();
                 break;
             case 1:
                 setRotationToDo(getMyStepperStruct(), &order);
                 if(getPerformedSteps(getMyStepperStruct()) == order){
                     order += 5; // appData.angleBwEachSeq;
-                    appData.nbrOfFiveShotsSeqPerformed = 0;
+                    appData.valSeq = 0;
                     appData.seqClock1_ms = 0;
                     appData.seqClock2_ms = 0;
                 }
@@ -58,8 +60,8 @@ void startFullImagingSequence(void){
     appData.seqClock1_ms = 0;
     appData.seqClock2_ms = 0;
     appData.isFullImaginSeqEnable = true;
-    appData.nbrOfFiveShotsSeqPerformed = 0;
-    
+    appData.valSeq = 0;
+    appData.nbrOfShotsPerformed = 0;
 }
 
 //----------------------------------------------------------------------------// simpleShotProcess
@@ -73,7 +75,6 @@ void startSimpleShotProcess(void){
 /* This function takes 5 pictures with 5 different LEDs */
 bool fiveShotsSeqProcess(void){
     
-    // PEUT ETRE METTRE COMPTEUR DANS TIMER !!!!!!!!!!!!!!!!!!!!!
     if(appData.seqClock1_ms == 0){
         appData.ledId = PWR_LED1;
         startSimpleShotProcess();

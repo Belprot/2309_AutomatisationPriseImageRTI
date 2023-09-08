@@ -171,7 +171,8 @@ typedef struct
     bool isFiveShotsSeqEnable;
     bool isFullImaginSeqEnable;
     bool isFirstPass;
-    uint8_t nbrOfFiveShotsSeqPerformed;
+    uint16_t nbrOfShotsPerformed;
+    uint8_t valSeq;
     
     uint16_t backLightIntensitiy;
     

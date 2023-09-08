@@ -98,7 +98,7 @@ void __ISR(_TIMER_2_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance1(void){
 //----------------------------------------------------------------------------// TMR ID 3
 /* This timer clocks the stepper sequence */
 /* Variable frequency */
-void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void){
+void __ISR(_TIMER_3_VECTOR, ipl4AUTO) IntHandlerDrvTmrInstance2(void){
     
 //    SIGN_LED_CMDOff();
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_3);
@@ -111,7 +111,7 @@ void __ISR(_TIMER_3_VECTOR, ipl2AUTO) IntHandlerDrvTmrInstance2(void){
 //----------------------------------------------------------------------------// TMR ID 4
 /* This timer is used for the APP_Delay_ms() function */
 /* Frequency = 1000Hz */
-void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void){
+void __ISR(_TIMER_4_VECTOR, ipl3AUTO) IntHandlerDrvTmrInstance3(void){
     
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_4);
     
@@ -124,7 +124,7 @@ void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void){
 void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_5);
-    
+   
     //------------------------------------------------------------------------// Start of sequence
     if(appData.seqClock2_ms == 0){
 
@@ -158,9 +158,12 @@ void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
     }
     if(appData.seqClock2_ms == MARGIN_LED_DELAY){
 
+//        SIGN_LED_CMDOff();
         /* Capture the target */
         FOCUS_CMDOn();
         TRIGGER_CMDOn();
+        appData.nbrOfShotsPerformed++;
+//        SIGN_LED_CMDOn();
     }
     if(appData.seqClock2_ms == appData.exposureDuration + MARGIN_LED_DELAY){
 
@@ -170,6 +173,7 @@ void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
     //------------------------------------------------------------------------// End of sequence
     if(appData.seqClock2_ms >= appData.exposureDuration + (2 * MARGIN_LED_DELAY)){
 
+        /* Turn off TMR4 */
         DRV_TMR4_Stop();
         turnOffAllPwrLeds();
         appData.seqClock2_ms = 0;
@@ -177,12 +181,7 @@ void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
     } else {
         appData.seqClock2_ms++;
     }
-    
 }
-
-
-
-
 /*******************************************************************************
  End of File
 */

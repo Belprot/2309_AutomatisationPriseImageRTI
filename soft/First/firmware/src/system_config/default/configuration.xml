@@ -701,6 +701,7 @@
         <Name dnOrder="0">drv_spi_static_tasks.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/static/src</Path>
         <Checksum dnOrder="2">506A90EE84CC561EBC7E4BA26535EFA4</Checksum>
+        <ProjectFileChecksum dnOrder="3">1D85F04C20594850B00C4455424AE79C</ProjectFileChecksum>
       </Template>
       <Template dnOrder="5">
         <Name dnOrder="0">sys_clk_pic32mk.c</Name>
@@ -720,7 +721,7 @@
       <Template dnOrder="8">
         <Name dnOrder="0">system_interrupt.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">EC8D8BD6C3538E60F0F35C22FB8175A0</Checksum>
+        <Checksum dnOrder="2">1462943D71E2CF9404976CB26EDF98BD</Checksum>
         <ProjectFileChecksum dnOrder="3">829D1311A6CF5F25B475357CB7C8A900</ProjectFileChecksum>
       </Template>
       <Template dnOrder="9">
@@ -732,6 +733,7 @@
         <Name dnOrder="0">drv_spi_static_local.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default/framework/driver/spi/static/src</Path>
         <Checksum dnOrder="2">053790B8F7E762F0AFAE22E1B7B98D4B</Checksum>
+        <ProjectFileChecksum dnOrder="3">2E9C464D348859B24E2DA7549C4E7BDB</ProjectFileChecksum>
       </Template>
       <Template dnOrder="11">
         <Name dnOrder="0">system_init.c</Name>
@@ -746,6 +748,7 @@
         <Name dnOrder="0">drv_spi_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/static/src</Path>
         <Checksum dnOrder="2">6436946C8D77D463A56B9DAE2D401D4A</Checksum>
+        <ProjectFileChecksum dnOrder="3">765758D84A20B73ED2EB4E4F72A3B905</ProjectFileChecksum>
       </Template>
       <Template dnOrder="14">
         <Name dnOrder="0">system_definitions.h</Name>
@@ -761,6 +764,7 @@
         <Name dnOrder="0">drv_spi_static_sys_queue.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default/framework/driver/spi/static/src</Path>
         <Checksum dnOrder="2">3D489FB0B5415BB6F80FA34FC0CEE9F7</Checksum>
+        <ProjectFileChecksum dnOrder="3">A55125AF879F29CA615BC048FE3A489E</ProjectFileChecksum>
       </Template>
       <Template dnOrder="17">
         <Name dnOrder="0">sys_devcon.c</Name>
@@ -771,6 +775,7 @@
         <Name dnOrder="0">drv_spi_mapping.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/static/src</Path>
         <Checksum dnOrder="2">ADEEE2519E932B46D44C41B8F44E1F19</Checksum>
+        <ProjectFileChecksum dnOrder="3">74F8A00843E976E938C0A2E9FC2DC1C0</ProjectFileChecksum>
       </Template>
       <Template dnOrder="19">
         <Name dnOrder="0">app.c</Name>
@@ -780,11 +785,13 @@
         <Name dnOrder="0">drv_spi_static.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default/framework/driver/spi/static</Path>
         <Checksum dnOrder="2">A5F11D81D1C577E89060E519EE15E35F</Checksum>
+        <ProjectFileChecksum dnOrder="3">704E597AE9A14FBB0FF66E23E084298F</ProjectFileChecksum>
       </Template>
       <Template dnOrder="21">
         <Name dnOrder="0">drv_spi_static_ebm_tasks.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/static/src</Path>
         <Checksum dnOrder="2">AA9241D885DECE435712E069FD222F25</Checksum>
+        <ProjectFileChecksum dnOrder="3">3EA7C011C08091985ECFF6061F3BEC8A</ProjectFileChecksum>
       </Template>
       <Template dnOrder="22">
         <Name dnOrder="0">system_tasks.c</Name>
@@ -794,7 +801,7 @@
       <Template dnOrder="23">
         <Name dnOrder="0">system_config.h</Name>
         <Path dnOrder="1">Header&amp;#160;Files/app/system_config/default</Path>
-        <Checksum dnOrder="2">C02A2FACA8C7789E279ED03460977868</Checksum>
+        <Checksum dnOrder="2">81C5716F9D73856A0EAEB06E046B60C9</Checksum>
       </Template>
       <Template dnOrder="24">
         <Name dnOrder="0">app.h</Name>
@@ -803,7 +810,7 @@
       <Template dnOrder="25">
         <Name dnOrder="0">drv_tmr_static.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/tmr/src</Path>
-        <Checksum dnOrder="2">26F9725C16E03A92608F8B9E671926E5</Checksum>
+        <Checksum dnOrder="2">10AF7C00E6679DFF3C671BEF6AC37524</Checksum>
       </Template>
       <Template dnOrder="26">
         <Name dnOrder="0">sys_devcon_pic32mk.c</Name>
@@ -814,6 +821,7 @@
         <Name dnOrder="0">drv_spi_static_sys_queue.c</Name>
         <Path dnOrder="1">Source&amp;#160;Files/app/system_config/default/framework/driver/spi/static/src</Path>
         <Checksum dnOrder="2">00A7FC94F1DE28D3FAD6F9589471FEA9</Checksum>
+        <ProjectFileChecksum dnOrder="3">0C51F7EDC278DD501B2D8AF50CCB737A</ProjectFileChecksum>
       </Template>
     </Templates>
     <CompilerItems dnOrder="2">

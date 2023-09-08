@@ -9,6 +9,7 @@
 
 #include "lcd_spi.h"
 #include "Mc32SpiUtil.h"
+#include "Mc32_spi_sm.h"
 #include "app.h"
 
 //--- module global varibles ---
@@ -19,7 +20,8 @@
 //-----------------------------------------------------
 void initDispl(void)
 {
-    DRV_SPI0_Initialize();
+    //DRV_SPI0_Initialize();
+    
     APP_Delay_ms(1);
     
 	//init Display
@@ -181,6 +183,9 @@ void SetROM (unsigned char rom)
 //-----------------------------------------------------
  void WriteData(char data)
 {
+     uint8_t val = 0x5F;
+//     uint32_t nBytes, uint8_t* pBytesToWrite
+//    SPI_StartWrite(1, &val);
 	spi_write1(0x5F);				//Send 5 synchronisation bits, RS = 1, R/W = 0
 	spi_write1(data & 0x0F);		//send lower data bits
 	spi_write1((data>>4) & 0x0F);	//send higher data bits

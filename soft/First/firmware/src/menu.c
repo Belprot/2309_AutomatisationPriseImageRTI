@@ -50,7 +50,7 @@ void menuManagementProcess(void){
         }
     }
     //------------------------------------------------------------------------// isInModifMode == false
-    if(isInModifMode == false){
+    else if(isInModifMode == false){
         
         pec12RotationValue += incrOrDecr;
 
@@ -736,17 +736,18 @@ void printAutoModeMenu(STEPPER_DATA *pStepperData){
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    sprintf(str, "  Start sequence?");
+    if(appData.isFullImaginSeqEnable == false) {
+        sprintf(str, "  Start sequence");
+    } else {
+        sprintf(str, "  Sequence is ON");
+    }
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Des. angle :%03.1f%c", (((float)pStepperData->stepToReach * 1.8) 
-            / pStepperData->gearValue), 0x01);
-//    sprintf(str, "  Steps      : %05d", stepperData.stepToDoReach);
+    sprintf(str, "  Pictures:      %03d", appData.nbrOfShotsPerformed);
     WriteString(str);
     SetPostion(LINE4);
     sprintf(str, "  Real angle :%03.1f%c", (((float)pStepperData->performedSteps * 1.8) 
             / pStepperData->gearValue), 0x01);
-//    sprintf(str, "  Steps       :%05d", pStepperData->performedStep);
     WriteString(str);
 }
 
