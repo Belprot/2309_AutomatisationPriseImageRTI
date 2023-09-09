@@ -158,12 +158,6 @@ extern "C" {
 // Section: Driver Configuration
 // *****************************************************************************
 // *****************************************************************************
-
-/*** EEPROM Driver Configuration ***/
-#define DRV_EEPROM_INSTANCES_NUMBER     	1
-#define DRV_EEPROM_CLIENTS_NUMBER        	1
-#define DRV_EEPROM_BUFFER_OBJECT_NUMBER  	5
-#define DRV_EEPROM_MEDIA_SIZE               1
 #define DRV_MCPWM_DRIVER_MODE_STATIC 
 
 /*** SPI Driver Configuration ***/
@@ -247,7 +241,7 @@ extern "C" {
 #define DRV_TMR_INTERRUPT_SOURCE_IDX3       INT_SOURCE_TIMER_4
 #define DRV_TMR_INTERRUPT_VECTOR_IDX3       INT_VECTOR_T4
 #define DRV_TMR_ISR_VECTOR_IDX3             _TIMER_4_VECTOR
-#define DRV_TMR_INTERRUPT_PRIORITY_IDX3     INT_PRIORITY_LEVEL3
+#define DRV_TMR_INTERRUPT_PRIORITY_IDX3     INT_PRIORITY_LEVEL1
 #define DRV_TMR_INTERRUPT_SUB_PRIORITY_IDX3 INT_SUBPRIORITY_LEVEL0
 #define DRV_TMR_CLOCK_SOURCE_IDX3           DRV_TMR_CLKSOURCE_INTERNAL
 #define DRV_TMR_PRESCALE_IDX3               TMR_PRESCALE_VALUE_1
@@ -260,7 +254,7 @@ extern "C" {
 #define DRV_TMR_INTERRUPT_SOURCE_IDX4       INT_SOURCE_TIMER_5
 #define DRV_TMR_INTERRUPT_VECTOR_IDX4       INT_VECTOR_T5
 #define DRV_TMR_ISR_VECTOR_IDX4             _TIMER_5_VECTOR
-#define DRV_TMR_INTERRUPT_PRIORITY_IDX4     INT_PRIORITY_LEVEL1
+#define DRV_TMR_INTERRUPT_PRIORITY_IDX4     INT_PRIORITY_LEVEL3
 #define DRV_TMR_INTERRUPT_SUB_PRIORITY_IDX4 INT_SUBPRIORITY_LEVEL0
 #define DRV_TMR_CLOCK_SOURCE_IDX4           DRV_TMR_CLKSOURCE_INTERNAL
 #define DRV_TMR_PRESCALE_IDX4               TMR_PRESCALE_VALUE_1

@@ -15,32 +15,47 @@ extern APP_DATA appData;
 
 
 //----------------------------------------------------------------------------// initStepperData
-void initStepperData(void){
+void initStepperParam(void){
     
-    stepperData.isAtHomeInCW    = false;
-    stepperData.isAtHomeInCCW   = false;
-    stepperData.isIndexed       = false;
-    stepperData.isInAutoHomeSeq = false;
+    stepperData.isAtHomeInCW     = false;
+    stepperData.isAtHomeInCCW    = false;
+    stepperData.isIndexed        = false;
+    stepperData.isInAutoHomeSeq  = false;
     
-    stepperData.performedSteps  = 0;
-    stepperData.stepToReach     = 0;
+    stepperData.performedSteps   = 0;
+    stepperData.stepToReach      = 0;
     
-    stepperData.stepPerSec      = 400;
+    stepperData.stepPerSec       = 400;
     
-    stepperData.stepPerTurn     = 200;
-    stepperData.gearValue       = 200;
+    stepperData.stepPerTurn      = 200;
+    stepperData.gearValue        = 200;
     
-    stepperData.anglePerStep    = 1.8;
+    stepperData.anglePerStep     = 1.8;
+    
+    stepperData.dutyCycleStepper = 30;
+}
+
+void initStepperMotor(){
+    
+    //setStepperPower(&stepperData, &stepperData.dutyCycleStepper);
+    
+    /* Disable RESET on both H bridge */
+    RESET_AB_CMDOn();
+    RESET_CD_CMDOn();
 }
 
 //----------------------------------------------------------------------------// turnOffStepperPwms
 /* Disable all PWMs for motor control */
 void turnOffStepperPwms(void){
     
-    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
-    PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
-    PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+    /* A */
+    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+    /* B */
+    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+    /* A_ */
+    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+    /* B_ */
+    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
 }
 
 //----------------------------------------------------------------------------// changeSpeed
@@ -128,9 +143,13 @@ void processStepper(STEPPER_DATA *pStepperData){
             switch(step){
                 /* Sequence of 4 steps for CW rotation */
                 case 1:
+                    /* A */
                     PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    /* B */
                     PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0 ,MCPWM_CHANNEL2);
+                    /* A_ */
                     PLIB_MCPWM_ChannelPWMxLDisable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+                    /* B_ */
                     PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
                     break;
 
@@ -177,9 +196,12 @@ void processStepper(STEPPER_DATA *pStepperData){
     
     
     // The motor reach its desired position
-    if(pStepperData->performedSteps == pStepperData->stepToReach){
-        //turnOffStepperPwms();
-    }
+//    if(pStepperData->performedSteps == pStepperData->stepToReach){
+////        turnOffStepperPwms();
+//    } else {
+//        
+////        PLIB_MCPWM_Enable(MCPWM_ID_0);
+//    }
 } 
 
 
@@ -270,10 +292,38 @@ void startAutoHome(STEPPER_DATA *pStepperData){
     }
 }
 
+//----------------------------------------------------------------------------// setStepperPower
+void setStepperPower(STEPPER_DATA *pStepperData, uint16_t *pDutyCycleStepper){
+    
+    uint16_t dutyValCh1 = 0;
+    
+    // Limit values to avoid problems
+    if(*pDutyCycleStepper < MCPWM_DUTYCYCLE_MIN) *pDutyCycleStepper 
+            = MCPWM_DUTYCYCLE_MIN;
+    if(*pDutyCycleStepper > MCPWM_DUTYCYCLE_MAX) *pDutyCycleStepper 
+            = MCPWM_DUTYCYCLE_MAX;
+
+    /* Save configuration in the structure */
+    pStepperData->dutyCycleStepper = *pDutyCycleStepper;
+    
+    /* Must be the inverse of the CHANNEL 1 */
+    dutyValCh1 = MCPWM_PRIMARY_PERIOD - *pDutyCycleStepper;
+    
+    PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0 ,MCPWM_CHANNEL1,
+            dutyValCh1);
+    PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0 ,MCPWM_CHANNEL2, 
+            *pDutyCycleStepper);
+}
+
+int16_t getStepperPower(STEPPER_DATA *pStepperData){
+    
+    return pStepperData->dutyCycleStepper;
+}
+
+
 //----------------------------------------------------------------------------// getStepperStruct
 STEPPER_DATA* getMyStepperStruct(void){
     
     /* Return the address of the structure */
     return &stepperData;
 }
-

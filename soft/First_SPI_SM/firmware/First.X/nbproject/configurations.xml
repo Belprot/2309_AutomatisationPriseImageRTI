@@ -40,17 +40,10 @@
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="driver" projectFiles="true">
-          <logicalFolder name="f1" displayName="eeprom" projectFiles="true">
-            <logicalFolder name="f1" displayName="src" projectFiles="true">
-              <itemPath>../../../../../../framework/driver/eeprom/src/drv_eeprom_local.h</itemPath>
-              <itemPath>../../../../../../framework/driver/eeprom/src/drv_eeprom_variant_mapping.h</itemPath>
-            </logicalFolder>
-            <itemPath>../../../../../../framework/driver/eeprom/drv_eeprom.h</itemPath>
-          </logicalFolder>
-          <logicalFolder name="f2" displayName="mcpwm" projectFiles="true">
+          <logicalFolder name="f1" displayName="mcpwm" projectFiles="true">
             <itemPath>../../../../../../framework/driver/mcpwm/drv_mcpwm.h</itemPath>
           </logicalFolder>
-          <logicalFolder name="f3" displayName="spi" projectFiles="true">
+          <logicalFolder name="f2" displayName="spi" projectFiles="true">
             <logicalFolder name="f1" displayName="src" projectFiles="true">
               <logicalFolder name="f1" displayName="dynamic" projectFiles="true">
                 <itemPath>../../../../../../framework/driver/spi/src/dynamic/drv_spi_internal.h</itemPath>
@@ -62,7 +55,7 @@
             <itemPath>../../../../../../framework/driver/spi/drv_spi.h</itemPath>
             <itemPath>../../../../../../framework/driver/spi/drv_spi_definitions.h</itemPath>
           </logicalFolder>
-          <logicalFolder name="f4" displayName="tmr" projectFiles="true">
+          <logicalFolder name="f3" displayName="tmr" projectFiles="true">
             <logicalFolder name="f1" displayName="src" projectFiles="true">
               <itemPath>../../../../../../framework/driver/tmr/src/drv_tmr_variant_mapping.h</itemPath>
             </logicalFolder>
@@ -180,14 +173,7 @@
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="driver" projectFiles="true">
-          <logicalFolder name="f1" displayName="eeprom" projectFiles="true">
-            <logicalFolder name="f1" displayName="src" projectFiles="true">
-              <logicalFolder name="f1" displayName="dynamic" projectFiles="true">
-                <itemPath>../../../../../../framework/driver/eeprom/src/dynamic/drv_eeprom.c</itemPath>
-              </logicalFolder>
-            </logicalFolder>
-          </logicalFolder>
-          <logicalFolder name="f2" displayName="spi" projectFiles="true">
+          <logicalFolder name="f1" displayName="spi" projectFiles="true">
             <logicalFolder name="f1" displayName="src" projectFiles="true">
               <logicalFolder name="f1" displayName="dynamic" projectFiles="true">
                 <itemPath>../../../../../../framework/driver/spi/src/dynamic/drv_spi.c</itemPath>

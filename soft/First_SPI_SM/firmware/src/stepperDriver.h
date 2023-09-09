@@ -17,7 +17,7 @@ extern "C" {
 
     // Defines
     #define STEP_PER_SEC_MIN 40
-    #define STEP_PER_SEC_MAX 600
+    #define STEP_PER_SEC_MAX 1000
 
     #define GEAR_VALUE_MIN 1
     #define GEAR_VALUE_MAX 1000
@@ -31,6 +31,11 @@ extern "C" {
     #define ROTATION_TO_DO_MIN -50000
     #define ROTATION_TO_DO_MAX 50000
 
+    /* Period for 50kHz PWMs */
+    #define MCPWM_PRIMARY_PERIOD 199
+    #define MCPWM_DUTYCYCLE_MIN 9
+    #define MCPWM_DUTYCYCLE_MAX 189
+    
     // Structures
     typedef struct{
 
@@ -51,12 +56,14 @@ extern "C" {
         
         float       anglePerStep;
         
+        uint16_t    dutyCycleStepper;
+        
     } STEPPER_DATA;
 
 
 
     // Prototypes
-    void initStepperData(void);
+    void initStepperParam(void);
     void turnOffStepperPwms(void);
     void changeSpeed(STEPPER_DATA *pStepperData);
     void processStepper(STEPPER_DATA *pStepperData);
@@ -72,9 +79,11 @@ extern "C" {
     void setRotationToDo(STEPPER_DATA *pStepperData, int32_t *pRotationToDo);
     int32_t getRotationToDo(STEPPER_DATA *pStepperData);
     void startAutoHome(STEPPER_DATA *pStepperData);
+    
+    void setStepperPower(STEPPER_DATA *pStepperData, uint16_t *pDutyCycleStepper);
+    int16_t getStepperPower(STEPPER_DATA *pStepperData);
+    
     STEPPER_DATA* getMyStepperStruct(void);
-    
-    
     
 #ifdef	__cplusplus
 }

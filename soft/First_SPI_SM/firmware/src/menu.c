@@ -54,7 +54,8 @@ void menuManagementProcess(void){
         
         pec12RotationValue += incrOrDecr;
 
-        if(pec12RotationValue > menu.menuSize) pec12RotationValue =  menu.menuSize;
+        if(pec12RotationValue > menu.menuSize) pec12RotationValue =
+                menu.menuSize;
         else if(pec12RotationValue < 0) pec12RotationValue = 0;
 
         if(pec12RotationValue <= 3){
@@ -223,7 +224,7 @@ void menuActionProcess(int32_t pec12RotationValue){
                         
                     case MOTOR_SEL:
                         menu.menuState = MOTOR_MENU;
-                        menu.menuSize = 3;
+                        menu.menuSize = 4;
                         break;
                         
                     case LEDS_SEL:
@@ -272,6 +273,12 @@ void menuActionProcess(int32_t pec12RotationValue){
                         
                     case STEP_PER_TURN_SEL:
                         menu.modifState = STEP_PER_TURN_MODIF;
+                        isInModifMode = true;
+                        isFirstDataProcessPass = true;
+                        break;
+                        
+                    case POWER_SEL:
+                        menu.modifState = POWER_MODIF;
                         isInModifMode = true;
                         isFirstDataProcessPass = true;
                         break;
@@ -422,6 +429,16 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 }
                 setAnglePerStep(pStepperData, pec12RotationValue);
                 break;
+                
+            //----------------------------------------------------------------// POWER_MODIF
+            case POWER_MODIF:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+                    *pec12RotationValue = getStepperPower(pStepperData);
+                }
+                setStepperPower(pStepperData, (uint16_t*)pec12RotationValue); /// ????_____Dwaf-ad-***
+                break;
             
             //----------------------------------------------------------------// BL_INTENSITY_MODIF
             case BL_INTENSITY_MODIF :
@@ -491,6 +508,7 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 }
                 break;
                 
+            //----------------------------------------------------------------// AUTOMATIC_MODE_START
             case AUTOMATIC_MODE_START:
                 if(isFirstDataProcessPass){
                     
@@ -526,11 +544,15 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
                 case 1: printParameterMenuPage1();
                     break;
             }
-            
             break;
             
         case MOTOR_MENU:
-            printMotorMenu(pStepperData);
+            switch (menu.menuPage){
+                case 0: printMotorMenu0(pStepperData);
+                    break;
+                case 1: printMotorMenu1(pStepperData);
+                    break;
+            }
             break;
            
         case LIGHT_MENU:
@@ -638,20 +660,30 @@ void printParameterMenuPage1(void){
     WriteString("  Save data");
 }
 
-void printMotorMenu(STEPPER_DATA *pStepperData){
+void printMotorMenu0(STEPPER_DATA *pStepperData){
     
     char str[21];
     ClrDisplay();
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    sprintf(str, "  Speed : %03d", pStepperData->stepPerSec);
+    sprintf(str, "  Speed: %4dsteps/s", pStepperData->stepPerSec);
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Gear : %03d", pStepperData->gearValue);
+    sprintf(str, "  Gear:        1:%3d", pStepperData->gearValue);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Step angle : %01.2f", pStepperData->anglePerStep);
+    sprintf(str, "  Step angle: %1.2f%c", pStepperData->anglePerStep, 0x01);
+    WriteString(str);
+}
+
+void printMotorMenu1(STEPPER_DATA *pStepperData){
+    
+    char str[21];
+    ClrDisplay();
+    SetPostion(LINE1);
+    /* A changer, en Duty pure, ensuite en %%% */
+    sprintf(str, "  Power : %03d", pStepperData->dutyCycleStepper);
     WriteString(str);
 }
 

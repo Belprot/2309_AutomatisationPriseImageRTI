@@ -56,7 +56,7 @@ void ClrDisplayL4    (void);
 void SetContrast	(unsigned char contr);
 void SetView		(unsigned char view);
 void SetROM			(unsigned char rom);
-void CreateDegreeSymbol(uint8_t adress);
+void CreateLcdDegreeSymbol(uint8_t adress);
 
 
 //Normally you don't need these functions outside this module

@@ -128,40 +128,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // Section: Driver Initialization Data
 // *****************************************************************************
 // *****************************************************************************
-// <editor-fold defaultstate="collapsed" desc="DRV_EEPROM Initialization Data">
-/*** FLASH Driver Initialization Data ***/
-SYS_FS_MEDIA_REGION_GEOMETRY EEPROMGeometryTable[3] = 
-{
-    {
-        .blockSize = 4,
-        .numBlocks = (DRV_EEPROM_MEDIA_SIZE * 1024),
-    },
-    {
-       .blockSize = 4,
-       .numBlocks = ((DRV_EEPROM_MEDIA_SIZE * 1024)/4)
-    },
-    {
-       .blockSize = 4,
-       .numBlocks = ((DRV_EEPROM_MEDIA_SIZE * 1024)/4)
-    }
-};
-
-const SYS_FS_MEDIA_GEOMETRY EEPROMGeometry = 
-{
-    .mediaProperty = SYS_FS_MEDIA_WRITE_IS_BLOCKING,
-    .numReadRegions = 1,
-    .numWriteRegions = 1,
-    .numEraseRegions = 1,
-    .geometryTable = (SYS_FS_MEDIA_REGION_GEOMETRY *)&EEPROMGeometryTable
-};
-
-const DRV_EEPROM_INIT drvEepromInit =
-{
-    .moduleInit.sys.powerState = SYS_MODULE_POWER_RUN_FULL,
-    .eepromId = NVM_ID_0,
-    .eepromMediaGeometry = (SYS_FS_MEDIA_GEOMETRY *)&EEPROMGeometry
-};
-// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="DRV_SPI Initialization Data"> 
  /*** SPI Driver Initialization Data ***/
   /*** Index 0  ***/
@@ -231,8 +197,6 @@ void SYS_Initialize ( void* data )
     SYS_DEVCON_PerformanceConfig(SYS_CLK_SystemFrequencyGet());
 
     /* Initialize Drivers */
-    /* Initialize the EEPROM Driver */
-    sysObj.drvEeprom = DRV_EEPROM_Initialize(DRV_EEPROM_INDEX_0, (SYS_MODULE_INIT *)&drvEepromInit);
     /*Initialize MCPWM */
     DRV_MCPWM_Initialize();
 

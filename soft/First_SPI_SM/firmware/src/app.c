@@ -138,7 +138,7 @@ void APP_Initialize ( void )
     appData.valSeq = 0;
     
     initMenuParam();
-    initStepperData();
+    initStepperParam();
 }
 
 
@@ -154,37 +154,22 @@ void APP_Tasks ( void ){
         //--------------------------------------------------------------------// APP_STATE_INIT
         case APP_STATE_INIT:
             /* Read data from EEPROM to restore presets */
-            readDataFromEeprom(getMyStepperStruct());
-            /* Turn on MCPWM  */
-            PLIB_MCPWM_Enable(MCPWM_ID_0);
-            /* Turn off stepper motor */  // A CONTROLER SI UTILE   
-            turnOffStepperPwms();
-            /* Disable RESET on both H bridge */
-            RESET_AB_CMDOn();
-            RESET_CD_CMDOn();
-            /* Turn ON required PWMs */
-            PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_BL_CH);
-            PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_BUZZER_CH);
-            PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,PWM_DIM_CH);
-            /* Update PWMs DutyCycle with data from EEPROM */
-            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, 
-                    appData.backLightIntensitiy);
-            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 
-                    appData.buzzerIntensity);
-            PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, 
-                    appData.lightIntensity);
-            /* Start useful Timers */
-//            DRV_TMR0_Start();
-            DRV_TMR1_Start();
-            DRV_TMR2_Start();
+            readDataFromEeprom(getMyStepperStruct());  
+            /* Initialization of the motor */
+            initStepperMotor();
+            /* Update MCPWM Duty-cycle of other PWM with EEPROM data */
+            updateMcpwmDuty();
+            /* Turn on MCPWM */
+            PLIB_MCPWM_Enable(MCPWM_ID_0); 
             /* Initialization sequence */
-            initLcdSeq();
+            initLcd();
             /* Print initialization menu */
             printLcdInit();
-            /* Create degree symbol for LCD uses */
-            CreateDegreeSymbol(0x01);
+            /* Start useful Timers */
+            DRV_TMR1_Start();
+            DRV_TMR2_Start();
             /* Print main menu once all peripherals are configured */
-            printMainMenu();
+            printMainMenu();            
             /* States machines update */
             APP_UpdateAppState(APP_STATE_WAIT);
             break;
@@ -196,7 +181,7 @@ void APP_Tasks ( void ){
             /* Process who is responsible of the sequence, motor orders and 
              * lights orders. */
             
-            SIGN_LED_CMDOff();
+//            SIGN_LED_CMDToggle();
             sequenceManagementProcess();
             
             if(counter2 >= 10){
@@ -215,7 +200,6 @@ void APP_Tasks ( void ){
             counter1++;
             counter2++;
             
-            SIGN_LED_CMDOn();
             
             // Calls the SPI do task state machine
             SPI_DoTasks();
@@ -295,14 +279,30 @@ bool getSwitchEvent(void){
 }
 
 //----------------------------------------------------------------------------// initLcdSeq
-void initLcdSeq(void){
+void initLcd(void){
     
     RESET_LCD_CMDOff();
     APP_Delay_ms(1);
     RESET_LCD_CMDOn();
     APP_Delay_ms(10);
     initDispl();
+    /* Create degree symbol for LCD uses */
+    CreateLcdDegreeSymbol(0x01);
 }
+
+void updateMcpwmDuty(void){
+
+    /* Update PWMs DutyCycle with data from EEPROM */
+    PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BL_CH, 
+            appData.backLightIntensitiy);
+    PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_BUZZER_CH, 
+            appData.buzzerIntensity);
+    PLIB_MCPWM_ChannelPrimaryDutyCycleSet(MCPWM_ID_0, PWM_DIM_CH, 
+            appData.lightIntensity);
+}
+    
+    
+
 
 
 /*******************************************************************************

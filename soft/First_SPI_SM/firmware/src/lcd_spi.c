@@ -194,7 +194,7 @@ void SetROM (unsigned char rom)
 }
 
 
- void CreateDegreeSymbol(uint8_t adress){
+ void CreateLcdDegreeSymbol(uint8_t adress){
      
     unsigned char degreeSymbol[] = {
         0b00011100,

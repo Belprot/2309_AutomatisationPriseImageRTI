@@ -294,9 +294,9 @@ void APP_Initialize ( void );
     void scanSwitch(void);
     bool getSwitchEvent(void);
     
-    void initLcdSeq(void);
+    void initLcd(void);
 
-
+    void updateMcpwmDuty(void);
 
 
 

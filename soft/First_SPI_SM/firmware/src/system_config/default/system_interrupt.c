@@ -141,7 +141,7 @@ void __ISR(_TIMER_3_VECTOR, ipl4AUTO) IntHandlerDrvTmrInstance2(void){
 //----------------------------------------------------------------------------// TMR ID 4
 /* This timer is used for the APP_Delay_ms() function */
 /* Frequency = 1000Hz */
-void __ISR(_TIMER_4_VECTOR, ipl3AUTO) IntHandlerDrvTmrInstance3(void){
+void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void){
     
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_4);
     
@@ -151,7 +151,7 @@ void __ISR(_TIMER_4_VECTOR, ipl3AUTO) IntHandlerDrvTmrInstance3(void){
 
 //----------------------------------------------------------------------------// TMR ID 5
 /* Frequency = 1000Hz */
-void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
+void __ISR(_TIMER_5_VECTOR, ipl3AUTO) IntHandlerDrvTmrInstance4(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_5);
    
@@ -187,8 +187,7 @@ void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
         }
     }
     if(appData.seqClock2_ms == MARGIN_LED_DELAY){
-
-//        SIGN_LED_CMDOff();
+        
         /* Capture the target */
         FOCUS_CMDOn();
         TRIGGER_CMDOn();
@@ -202,7 +201,7 @@ void __ISR(_TIMER_5_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance4(void)
     }
     //------------------------------------------------------------------------// End of sequence
     if(appData.seqClock2_ms >= appData.exposureDuration + (2 * MARGIN_LED_DELAY)){
-
+        
         /* Turn off TMR4 */
         DRV_TMR4_Stop();
         turnOffAllPwrLeds();

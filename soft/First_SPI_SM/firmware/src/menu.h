@@ -105,6 +105,7 @@ extern "C" {
         SPEED_SEL = 1,
         GEAR_SEL,
         STEP_PER_TURN_SEL,
+        POWER_SEL,
                 
     } MOTOR_MENU_LIST;
     
@@ -129,6 +130,7 @@ extern "C" {
         SPEED_MODIF,
         GEAR_MODIF,
         STEP_PER_TURN_MODIF,
+        POWER_MODIF,
         BL_INTENSITY_MODIF,
         LIGHT_INTENSITY_MODIF,
         LIGHT_TIME_MODIF,
@@ -162,7 +164,8 @@ extern "C" {
     void printMainMenu(void);
     void printParameterMenuPage0(void);
     void printParameterMenuPage1();
-    void printMotorMenu(STEPPER_DATA *pStepperData);
+    void printMotorMenu0(STEPPER_DATA *pStepperData);
+    void printMotorMenu1(STEPPER_DATA *pStepperData);
     void printLedsMenu(void);
     void printChoiceSeqMenu(void);
     void printAboutMenu(void);
