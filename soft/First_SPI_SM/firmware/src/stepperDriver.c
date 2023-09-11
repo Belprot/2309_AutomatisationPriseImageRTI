@@ -25,7 +25,7 @@ void initStepperParam(void){
     stepperData.performedSteps   = 0;
     stepperData.stepToReach      = 0;
     
-    stepperData.stepPerSec       = 400;
+    stepperData.stepPerSec       = 1000;
     
     stepperData.stepPerTurn      = 200;
     stepperData.gearValue        = 200;
