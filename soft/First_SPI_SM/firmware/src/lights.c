@@ -1,3 +1,10 @@
+/* 
+ * File:   lights.c
+ * Author: ricch
+ *
+ * Created on September 5, 2023, 7:15 PM
+ */
+
 #include "app.h"
 
 extern APP_DATA appData;
