@@ -62,7 +62,7 @@ extern "C" {
         LIGHT_TIME_SEL,
         TIME_BW_PICTURES,
                 
-    }LEDS_MENU_LIST;
+    } LEDS_MENU_LIST;
     
     typedef enum{
         
@@ -119,6 +119,7 @@ extern "C" {
         
         EXPOSURE_TIME_SEL = 1,
         TIME_BW_PICTURES_SEL,
+        ANGLE_BW_EACH_SEQ_SEL,
                 
     } CAMERA_MENU_LIST;
 
@@ -136,6 +137,7 @@ extern "C" {
         LIGHT_TIME_MODIF,
         EXPOSURE_TIME_MODIF,
         TIME_BW_PICTURES_MODIF,
+        ANGLE_BW_EACH_SEQ_MODIF,
                 
         SAVE_DATA_START,
         AUTO_HOME_START,// INTERACT   

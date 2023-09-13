@@ -31,6 +31,9 @@ extern "C" {
     #define ROTATION_TO_DO_MIN -50000
     #define ROTATION_TO_DO_MAX 50000
 
+    #define ANGLE_TO_DO_REACH_MIN -1000
+    #define ANGLE_TO_DO_REACH_MAX 1000
+    
     /* Period for 50kHz PWMs */
     #define MCPWM_PRIMARY_PERIOD 199
     #define MCPWM_DUTYCYCLE_MIN 9
@@ -76,6 +79,7 @@ extern "C" {
     void setAnglePerStep(STEPPER_DATA *pStepperData, uint32_t *pAnglePerStep);
     uint32_t getAnglePerStep(STEPPER_DATA *pStepperData);
     int32_t getPerformedSteps(STEPPER_DATA *pStepperData);
+    int32_t getStepToReach(STEPPER_DATA *pStepperData);
     void setRotationToDo(STEPPER_DATA *pStepperData, int32_t *pRotationToDo);
     int32_t getRotationToDo(STEPPER_DATA *pStepperData);
     void startAutoHome(STEPPER_DATA *pStepperData);

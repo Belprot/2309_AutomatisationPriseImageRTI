@@ -343,6 +343,11 @@ void menuActionProcess(int32_t pec12RotationValue){
                         menu.modifState = TIME_BW_PICTURES_MODIF;
                         isInModifMode = true;
                         break;
+                        
+                    case ANGLE_BW_EACH_SEQ_SEL:
+                        menu.modifState = ANGLE_BW_EACH_SEQ_MODIF;
+                        isInModifMode = true;
+                        break;
                 }
                 isFirstDataProcessPass = true;
                 break; 
@@ -395,9 +400,10 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                     
                     isFirstDataProcessPass = false;
                     /* A TESTER ET VALIDER, PERTE DE PAS POSSIBLE */
-                    *pec12RotationValue = getRotationToDo(pStepperData);
+                    *pec12RotationValue = getRotationToDo(pStepperData); // <------------ PEUT ETRE CHANGER PAS BONNE FONCTION
                 }
-                setRotationToDo(pStepperData, pec12RotationValue); 
+                //setRotationToDo(pStepperData, pec12RotationValue);
+                setAngleToReach(pStepperData, pec12RotationValue);
                 break;
             
             //----------------------------------------------------------------// SPEED_MODIF
@@ -478,6 +484,16 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                     *pec12RotationValue = getTimeBwPictures();
                 }
                 setTimeBwPictures(pec12RotationValue);
+                break;
+                
+            //----------------------------------------------------------------// ANGLE_BW_EACH_SEQ_MODIF
+            case ANGLE_BW_EACH_SEQ_MODIF:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+                    *pec12RotationValue = getAngleBwEachSeq();
+                }
+                setAngleBwEachSeq(pec12RotationValue);
                 break;
                 
             //----------------------------------------------------------------// SAVE_DATA_START
@@ -683,7 +699,7 @@ void printMotorMenu1(STEPPER_DATA *pStepperData){
     ClrDisplay();
     SetPostion(LINE1);
     /* A changer, en Duty pure, ensuite en %%% */
-    sprintf(str, "  Power : %03d", pStepperData->dutyCycleStepper);
+    sprintf(str, "  Power : %3d", pStepperData->dutyCycleStepper);
     WriteString(str);
 }
 
@@ -695,7 +711,7 @@ void printLedsMenu(void){
     WriteString("  Return");
     SetPostion(LINE2);
     /* 0.04 = 100 / 2500 */
-    sprintf(str, "  Intensity : %03.0f%%", ((float)appData.lightIntensity * 0.04));
+    sprintf(str, "  Intensity : %3.0f%%", ((float)appData.lightIntensity * 0.04));
     WriteString(str);
 //    SetPostion(LINE3);
 //    sprintf(str, "  Light time: %03dms", appData.lightTime);
@@ -736,18 +752,18 @@ void printManualModeMenu(STEPPER_DATA *pStepperData){
     WriteString("  Return");
     SetPostion(LINE2);
     if(pStepperData->isIndexed == true){
-        sprintf(str, "  Auto home    :%s", "DONE");
+        sprintf(str, "  Auto home:    %s", "DONE");
     } else {
-        sprintf(str, "  Auto home     :%s", "NOK");
+        sprintf(str, "  Auto home:     %s", "NOK");
     }
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Des. angle :%03.1f%c", (((float)pStepperData->stepToReach * 1.8) 
+    sprintf(str, "  Des. angle: %3.1f%c", (((float)pStepperData->stepToReach * 1.8) 
             / pStepperData->gearValue), 0x01);
 //    sprintf(str, "  Steps      : %05d", stepperData.stepToDoReach);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Real angle :%03.1f%c", (((float)pStepperData->performedSteps * 1.8) 
+    sprintf(str, "  Real angle: %3.1f%c", (((float)pStepperData->performedSteps * 1.8) 
             / pStepperData->gearValue), 0x01);
 //    sprintf(str, "  Steps       :%05d", pStepperData->performedStep);
     WriteString(str);
@@ -770,7 +786,7 @@ void printAutoModeMenu(STEPPER_DATA *pStepperData){
     sprintf(str, "  Pictures:      %03d", appData.nbrOfShotsPerformed);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Real angle :%03.1f%c", (((float)pStepperData->performedSteps * 1.8) 
+    sprintf(str, "  Real angle: %3.1f%c", (((float)pStepperData->performedSteps * 1.8) 
             / pStepperData->gearValue), 0x01);
     WriteString(str);
 }
@@ -796,7 +812,7 @@ void printBackLightMenu(void){
     WriteString("  Return");
     SetPostion(LINE2);
     /* 0.04 = 100 / 2500 */
-    sprintf(str, "  Intensity : %03.0f%%", ((float)appData.backLightIntensitiy * 0.04));
+    sprintf(str, "  Intensity:  %3.0f%%", ((float)appData.backLightIntensitiy * 0.04));
     WriteString(str);
 }
 
@@ -807,13 +823,15 @@ void printCameraMenu(void){
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    sprintf(str, "  Expos time: %04dms", appData.exposureDuration);
+    sprintf(str, "  Expos time: %4dms", appData.exposureDuration);
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Time bw pic:%04dms", appData.timeBetweenPictures);
+    sprintf(str, "  Time bw pic:%4dms", appData.timeBetweenPictures);
     WriteString(str);
     SetPostion(LINE4);
-    WriteString("  Trigger : cable"); // <-- or IR but not ready
+    sprintf(str, "  Angle bw pic:%3d%c", appData.angleBwEachSeq, 0x01);
+    WriteString(str);
+//    WriteString("  Trigger:     cable"); // <-- or IR but not ready
 }
 
 void printSaveDataMenu(){

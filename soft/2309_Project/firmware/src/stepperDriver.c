@@ -22,23 +22,23 @@ void initStepperParam(void){
     stepperData.isIndexed        = false;
     stepperData.isInAutoHomeSeq  = false;
     
-    stepperData.performedSteps   = 0;
-    stepperData.stepToReach      = 0;
+    stepperData.performedSteps   = 0; 
+    stepperData.stepToReach      = 0; 
     
-    stepperData.stepPerSec       = 1000;
+    stepperData.stepPerSec       = 200; /* speed */
     
-    stepperData.stepPerTurn      = 200;
-    stepperData.gearValue        = 200;
+    stepperData.stepPerTurn      = 200; /* Data from igus 
+                                         * MOT-AN-S-060-005-042-L-A-AAAA */
+    stepperData.anglePerStep     = 1.8; /* " */
     
-    stepperData.anglePerStep     = 1.8;
+    stepperData.gearValue        = 260; /* Data from meca student */
     
-    stepperData.dutyCycleStepper = 30;
+    stepperData.dutyCycleStepper = 40; /* Min 0 - max 199 */ 
 }
 
 void initStepperMotor(){
     
-    //setStepperPower(&stepperData, &stepperData.dutyCycleStepper);
-    
+    changeSpeed(getMyStepperStruct());
     /* Disable RESET on both H bridge */
     RESET_AB_CMDOn();
     RESET_CD_CMDOn();
@@ -49,27 +49,25 @@ void initStepperMotor(){
 void turnOffStepperPwms(void){
     
     /* A */
-    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+    PLIB_MCPWM_ChannelPWMxHDisable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
     /* B */
-    PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+    PLIB_MCPWM_ChannelPWMxHDisable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
     /* A_ */
-    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+    PLIB_MCPWM_ChannelPWMxLDisable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
     /* B_ */
-    PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
+    PLIB_MCPWM_ChannelPWMxLDisable (MCPWM_ID_0 ,MCPWM_CHANNEL2);
 }
 
 //----------------------------------------------------------------------------// changeSpeed
 void changeSpeed(STEPPER_DATA *pStepperData){
     
-    uint16_t tmrPerdiod = 0;
+    uint16_t tmr2Id3Perdiod = 0;
     uint16_t frequency = 0;
-    //uint16_t presc = 0;
     
     frequency = pStepperData->stepPerSec;
-    //presc = TMR_PrescaleGet_Default(TMR_ID_3);
-    tmrPerdiod = SYS_CLK / (frequency * 16) - 1;
+    tmr2Id3Perdiod = SYS_CLK / (frequency * 16) - 1; /* PRESCALER = 16 */
     PLIB_TMR_Counter16BitClear(TMR_ID_3);
-    PLIB_TMR_Period16BitSet(TMR_ID_3, tmrPerdiod);
+    PLIB_TMR_Period16BitSet(TMR_ID_3, tmr2Id3Perdiod);
 }
 
 //----------------------------------------------------------------------------// processStepper
@@ -261,9 +259,14 @@ uint32_t getAnglePerStep(STEPPER_DATA *pStepperData){
 //----------------------------------------------------------------------------// getPerformedSteps
 int32_t getPerformedSteps(STEPPER_DATA *pStepperData){
     
-    return pStepperData->performedSteps / pStepperData->stepPerTurn;
+    return pStepperData->performedSteps;
 }
 
+//----------------------------------------------------------------------------// getStepToReach
+int32_t getStepToReach(STEPPER_DATA *pStepperData){
+    
+    return pStepperData->stepToReach;
+}
 
 //----------------------------------------------------------------------------// setRotationToDo
 void setRotationToDo(STEPPER_DATA *pStepperData, int32_t *pRotationToDo){
@@ -280,6 +283,35 @@ int32_t getRotationToDo(STEPPER_DATA *pStepperData){
     
     return pStepperData->stepToReach / pStepperData->stepPerTurn;
 }
+
+//----------------------------------------------------------------------------// setRotationToDo
+void setAngleToReach(STEPPER_DATA *pStepperData, int32_t *pAngleToReach){
+    
+    // Limit values to avoid problems
+    if(*pAngleToReach < ANGLE_TO_DO_REACH_MIN) *pAngleToReach 
+            = ANGLE_TO_DO_REACH_MIN;
+    if(*pAngleToReach > ANGLE_TO_DO_REACH_MAX) *pAngleToReach 
+            = ANGLE_TO_DO_REACH_MAX;
+    
+    float multiplier = 1.0 / (pStepperData->anglePerStep 
+    / pStepperData->gearValue);
+
+    int32_t result = (float)(*pAngleToReach * multiplier); // 
+    // Calculate the adjustment needed to make the result a multiple of 4.
+    int32_t adjustment = result % 4;
+    /* If the adjustment is not zero, increase the result to the next multiple 
+     * of 4. */
+    if (adjustment != 0) {
+        result += 4 - adjustment;
+    }
+    // Store the adjusted result
+    pStepperData->stepToReach = result;
+}
+//----------------------------------------------------------------------------// getRotationTodo
+//int32_t getAngleToReach(STEPPER_DATA *pStepperData){
+//    
+//    return pStepperData->stepToReach / pStepperData->stepPerTurn;
+//}
 
 //----------------------------------------------------------------------------// autoHome
 void startAutoHome(STEPPER_DATA *pStepperData){

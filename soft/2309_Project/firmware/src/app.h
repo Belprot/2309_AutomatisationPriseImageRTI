@@ -86,12 +86,14 @@ extern "C" {
 #define PWM_BUZZER_CH MCPWM_CHANNEL4
 #define PWM_DIM_CH MCPWM_CHANNEL6
     
-#define MARGIN_LED_DELAY 50
+#define MARGIN_LED_DELAY 300
     
 /* Intensity in percent */
 #define BACKLIGHT_INTENSITY_MIN 0    
 #define BACKLIGHT_INTENSITY_MAX 100
 
+#define ANGLE_BW_EACH_SEQ_MIN 5
+#define ANGLE_BW_EACH_SEQ_MAX 50
     
 /* Value used to check if the EEPROM is already writent by this code */
 #define CONTROL_VALUE 0x11223344
@@ -285,11 +287,14 @@ void APP_Initialize ( void );
  */
 
     void APP_Tasks( void );
+    void initAppParam(void);
     void APP_Delay_ms(uint32_t ms);
 
     void setBlIntensity(int32_t *backLightIntensitiy);
     int32_t getBlIntensity(void);
-
+   
+    void setAngleBwEachSeq(int32_t *angleBwEachSeq);
+    int32_t getAngleBwEachSeq(void);
 
     void scanSwitch(void);
     bool getSwitchEvent(void);

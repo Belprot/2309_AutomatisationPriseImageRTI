@@ -123,20 +123,8 @@ void APP_UpdateAppState(APP_STATES newState){
 void APP_Initialize ( void )
 {
     SPI_Init();
-    /* Place the App state machine in its initial state. */
-    appData.appState = APP_STATE_INIT;
-    appData.msCounter = 0;
-    appData.backLightIntensitiy = 2500; /* 100% */
-    appData.lightIntensity = 2500; /* 100% */
-    appData.exposureDuration = 100;
-    appData.timeBetweenPictures = 1000;
-    appData.isFiveShotsSeqEnable = false;
-    appData.seqClock1_ms = 0;
-    appData.angleBwEachSeq = 10;
-    appData.nbrOfShotsPerformed = 0;
-    appData.buzzerIntensity = 2500;
-    appData.valSeq = 0;
     
+    initAppParam();
     initMenuParam();
     initStepperParam();
 }
@@ -177,11 +165,7 @@ void APP_Tasks ( void ){
         //--------------------------------------------------------------------// APP_STATE_SERVICE_TASKS 
         /* Frequency = 10'000Hz */
         case APP_STATE_SERVICE_TASKS:
-            
-            /* Process who is responsible of the sequence, motor orders and 
-             * lights orders. */
-            
-//            SIGN_LED_CMDToggle();
+           
             sequenceManagementProcess();
             
             if(counter2 >= 10){
@@ -196,10 +180,10 @@ void APP_Tasks ( void ){
                 /* Frequency = 10Hz */
                 counter1 = 0;
                 menuManagementProcess();
+                SIGN_LED_CMDToggle();
             }
             counter1++;
             counter2++;
-            
             
             // Calls the SPI do task state machine
             SPI_DoTasks();
@@ -218,6 +202,22 @@ void APP_Tasks ( void ){
     }
 }
 
+void initAppParam(){
+    
+    /* Place the App state machine in its initial state. */
+    appData.appState                = APP_STATE_INIT;
+    appData.msCounter               = 0;
+    appData.backLightIntensitiy     = 2500; /* 100% */
+    appData.lightIntensity          = 2500; /* 100% */
+    appData.exposureDuration        = 100;
+    appData.timeBetweenPictures     = 2000;
+    appData.isFiveShotsSeqEnable    = false;
+    appData.seqClock1_ms            = 0;
+    appData.angleBwEachSeq          = 10;
+    appData.nbrOfShotsPerformed     = 0;
+    appData.buzzerIntensity         = 0; /* 0% */
+    appData.valSeq                  = 0;
+}
 
 //----------------------------------------------------------------------------// APP_Delay_ms
 void APP_Delay_ms(uint32_t ms){
@@ -252,6 +252,22 @@ int32_t getBlIntensity(void){
     return appData.backLightIntensitiy / 25;
 }
 
+//----------------------------------------------------------------------------// setAngleBwSeq
+void setAngleBwEachSeq(int32_t *angleBwEachSeq){
+    
+    // Limit values to avoid problems
+    if(*angleBwEachSeq < ANGLE_BW_EACH_SEQ_MIN) *angleBwEachSeq 
+            = ANGLE_BW_EACH_SEQ_MIN;
+    if(*angleBwEachSeq > ANGLE_BW_EACH_SEQ_MAX) *angleBwEachSeq 
+            = ANGLE_BW_EACH_SEQ_MAX;
+    
+    /* 25 = 2500 / 100 */
+    appData.angleBwEachSeq = *angleBwEachSeq;
+}
+int32_t getAngleBwEachSeq(void){
+    
+    return appData.angleBwEachSeq;
+}
 
 //----------------------------------------------------------------------------// scanSwitch
 void scanSwitch(void){
@@ -301,8 +317,6 @@ void updateMcpwmDuty(void){
             appData.lightIntensity);
 }
     
-    
-
 
 
 /*******************************************************************************

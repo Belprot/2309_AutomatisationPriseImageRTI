@@ -185,11 +185,12 @@ void __ISR(_TIMER_5_VECTOR, ipl3AUTO) IntHandlerDrvTmrInstance4(void)
                 LED5_CMDOn();
                 break;
         }
+        FOCUS_CMDOn(); // <------------------------------------------------- TEST
     }
     if(appData.seqClock2_ms == MARGIN_LED_DELAY){
         
         /* Capture the target */
-        FOCUS_CMDOn();
+//        FOCUS_CMDOn(); // <------------------------------------------------- TEST
         TRIGGER_CMDOn();
         appData.nbrOfShotsPerformed++;
 //        SIGN_LED_CMDOn();

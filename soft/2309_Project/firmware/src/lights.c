@@ -12,7 +12,11 @@ extern APP_DATA appData;
 //----------------------------------------------------------------------------// lightManagementProcess
 void sequenceManagementProcess(void){
     
-    static int32_t order = 5; //= angleDesired / gear;
+    static int32_t order = 0; // appData.angleBwEachSeq;
+    static bool isFirstPass = true;
+    
+    
+    
     
     if(appData.isFiveShotsSeqEnable){
         
@@ -22,6 +26,12 @@ void sequenceManagementProcess(void){
     }
     if(appData.isFullImaginSeqEnable){
         
+        if(isFirstPass){
+        
+            isFirstPass = false;
+            order = appData.angleBwEachSeq;
+        }
+        
         /* Full sequence is enable */
         switch (appData.valSeq){
             
@@ -29,9 +39,10 @@ void sequenceManagementProcess(void){
 //                appData.valSeq += fiveShotsSeqProcess();
                 break;
             case 1:
-                setRotationToDo(getMyStepperStruct(), &order);
-                if(getPerformedSteps(getMyStepperStruct()) == order){
-                    order += 5; // appData.angleBwEachSeq;
+                setAngleToReach(getMyStepperStruct(), &order);
+                if(getPerformedSteps(getMyStepperStruct()) 
+                        == getStepToReach(getMyStepperStruct())){
+                    order += appData.angleBwEachSeq;
                     appData.valSeq = 0;
                     appData.seqClock1_ms = 0;
                     appData.seqClock2_ms = 0;
