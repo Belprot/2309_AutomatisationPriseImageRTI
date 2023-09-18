@@ -129,8 +129,6 @@ void APP_Initialize ( void )
     initStepperParam();
 }
 
-
-
 //----------------------------------------------------------------------------// APP_Tasks
 void APP_Tasks ( void ){
     
@@ -148,11 +146,13 @@ void APP_Tasks ( void ){
             /* Update MCPWM Duty-cycle of other PWM with EEPROM data */
             updateMcpwmDuty();
             /* Turn on MCPWM */
-            PLIB_MCPWM_Enable(MCPWM_ID_0); 
+            PLIB_MCPWM_Enable(MCPWM_ID_0);
             /* Initialization sequence */
             initLcd();
             /* Print initialization menu */
             printLcdInit();
+            /* Turn off buzzer sound */
+            PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0, PWM_BUZZER_CH);
             /* Start useful Timers */
             DRV_TMR1_Start();
             DRV_TMR2_Start();
@@ -167,6 +167,7 @@ void APP_Tasks ( void ){
         case APP_STATE_SERVICE_TASKS:
            
             sequenceManagementProcess();
+            
             
             if(counter2 >= 10){
                 /* Frequency = 1'000Hz */
@@ -208,27 +209,25 @@ void initAppParam(){
     appData.appState                = APP_STATE_INIT;
     appData.msCounter               = 0;
     appData.backLightIntensitiy     = 2500; /* 100% */
-    appData.lightIntensity          = 2500; /* 100% */
-    appData.exposureDuration        = 100;
+    appData.lightIntensity          = 250; /* 10% */
+    appData.exposureDuration        = 250;
     appData.timeBetweenPictures     = 2000;
     appData.isFiveShotsSeqEnable    = false;
     appData.seqClock1_ms            = 0;
-    appData.angleBwEachSeq          = 10;
+    appData.angleBwEachSeq          = 20;
     appData.nbrOfShotsPerformed     = 0;
-    appData.buzzerIntensity         = 0; /* 0% */
-    appData.valSeq                  = 0;
+    appData.buzzerIntensity         = 1250; /* 50% */
+    appData.sequenceState           = SEQ_STATE_STANDBY;
+    appData.indexState              = NOT_DONE;
+    appData.isSequenceEnded         = false;
+    appData.isSeqFirstPass          = false;
 }
 
 //----------------------------------------------------------------------------// APP_Delay_ms
 void APP_Delay_ms(uint32_t ms){
     
     DRV_TMR3_Start();
-//    SIGN_LED_CMDToggle();
-    while(appData.msCounter < ms){
-        
-    }
-//    SIGN_LED_CMDToggle();
-    
+    while(appData.msCounter < ms){ }
     DRV_TMR3_Stop();
     appData.msCounter = 0;
 }

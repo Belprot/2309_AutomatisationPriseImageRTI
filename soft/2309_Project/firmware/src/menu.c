@@ -84,9 +84,6 @@ void menuManagementProcess(void){
     }
     if(getSwitchEvent()){
         
-        //startFiveShotsSequence();
-//        startFullImagingSequence();
-        
         switch (menu.menuState){
             
             case MANUAL_MODE_MENU:
@@ -116,7 +113,7 @@ void menuActionProcess(int32_t pec12RotationValue){
 
                     case CAPTURE_MODE_SEL:
                         menu.menuState = CAPTURE_MODE_MENU;
-                        menu.menuSize = 2;
+                        menu.menuSize = 3;
                         break;
 
                     case SETTINGS_SEL:
@@ -150,16 +147,21 @@ void menuActionProcess(int32_t pec12RotationValue){
                         menu.menuState = AUTOMATIC_MODE_MENU;
                         menu.menuSize = 1;
                         break;
+                        
+                    case FOCUS_MODE_SEL:
+                        menu.menuState = FOCUS_MODE_MENU;
+                        menu.menuSize = 1; // -------------------- 0
+                        break;
                 }
                 break;
                 
-            //----------------------------------------------------------------// Main menu -> Choice menu -> Manual Mode
+            //----------------------------------------------------------------// Manual Mode
             case MANUAL_MODE_MENU:
                 switch(pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = CAPTURE_MODE_MENU;
-                        menu.menuSize = 2;
+                        menu.menuSize = 3;
                         break;
                         
                     case AUTO_HOME_SEL:
@@ -175,13 +177,13 @@ void menuActionProcess(int32_t pec12RotationValue){
                 }
                 break;
                 
-            //----------------------------------------------------------------// Main menu -> Auto menu
+            //----------------------------------------------------------------// Automatic mode
             case AUTOMATIC_MODE_MENU:
                 switch(pec12RotationValue){
 
                     case RETURN_SEL:
                         menu.menuState = CAPTURE_MODE_MENU;
-                        menu.menuSize = 2;
+                        menu.menuSize = 3;
                         break;
                         
                     case AUTOMATIC_MODE_START_SEL:
@@ -189,6 +191,22 @@ void menuActionProcess(int32_t pec12RotationValue){
                         isInModifMode = true;
                         isFirstDataProcessPass = true;
                         break;
+                }
+                break;
+                
+            //----------------------------------------------------------------// Focus mode
+            case FOCUS_MODE_MENU:
+                switch(pec12RotationValue){
+                    
+                    case RETURN_SEL:
+                        menu.menuState = CAPTURE_MODE_MENU;
+                        menu.menuSize = 3;
+                        break;
+                        
+//                    case FOCUS_TIME_MODIF ou SEL:
+//                        menu.menuState = CAPTURE_MODE_MENU;
+//                        menu.menuSize = 2;
+//                        break;
                 }
                 break;
                 
@@ -237,8 +255,8 @@ void menuActionProcess(int32_t pec12RotationValue){
                         menu.menuSize = 1;
                         break;
                         
-                    case CAMERA_SEL:
-                        menu.menuState = CAMERA_MENU;
+                    case SEQUENCE_SEL:
+                        menu.menuState = SEQUENCE_MENU;
                         menu.menuSize = 3;
                         break;
                     
@@ -299,12 +317,6 @@ void menuActionProcess(int32_t pec12RotationValue){
                         isInModifMode = true;
                         isFirstDataProcessPass = true;
                         break;
-                        
-//                    case LIGHT_TIME_SEL: // <--- in camera param
-//                        menu.modifState = LIGHT_TIME_MODIF;
-//                        isInModifMode = true;
-//                        isFirstDataProcessPass = true;
-//                        break;
                 }
                 break;
                 
@@ -325,8 +337,8 @@ void menuActionProcess(int32_t pec12RotationValue){
                 }
                 break;
                 
-            //----------------------------------------------------------------// Main menu -> Settings menu -> Camera
-            case CAMERA_MENU:
+            //----------------------------------------------------------------// Main menu -> Settings menu -> Sequence
+            case SEQUENCE_MENU:
                 switch(pec12RotationValue){
                     
                     case RETURN_SEL:
@@ -529,8 +541,9 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 if(isFirstDataProcessPass){
                     
                     isFirstDataProcessPass = false;
+                    
                     /* Start the auto home seq. */
-                    startFullImagingSequence();
+                    startStopFullImagingSequence();
                     /* Once auto home seq. is started, back to previous menu */
                     isInModifMode = false;
                     menu.menuState = AUTOMATIC_MODE_MENU;
@@ -579,8 +592,8 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
             printBackLightMenu();
             break;
                     
-        case CAMERA_MENU:
-            printCameraMenu();
+        case SEQUENCE_MENU:
+            printSequenceMenu();
             break;
             
         case SAVE_DATA_MENU:
@@ -637,6 +650,9 @@ void printLcdInit(void){
         SetPostion(LINE4 + i);
         sprintf(str, "%c", 0xD0);
         WriteString(str);
+        /* Starting sound */
+        if(i % 2) PLIB_MCPWM_ChannelPWMxHDisable(MCPWM_ID_0, PWM_BUZZER_CH);
+        else PLIB_MCPWM_ChannelPWMxHEnable(MCPWM_ID_0, PWM_BUZZER_CH);
     }
     APP_Delay_ms(150);
 }
@@ -671,9 +687,9 @@ void printParameterMenuPage1(void){
     
     ClrDisplay();
     SetPostion(LINE1);
-    WriteString("  Camera");
+    WriteString("  Sequence");
     SetPostion(LINE2);
-    WriteString("  Save data");
+    WriteString("  Save settings");
 }
 
 void printMotorMenu0(STEPPER_DATA *pStepperData){
@@ -726,9 +742,9 @@ void printChoiceSeqMenu(void){
     SetPostion(LINE2);
     WriteString("  Manual mode");
     SetPostion(LINE3);
-    WriteString("  Auto mode");
+    WriteString("  Automatic mode");
     SetPostion(LINE4);
-    WriteString("  ");
+    WriteString("  Focus mode");
 }
 
 void printAboutMenu(void){
@@ -751,19 +767,21 @@ void printManualModeMenu(STEPPER_DATA *pStepperData){
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    if(pStepperData->isIndexed == true){
+    if(appData.indexState == IS_DONE){
+//    if(pStepperData->isIndexed == true){
         sprintf(str, "  Auto home:    %s", "DONE");
     } else {
         sprintf(str, "  Auto home:     %s", "NOK");
     }
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Des. angle: %3.1f%c", (((float)pStepperData->stepToReach * 1.8) 
+    sprintf(str, "  Des. angle:   %03.0f%c", (((float)pStepperData->stepToReach * 1.8) 
             / pStepperData->gearValue), 0x01);
 //    sprintf(str, "  Steps      : %05d", stepperData.stepToDoReach);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Real angle: %3.1f%c", (((float)pStepperData->performedSteps * 1.8) 
+    sprintf(str, "  Real angle:  %c%03.0f%c", 0xCE, 
+            (((float)pStepperData->performedSteps * 1.8) 
             / pStepperData->gearValue), 0x01);
 //    sprintf(str, "  Steps       :%05d", pStepperData->performedStep);
     WriteString(str);
@@ -776,19 +794,30 @@ void printAutoModeMenu(STEPPER_DATA *pStepperData){
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    if(appData.isFullImaginSeqEnable == false) {
+    if(appData.isFullImagingSeqEnable == false){
         sprintf(str, "  Start sequence");
     } else {
-        sprintf(str, "  Sequence is ON");
+        sprintf(str, "  Stop sequence");
     }
     WriteString(str);
     SetPostion(LINE3);
     sprintf(str, "  Pictures:      %03d", appData.nbrOfShotsPerformed);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Real angle: %3.1f%c", (((float)pStepperData->performedSteps * 1.8) 
+    sprintf(str, "  Real angle:  %c%03.0f%c", 0xCE, 
+            (((float)pStepperData->performedSteps * 1.8) 
             / pStepperData->gearValue), 0x01);
     WriteString(str);
+}
+
+void printFocusModeMenu(void){
+    
+    char str[21];
+    ClrDisplay();
+    SetPostion(LINE1);
+    WriteString("  Return");
+    SetPostion(LINE2);
+
 }
 
 void printAutoHomeMenu(void){
@@ -816,20 +845,20 @@ void printBackLightMenu(void){
     WriteString(str);
 }
 
-void printCameraMenu(void){
+void printSequenceMenu(void){
     
     char str[21];
     ClrDisplay();
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-    sprintf(str, "  Expos time: %4dms", appData.exposureDuration);
+    sprintf(str, "  Expos time: %04dms", appData.exposureDuration);
     WriteString(str);
     SetPostion(LINE3);
-    sprintf(str, "  Time bw pic:%4dms", appData.timeBetweenPictures);
+    sprintf(str, "  Time bw pic:%04dms", appData.timeBetweenPictures);
     WriteString(str);
     SetPostion(LINE4);
-    sprintf(str, "  Angle bw pic:%3d%c", appData.angleBwEachSeq, 0x01);
+    sprintf(str, "  Angle bw pic: %03d%c", appData.angleBwEachSeq, 0x01);
     WriteString(str);
 //    WriteString("  Trigger:     cable"); // <-- or IR but not ready
 }
@@ -881,14 +910,16 @@ bool saveDataInEeprom(STEPPER_DATA *pStepperData){
     DATA_IN_EEPROM dataToSaveInEeprom;
     
     /* Set the structure value for saving in EEPROM */
-    dataToSaveInEeprom.stepPerSec   = pStepperData->stepPerSec;
-    dataToSaveInEeprom.stepPerTurn  = pStepperData->stepPerTurn;
-    dataToSaveInEeprom.gearValue    = pStepperData->gearValue;
-    dataToSaveInEeprom.anglePerStep = pStepperData->anglePerStep;
+    dataToSaveInEeprom.stepPerSec           = pStepperData->stepPerSec;
+    dataToSaveInEeprom.stepPerTurn          = pStepperData->stepPerTurn;
+    dataToSaveInEeprom.gearValue            = pStepperData->gearValue;
+    dataToSaveInEeprom.dutyCycleStepper     = pStepperData->dutyCycleStepper;
+    dataToSaveInEeprom.anglePerStep         = pStepperData->anglePerStep;
     
     dataToSaveInEeprom.lightIntensity       = appData.lightIntensity;
     dataToSaveInEeprom.timeBetweenPictures  = appData.timeBetweenPictures;
     dataToSaveInEeprom.exposureDuration     = appData.exposureDuration;
+    dataToSaveInEeprom.angleBwEachSeq       = appData.angleBwEachSeq;
     
     dataToSaveInEeprom.backLightIntensitiy  = appData.backLightIntensitiy;
     
@@ -915,16 +946,18 @@ bool readDataFromEeprom(STEPPER_DATA *pStepperData){
     if(dataReadFromEeprom.controlValue == CONTROL_VALUE){
         
         /* Save data from EEPROM */
-        pStepperData->stepPerSec    = dataReadFromEeprom.stepPerSec;
-        pStepperData->stepPerTurn   = dataReadFromEeprom.stepPerTurn;
-        pStepperData->gearValue     = dataReadFromEeprom.gearValue;
-        pStepperData->anglePerStep  = dataReadFromEeprom.anglePerStep;
+        pStepperData->stepPerSec        = dataReadFromEeprom.stepPerSec;
+        pStepperData->stepPerTurn       = dataReadFromEeprom.stepPerTurn;
+        pStepperData->gearValue         = dataReadFromEeprom.gearValue;
+        pStepperData->dutyCycleStepper  = dataReadFromEeprom.dutyCycleStepper;
+        pStepperData->anglePerStep      = dataReadFromEeprom.anglePerStep;
         
-        appData.lightIntensity      = dataReadFromEeprom.lightIntensity;
-        appData.timeBetweenPictures = dataReadFromEeprom.timeBetweenPictures;
-        appData.exposureDuration    = dataReadFromEeprom.exposureDuration;
+        appData.lightIntensity          = dataReadFromEeprom.lightIntensity;
+        appData.timeBetweenPictures     = dataReadFromEeprom.timeBetweenPictures;
+        appData.exposureDuration        = dataReadFromEeprom.exposureDuration;
+        appData.angleBwEachSeq          = dataReadFromEeprom.angleBwEachSeq;
         
-        appData.backLightIntensitiy = dataReadFromEeprom.backLightIntensitiy;
+        appData.backLightIntensitiy     = dataReadFromEeprom.backLightIntensitiy;
     
     } else {
         

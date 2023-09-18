@@ -53,7 +53,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "stepperDriver.h"
-#include "lights.h"
+#include "sequence.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -86,14 +86,12 @@ extern "C" {
 #define PWM_BUZZER_CH MCPWM_CHANNEL4
 #define PWM_DIM_CH MCPWM_CHANNEL6
     
-#define MARGIN_LED_DELAY 300
-    
 /* Intensity in percent */
 #define BACKLIGHT_INTENSITY_MIN 0    
 #define BACKLIGHT_INTENSITY_MAX 100
 
 #define ANGLE_BW_EACH_SEQ_MIN 5
-#define ANGLE_BW_EACH_SEQ_MAX 50
+#define ANGLE_BW_EACH_SEQ_MAX 200
     
 /* Value used to check if the EEPROM is already writent by this code */
 #define CONTROL_VALUE 0x11223344
@@ -151,6 +149,23 @@ typedef enum{
             
 }LED_ID;
 
+typedef enum{
+    
+    NOT_DONE = 0,
+    IN_PROCESS,
+    IS_DONE,
+    
+} PROCESS_STATES;
+
+typedef enum{
+    
+    SEQ_STATE_STANDBY = 0,
+    SEQ_STATE_START_IMAGING,
+    SEQ_STATE_START_MOTOR_ROT,
+    SEQ_STATE_BUSY_IMAGING,
+    SEQ_STATE_BUSY_ROTATION,
+            
+} SEQUENCE_STATES;
 
 typedef struct
 {
@@ -171,10 +186,13 @@ typedef struct
     uint32_t seqClock1_ms;
     uint32_t seqClock2_ms;
     bool isFiveShotsSeqEnable;
-    bool isFullImaginSeqEnable;
-    bool isFirstPass;
+    bool isFullImagingSeqEnable;
+    bool isMenuFirstPass;
+    bool isSeqFirstPass;
+    bool isSequenceEnded;
+    PROCESS_STATES indexState;
     uint16_t nbrOfShotsPerformed;
-    uint8_t valSeq;
+    SEQUENCE_STATES sequenceState;
     
     uint16_t backLightIntensitiy;
     
@@ -195,19 +213,25 @@ typedef struct{
     int16_t     stepPerSec;
     uint16_t    stepPerTurn;
     uint16_t    gearValue;
+    uint16_t    dutyCycleStepper;
     float       anglePerStep;
+    
     
     /* LEDs data */
     uint16_t lightIntensity;
     uint16_t timeBetweenPictures;
     uint16_t exposureDuration;
+    uint8_t angleBwEachSeq;
     
     uint16_t backLightIntensitiy;
     
     /* Security value */
     uint32_t controlValue;
         
-    } DATA_IN_EEPROM;
+} DATA_IN_EEPROM;
+    
+
+    
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Routines

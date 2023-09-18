@@ -4,12 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/menu.h</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/lights.h</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/sequence.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/stepperDriver.c</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/lights.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/app.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/stepperDriver.h</file>
-            <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/system_config/default/system_interrupt.c</file>
+            <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/sequence.c</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/app.h</file>
             <file>file:/C:/microchip/harmony/v2_06/apps/2309_AutomatisationPriseImageRTI/soft/2309_Project/firmware/src/menu.c</file>
         </group>

@@ -19,26 +19,27 @@ void initStepperParam(void){
     
     stepperData.isAtHomeInCW     = false;
     stepperData.isAtHomeInCCW    = false;
-    stepperData.isIndexed        = false;
+//    stepperData.isIndexed        = false;
     stepperData.isInAutoHomeSeq  = false;
     
     stepperData.performedSteps   = 0; 
     stepperData.stepToReach      = 0; 
     
-    stepperData.stepPerSec       = 200; /* speed */
+    stepperData.stepPerSec       = 50; /* speed */
     
     stepperData.stepPerTurn      = 200; /* Data from igus 
                                          * MOT-AN-S-060-005-042-L-A-AAAA */
     stepperData.anglePerStep     = 1.8; /* " */
     
-    stepperData.gearValue        = 260; /* Data from meca student */
+    stepperData.gearValue        = 1; /* 260 -> Data from meca student */
     
-    stepperData.dutyCycleStepper = 40; /* Min 0 - max 199 */ 
+    stepperData.dutyCycleStepper = 10; /* Min 0 - max 199 */ 
 }
 
 void initStepperMotor(){
     
     changeSpeed(getMyStepperStruct());
+    setStepperPower(getMyStepperStruct(), &stepperData.dutyCycleStepper); // -< param ??!! faux
     /* Disable RESET on both H bridge */
     RESET_AB_CMDOn();
     RESET_CD_CMDOn();
@@ -119,24 +120,31 @@ void processStepper(STEPPER_DATA *pStepperData){
             step = 0;
             pStepperData->performedSteps -= 4;
         }
-        /* Index is reach in CCW */
-        if(INDEXStateGet() && pStepperData->isAtHomeInCW == false){
-                        
-            pStepperData->isAtHomeInCCW = true;
-//            pStepperData->stepToDoReach = pStepperData->performedStep;
-            
-            if(pStepperData->isInAutoHomeSeq == true){
-                
-                pStepperData->stepToReach = 0;
-                pStepperData->performedSteps = 0;
-                pStepperData->isIndexed = true;
-                pStepperData->isInAutoHomeSeq = false;
-            }
-        }
-        else pStepperData->isAtHomeInCCW = false;
     }
+        
+    /* Index is reach in CCW */
+    if(INDEXStateGet() && pStepperData->isAtHomeInCW == false){
+
+        pStepperData->isAtHomeInCCW = true;
+
+        if(pStepperData->isInAutoHomeSeq == true){
+
+            /* Set the values to zero */
+            pStepperData->stepToReach = 0;
+            pStepperData->performedSteps = 0;
+            /* Reset the flag isInAutoHomeSeq */
+            pStepperData->isInAutoHomeSeq = false;
+
+            appData.indexState = IS_DONE;
+        }
+    } else {
+        pStepperData->isAtHomeInCCW = false;
+    }    
+    
+    
+    
     //---------------------------// Clockwise CW
-    else if(pStepperData->performedSteps < pStepperData->stepToReach){
+    if(pStepperData->performedSteps < pStepperData->stepToReach){
         if(pStepperData->isAtHomeInCW == false){
             switch(step){
                 /* Sequence of 4 steps for CW rotation */
@@ -180,27 +188,16 @@ void processStepper(STEPPER_DATA *pStepperData){
             step = 0;
             pStepperData->performedSteps += 4;
         }
-        /* Index is reach in CW */
-        if(INDEXStateGet() && pStepperData->isAtHomeInCCW == false){
-                        
-            pStepperData->isAtHomeInCW = true;
-            /* Stop the automatic sequence */
-            appData.isFullImaginSeqEnable = false;
-            /* Stop the motor */
-            pStepperData->stepToReach = pStepperData->performedSteps;
-        }
-        else pStepperData->isAtHomeInCW = false;
     }
-    
-    
-    // The motor reach its desired position
-//    if(pStepperData->performedSteps == pStepperData->stepToReach){
-////        turnOffStepperPwms();
-//    } else {
-//        
-////        PLIB_MCPWM_Enable(MCPWM_ID_0);
-//    }
-} 
+    /* Index is reach in CW */
+    if(INDEXStateGet() && pStepperData->isAtHomeInCCW == false){
+
+        pStepperData->isAtHomeInCW = true;
+        /* Stop the motor */
+        pStepperData->stepToReach = pStepperData->performedSteps;
+    }
+    else pStepperData->isAtHomeInCW = false;
+}
 
 
 

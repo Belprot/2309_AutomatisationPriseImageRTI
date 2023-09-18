@@ -16,7 +16,7 @@ extern "C" {
     #include "system_definitions.h"
 
     // Defines
-    #define STEP_PER_SEC_MIN 40
+    #define STEP_PER_SEC_MIN 0
     #define STEP_PER_SEC_MAX 1000
 
     #define GEAR_VALUE_MIN 1
@@ -36,7 +36,7 @@ extern "C" {
     
     /* Period for 50kHz PWMs */
     #define MCPWM_PRIMARY_PERIOD 199
-    #define MCPWM_DUTYCYCLE_MIN 9
+    #define MCPWM_DUTYCYCLE_MIN 0
     #define MCPWM_DUTYCYCLE_MAX 189
     
     // Structures

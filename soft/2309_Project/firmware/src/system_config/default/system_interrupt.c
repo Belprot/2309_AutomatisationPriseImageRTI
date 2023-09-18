@@ -72,7 +72,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 extern APP_DATA appData;
-extern STEPPER_DATA stepperData;
+//extern STEPPER_DATA stepperData;
 
 //----------------------------------------------------------------------------// TMR ID 1
 /* This timer clocks the capture sequence */
@@ -80,38 +80,7 @@ extern STEPPER_DATA stepperData;
 void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void){
     
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
-    
-    /* Control sequence of the 5 LEDs */
-    if(appData.seqClock1_ms == 0){
-        appData.ledId = PWR_LED1;
-        startSimpleShotProcess();
-        
-    } else if(appData.seqClock1_ms == 1 * appData.timeBetweenPictures){
-        appData.ledId = PWR_LED2;
-        startSimpleShotProcess();
-        
-    } else if(appData.seqClock1_ms == 2 * appData.timeBetweenPictures){
-        appData.ledId = PWR_LED3;
-        startSimpleShotProcess();
-        
-    } else if(appData.seqClock1_ms == 3 * appData.timeBetweenPictures){
-        appData.ledId = PWR_LED4;
-        startSimpleShotProcess();
-        
-    } else if(appData.seqClock1_ms == 4 * appData.timeBetweenPictures){
-        appData.ledId = PWR_LED5;
-        startSimpleShotProcess();
-    }
-    if(appData.seqClock1_ms >= 5 * appData.timeBetweenPictures){
-        
-        DRV_TMR0_Stop();
-        appData.seqClock1_ms = 0;
-        appData.isFiveShotsSeqEnable = false;
-        appData.valSeq = 1;
-        //return 1;
-    } else {
-    appData.seqClock1_ms++;
-    } 
+    Timer0Id1_CallbackFunction();
 }
 
 //----------------------------------------------------------------------------// TMR ID 2
@@ -154,63 +123,7 @@ void __ISR(_TIMER_4_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance3(void){
 void __ISR(_TIMER_5_VECTOR, ipl3AUTO) IntHandlerDrvTmrInstance4(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_5);
-   
-    //------------------------------------------------------------------------// Start of sequence
-    if(appData.seqClock2_ms == 0){
-
-        switch (appData.ledId){
-            /* Turn on LED */
-            case PWR_LED1:
-                turnOffAllPwrLeds();
-                LED1_CMDOn();
-                break;
-
-            case PWR_LED2:
-                turnOffAllPwrLeds();
-                LED2_CMDOn();
-                break;
-
-            case PWR_LED3:
-                turnOffAllPwrLeds();
-                LED3_CMDOn();
-                break;
-
-            case PWR_LED4:
-                turnOffAllPwrLeds();
-                LED4_CMDOn();
-                break;
-
-            case PWR_LED5:
-                turnOffAllPwrLeds();
-                LED5_CMDOn();
-                break;
-        }
-        FOCUS_CMDOn(); // <------------------------------------------------- TEST
-    }
-    if(appData.seqClock2_ms == MARGIN_LED_DELAY){
-        
-        /* Capture the target */
-//        FOCUS_CMDOn(); // <------------------------------------------------- TEST
-        TRIGGER_CMDOn();
-        appData.nbrOfShotsPerformed++;
-//        SIGN_LED_CMDOn();
-    }
-    if(appData.seqClock2_ms == appData.exposureDuration + MARGIN_LED_DELAY){
-
-        TRIGGER_CMDOff();
-        FOCUS_CMDOff();
-    }
-    //------------------------------------------------------------------------// End of sequence
-    if(appData.seqClock2_ms >= appData.exposureDuration + (2 * MARGIN_LED_DELAY)){
-        
-        /* Turn off TMR4 */
-        DRV_TMR4_Stop();
-        turnOffAllPwrLeds();
-        appData.seqClock2_ms = 0;
-        appData.ledId = ALL_LED_DISABLE;
-    } else {
-        appData.seqClock2_ms++;
-    }
+    Timer4Id5_CallbackFunction();
 }
 /*******************************************************************************
  End of File

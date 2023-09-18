@@ -32,10 +32,11 @@ extern "C" {
         MANUAL_MODE_MENU,
         LIGHT_MENU,
         BACKLIGHT_MENU,
-        CAMERA_MENU,
+        SEQUENCE_MENU,
         SAVE_DATA_MENU,
         AUTO_HOME_MENU,
         AUTOMATIC_MODE_MENU,
+        FOCUS_MODE_MENU,
                 
     } MENU_STATE;
     
@@ -74,6 +75,7 @@ extern "C" {
         
         MANUAL_MODE_SEL = 1,
         AUTOMATIC_MODE_SEL,
+        FOCUS_MODE_SEL,
                 
     } CHOICE_SEQ_MENU_LIST;
     
@@ -95,7 +97,7 @@ extern "C" {
         MOTOR_SEL = 1,
         LEDS_SEL,
         BACKLIGHT_SEL,
-        CAMERA_SEL,
+        SEQUENCE_SEL,
         SAVE_DATA_SEL,
                 
     } SETTINGS_MENU_LIST;
@@ -121,7 +123,7 @@ extern "C" {
         TIME_BW_PICTURES_SEL,
         ANGLE_BW_EACH_SEQ_SEL,
                 
-    } CAMERA_MENU_LIST;
+    } SEQUENCE_MENU_LIST;
 
     
     
@@ -173,9 +175,10 @@ extern "C" {
     void printAboutMenu(void);
     void printManualModeMenu(STEPPER_DATA *pStepperData);
     void printAutoModeMenu(STEPPER_DATA *pStepperData);
+    void printFocusModeMenu(void);
     void printAutoHomeMenu(void);
     void printBackLightMenu(void);
-    void printCameraMenu(void);
+    void printSequenceMenu(void);
     void printSaveDataMenu(void);
     
     void menuManagementProcess(void);
