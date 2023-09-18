@@ -183,6 +183,8 @@ typedef struct
     /* Auto mode param */
     uint8_t angleBwEachSeq;
     
+    uint8_t focusDuration;
+    
     uint32_t seqClock1_ms;
     uint32_t seqClock2_ms;
     bool isFiveShotsSeqEnable;

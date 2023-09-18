@@ -165,6 +165,27 @@ void stopImagingProcess(void){
     appData.seqClock2_ms = 0;
 }
 
+//----------------------------------------------------------------------------// startFocusLighting
+void startFocusLighting(void){
+    
+    LED1_CMDOn();
+    APP_Delay_ms(1000 * appData.focusDuration);
+    turnOffAllPwrLeds();
+}
+
+//----------------------------------------------------------------------------// setLighIntensity
+void setFocusDuration(int32_t *focusDuration){
+    
+    // Limit values to avoid problems
+    if(*focusDuration < FOCUS_DURATION_MIN) *focusDuration = FOCUS_DURATION_MIN;
+    if(*focusDuration > FOCUS_DURATION_MAX) *focusDuration = FOCUS_DURATION_MAX;
+    
+    appData.focusDuration = *focusDuration;
+}
+int32_t getFocusDuration(void){
+    
+    return appData.focusDuration;
+}
 
 //----------------------------------------------------------------------------// setLighIntensity
 void setLightIntensity(int32_t *lightIntensity){

@@ -11,7 +11,10 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-
+    
+    /* Time in s */
+    #define FOCUS_DURATION_MIN 0
+    #define FOCUS_DURATION_MAX 10 // ---------------------- A TESTER AVEC CAM IR
     /* Intensity in percent */
     #define LIGHT_INTENSITY_MIN 0
     #define LIGHT_INTENSITY_MAX 100
@@ -37,6 +40,9 @@ extern "C" {
     void startSimpleShotProcess(void);
     void startFiveShotsSeqProcess(void);
     void stopImagingProcess(void);
+    
+    void startFocusLighting(void);
+    void setFocusDuration(int32_t *focusDuration);
     
     void setLightIntensity(int32_t *lightIntensity);
     int32_t getLightIntensity(void);

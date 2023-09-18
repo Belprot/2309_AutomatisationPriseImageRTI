@@ -92,6 +92,11 @@ void menuManagementProcess(void){
                 startFiveShotsSeqProcess();
                 break;
                 
+            case FOCUS_MODE_MENU:
+                
+                startFocusLighting();
+                break;
+                
             default:
                 break;
         }
@@ -203,10 +208,11 @@ void menuActionProcess(int32_t pec12RotationValue){
                         menu.menuSize = 3;
                         break;
                         
-//                    case FOCUS_TIME_MODIF ou SEL:
-//                        menu.menuState = CAPTURE_MODE_MENU;
-//                        menu.menuSize = 2;
-//                        break;
+                    case FOCUS_TIME_SEL:
+                        menu.modifState = FOCUS_DURATION_MODIF;
+                        isInModifMode = true;
+                        isFirstDataProcessPass = true;
+                        break;
                 }
                 break;
                 
@@ -507,6 +513,16 @@ void menuDataProcess(int32_t *pec12RotationValue, STEPPER_DATA *pStepperData){
                 }
                 setAngleBwEachSeq(pec12RotationValue);
                 break;
+             
+            //----------------------------------------------------------------// FOCUS_DURATION_MODIF
+            case FOCUS_DURATION_MODIF:
+                if(isFirstDataProcessPass){
+                    
+                    isFirstDataProcessPass = false;
+                    *pec12RotationValue = getFocusDuration();
+                }
+                setFocusDuration(pec12RotationValue);
+                break;
                 
             //----------------------------------------------------------------// SAVE_DATA_START
             case SAVE_DATA_START:
@@ -611,6 +627,10 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
         case AUTOMATIC_MODE_MENU:
             printAutoModeMenu(pStepperData);
             break;
+            
+        case FOCUS_MODE_MENU:
+            printFocusModeMenu();
+            break;
         
         case ABOUT_MENU:
             printAboutMenu();
@@ -624,6 +644,9 @@ void menuPrintProcess(STEPPER_DATA *pStepperData){
             break;
     }
 }
+
+
+
 
 
 
@@ -729,9 +752,6 @@ void printLedsMenu(void){
     /* 0.04 = 100 / 2500 */
     sprintf(str, "  Intensity : %3.0f%%", ((float)appData.lightIntensity * 0.04));
     WriteString(str);
-//    SetPostion(LINE3);
-//    sprintf(str, "  Light time: %03dms", appData.lightTime);
-//    WriteString(str);
 }
 
 void printChoiceSeqMenu(void){
@@ -817,7 +837,11 @@ void printFocusModeMenu(void){
     SetPostion(LINE1);
     WriteString("  Return");
     SetPostion(LINE2);
-
+    sprintf(str, "  Focus time:    %02ds", appData.focusDuration);
+    WriteString(str);
+    SetPostion(LINE4);
+    sprintf(str, "  Turn on light: %c", 0x13);
+    WriteString(str);
 }
 
 void printAutoHomeMenu(void){
@@ -876,9 +900,6 @@ void printSaveDataMenu(){
     WriteString("  be overwritten ! ");
 }
 
-
-
-
 /* Clear the first row all 4 lines */
 void clearFirstRow(void){
     
@@ -901,6 +922,13 @@ void printCursor(int32_t cursor){
     sprintf(str, "%c", RIGHT_ARROW);
     WriteString(str);
 }
+
+
+
+
+
+
+
 
 
 

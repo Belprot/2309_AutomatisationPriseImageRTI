@@ -94,6 +94,12 @@ extern "C" {
     
     typedef enum{
         
+        FOCUS_TIME_SEL = 1,
+                
+    } FOCUS_MODE_MENU_LIST;
+    
+    typedef enum{
+        
         MOTOR_SEL = 1,
         LEDS_SEL,
         BACKLIGHT_SEL,
@@ -140,6 +146,7 @@ extern "C" {
         EXPOSURE_TIME_MODIF,
         TIME_BW_PICTURES_MODIF,
         ANGLE_BW_EACH_SEQ_MODIF,
+        FOCUS_DURATION_MODIF,
                 
         SAVE_DATA_START,
         AUTO_HOME_START,// INTERACT   

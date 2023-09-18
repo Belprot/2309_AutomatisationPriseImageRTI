@@ -215,6 +215,7 @@ void initAppParam(){
     appData.isFiveShotsSeqEnable    = false;
     appData.seqClock1_ms            = 0;
     appData.angleBwEachSeq          = 20;
+    appData.focusDuration           = 5;
     appData.nbrOfShotsPerformed     = 0;
     appData.buzzerIntensity         = 1250; /* 50% */
     appData.sequenceState           = SEQ_STATE_STANDBY;
